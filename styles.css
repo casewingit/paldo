@@ -1,0 +1,615 @@
+:root {
+  color-scheme: light;
+  --ink: #193236;
+  --muted: #5a7175;
+  --line: #d8e5e2;
+  --paper: #fbfaf5;
+  --soft: #eef7f2;
+  --mint: #0f6f72;
+  --mint-dark: #0a4d51;
+  --coral: #c65f4d;
+  --gold: #ba7c20;
+  --sky: #e6f3fb;
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-size: 20px;
+  line-height: 1.55;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hero {
+  position: relative;
+  min-height: 74svh;
+  display: grid;
+  align-items: end;
+  overflow: hidden;
+  background: #173c42;
+}
+
+.hero img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.heroShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(9, 30, 34, 0.12) 0%, rgba(9, 30, 34, 0.42) 48%, rgba(9, 30, 34, 0.84) 100%);
+}
+
+.heroText {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 900px);
+  padding: 0 22px 92px;
+  color: white;
+}
+
+.heroText p {
+  margin: 0 0 8px;
+  font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+  font-weight: 800;
+}
+
+.heroText h1 {
+  margin: 0 0 18px;
+  max-width: 8ch;
+  font-size: clamp(3.2rem, 14vw, 6.4rem);
+  line-height: 0.98;
+  letter-spacing: 0;
+}
+
+.heroText strong {
+  display: inline-flex;
+  max-width: 100%;
+  padding: 12px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.54);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  font-size: 1.15rem;
+  backdrop-filter: blur(10px);
+}
+
+.tabs {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  padding: 10px;
+  background: rgba(251, 250, 245, 0.94);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(14px);
+}
+
+.tabs a {
+  min-height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: white;
+  border: 1px solid var(--line);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.section {
+  padding: 34px 18px;
+}
+
+.sectionTitle {
+  margin: 0 auto 18px;
+  width: min(100%, 900px);
+}
+
+.sectionTitle p {
+  margin: 0 0 3px;
+  color: var(--coral);
+  font-weight: 900;
+  font-size: 1rem;
+}
+
+.sectionTitle h2 {
+  margin: 0;
+  font-size: clamp(2rem, 9vw, 3.4rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.assistantPanel,
+.answerBox,
+.weatherNotice,
+.agendaApp,
+.timeline,
+.weatherCards,
+.placeList,
+.checklist ul {
+  width: min(100%, 900px);
+  margin-inline: auto;
+}
+
+.assistantPanel {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 8px;
+  background: var(--mint);
+  color: white;
+  box-shadow: 0 18px 40px rgba(11, 70, 74, 0.18);
+}
+
+.dateBadge {
+  display: inline-flex;
+  padding: 8px 11px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  font-weight: 900;
+  font-size: 0.95rem;
+}
+
+.assistantPanel h3 {
+  margin: 16px 0 8px;
+  font-size: 2rem;
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+.assistantPanel p {
+  margin: 0;
+  font-size: 1.08rem;
+}
+
+.nextBox {
+  padding: 18px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.nextBox span,
+.weatherCard span,
+.placeCard span,
+.dayCard span {
+  display: block;
+  color: inherit;
+  font-size: 0.92rem;
+  font-weight: 900;
+  opacity: 0.78;
+}
+
+.nextBox strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 1.45rem;
+  line-height: 1.18;
+}
+
+.quickGrid {
+  width: min(100%, 900px);
+  margin: 14px auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.quickGrid button {
+  min-height: 58px;
+  border: 0;
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--mint-dark);
+  font: inherit;
+  font-weight: 900;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.quickGrid button:active {
+  transform: translateY(1px);
+}
+
+.answerBox {
+  padding: 18px;
+  border-radius: 8px;
+  background: var(--sky);
+  border: 1px solid #c8dde8;
+}
+
+.answerBox strong {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 1.28rem;
+}
+
+.answerBox p {
+  margin: 0;
+}
+
+.agendaApp {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 34px;
+}
+
+.daySelector {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(138px, 1fr);
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scroll-snap-type: x mandatory;
+}
+
+.daySelector button {
+  position: relative;
+  min-height: 86px;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+  color: var(--ink);
+  text-align: left;
+  font: inherit;
+  scroll-snap-align: start;
+}
+
+.daySelector button.selected {
+  border-color: var(--mint);
+  background: var(--mint);
+  color: white;
+  box-shadow: 0 12px 28px rgba(15, 111, 114, 0.18);
+}
+
+.daySelector span {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 900;
+  opacity: 0.82;
+}
+
+.daySelector strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 1.05rem;
+  line-height: 1.14;
+}
+
+.daySelector em {
+  position: absolute;
+  right: 10px;
+  bottom: 9px;
+  padding: 4px 7px;
+  border-radius: 999px;
+  background: var(--coral);
+  color: white;
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.agendaSummary {
+  padding: 18px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+.agendaSummary span,
+.agendaBody span {
+  display: block;
+  color: var(--coral);
+  font-size: 0.92rem;
+  font-weight: 900;
+}
+
+.agendaSummary h3 {
+  margin: 5px 0 8px;
+  font-size: 1.75rem;
+  line-height: 1.12;
+  letter-spacing: 0;
+}
+
+.agendaSummary p {
+  margin: 0 0 16px;
+  color: var(--muted);
+}
+
+.agendaSummary div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.agendaSummary strong {
+  color: var(--mint-dark);
+}
+
+.agendaSummary a,
+.agendaBody a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 8px;
+  background: var(--mint);
+  color: white;
+  text-decoration: none;
+  font-weight: 900;
+}
+
+.agendaList {
+  display: grid;
+  gap: 12px;
+}
+
+.agendaItem {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 8px;
+  background: white;
+  border: 1px solid var(--line);
+}
+
+.agendaItem.now {
+  border-color: var(--coral);
+  box-shadow: 0 0 0 4px rgba(198, 95, 77, 0.13);
+}
+
+.agendaItem.next:not(.now) {
+  border-color: var(--gold);
+}
+
+.agendaItem.done {
+  opacity: 0.74;
+}
+
+.agendaTime {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+}
+
+.agendaTime strong {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.agendaTime span {
+  display: inline-flex;
+  width: fit-content;
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: var(--soft);
+  color: var(--mint-dark);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.agendaItem.now .agendaTime span {
+  background: var(--coral);
+  color: white;
+}
+
+.agendaBody h4 {
+  margin: 4px 0 8px;
+  font-size: 1.32rem;
+  line-height: 1.18;
+  letter-spacing: 0;
+}
+
+.agendaBody p {
+  margin: 0 0 12px;
+  color: var(--muted);
+}
+
+.compactTitle {
+  margin-top: 16px;
+}
+
+.timeline {
+  display: grid;
+  gap: 14px;
+}
+
+.dayCard {
+  position: relative;
+  padding: 18px;
+  border-radius: 8px;
+  background: white;
+  border: 1px solid var(--line);
+}
+
+.dayCard.active {
+  border-color: var(--mint);
+  box-shadow: 0 0 0 4px rgba(15, 111, 114, 0.12);
+}
+
+.dayCard h3 {
+  margin: 4px 0 8px;
+  font-size: 1.6rem;
+  line-height: 1.16;
+  letter-spacing: 0;
+}
+
+.dayCard p {
+  margin: 0 0 12px;
+  color: var(--muted);
+}
+
+.dayCard ol {
+  margin: 0;
+  padding-left: 1.25em;
+}
+
+.dayCard li {
+  margin: 8px 0;
+  padding-left: 2px;
+}
+
+.weatherSection {
+  background: #f2f7f7;
+  border-block: 1px solid var(--line);
+}
+
+.weatherNotice {
+  padding: 16px;
+  border-radius: 8px;
+  background: #fff7e7;
+  border: 1px solid #efd3a6;
+  color: #4f3b18;
+  font-weight: 800;
+}
+
+.weatherCards {
+  margin-top: 14px;
+  display: grid;
+  gap: 12px;
+}
+
+.weatherCard {
+  padding: 16px;
+  border-radius: 8px;
+  background: white;
+  border: 1px solid var(--line);
+}
+
+.weatherCard strong {
+  display: block;
+  margin: 2px 0 6px;
+  font-size: 1.5rem;
+}
+
+.weatherCard p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.weatherCard.loading {
+  color: var(--muted);
+}
+
+.placeList {
+  display: grid;
+  gap: 18px;
+}
+
+.placeCard {
+  overflow: hidden;
+  border-radius: 8px;
+  background: white;
+  border: 1px solid var(--line);
+}
+
+.placeCard img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: #d9e2e2;
+}
+
+.placeCard div {
+  padding: 18px;
+}
+
+.placeCard h3 {
+  margin: 4px 0 8px;
+  font-size: 1.55rem;
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+
+.placeCard p {
+  margin: 0 0 16px;
+  color: var(--muted);
+}
+
+.placeCard a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 16px;
+  border-radius: 8px;
+  background: var(--mint);
+  color: white;
+  text-decoration: none;
+  font-weight: 900;
+}
+
+.checklist ul {
+  padding: 18px 18px 18px 42px;
+  border-radius: 8px;
+  background: white;
+  border: 1px solid var(--line);
+}
+
+.checklist li {
+  margin: 10px 0;
+}
+
+footer {
+  padding: 28px 18px 38px;
+  color: var(--muted);
+  text-align: center;
+  font-size: 0.92rem;
+}
+
+@media (min-width: 760px) {
+  body {
+    font-size: 21px;
+  }
+
+  .heroText {
+    padding-left: 48px;
+  }
+
+  .assistantPanel {
+    grid-template-columns: 1.4fr 0.9fr;
+    align-items: stretch;
+  }
+
+  .agendaItem {
+    grid-template-columns: 112px 1fr;
+    padding: 18px;
+  }
+
+  .weatherCards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .placeList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

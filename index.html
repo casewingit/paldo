@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0f6f72" />
+    <title>말레이시아 가족 여행 안내</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="hero" id="top">
+      <picture>
+        <img
+          src="https://commons.wikimedia.org/wiki/Special:FilePath/The%20Twins%20SE%20Asia%202019%20%2849171985716%29%20%28cropped%29%202.jpg?width=900"
+          alt="쿠알라룸푸르 페트로나스 트윈 타워"
+        />
+      </picture>
+      <div class="heroShade"></div>
+      <div class="heroText">
+        <p>2026. 6. 26 - 7. 1</p>
+        <h1>말레이시아 가족 여행</h1>
+        <strong id="heroStatus">여행 준비 중</strong>
+      </div>
+    </header>
+
+    <nav class="tabs" aria-label="주요 메뉴">
+      <a href="#today">오늘</a>
+      <a href="#schedule">일정표</a>
+      <a href="#weather">날씨</a>
+      <a href="#places">장소</a>
+    </nav>
+
+    <main>
+      <section class="section" id="today">
+        <div class="sectionTitle">
+          <p>규칙 기반 안내</p>
+          <h2>지금 무엇을 하면 좋을까요?</h2>
+        </div>
+
+        <div class="assistantPanel">
+          <div>
+            <span class="dateBadge" id="todayBadge">날짜 확인 중</span>
+            <h3 id="assistantTitle">여행 안내를 준비하고 있어요</h3>
+            <p id="assistantBody">현재 날짜와 일정을 비교해서 다음 행동을 보여드립니다.</p>
+          </div>
+          <div class="nextBox" id="nextBox">
+            <span>다음 일정</span>
+            <strong>불러오는 중</strong>
+            <p>잠시만 기다려 주세요.</p>
+          </div>
+        </div>
+
+        <div class="quickGrid" aria-label="빠른 질문">
+          <button data-question="next">다음 일정</button>
+          <button data-question="weather">오늘 날씨</button>
+          <button data-question="rain">비가 오면</button>
+          <button data-question="rest">부모님 휴식</button>
+        </div>
+
+        <div class="answerBox" id="answerBox" aria-live="polite">
+          <strong>질문을 눌러보세요.</strong>
+          <p>LLM은 쓰지 않고, 날짜·시간·장소·날씨 규칙으로 답합니다.</p>
+        </div>
+      </section>
+
+      <section class="section" id="schedule">
+        <div class="sectionTitle">
+          <p>일정 앱처럼 보기</p>
+          <h2>하루별 agenda</h2>
+        </div>
+        <div class="agendaApp" aria-label="하루별 여행 일정표">
+          <div class="daySelector" id="daySelector"></div>
+          <div class="agendaSummary" id="agendaSummary"></div>
+          <div class="agendaList" id="agendaList"></div>
+        </div>
+        <div class="sectionTitle compactTitle">
+          <p>전체 흐름</p>
+          <h2>날짜별 요약</h2>
+        </div>
+        <div class="timeline" id="timeline"></div>
+      </section>
+
+      <section class="section weatherSection" id="weather">
+        <div class="sectionTitle">
+          <p>실시간 예보 연결</p>
+          <h2>여행 기간 날씨</h2>
+        </div>
+        <div class="weatherNotice">
+          쿠알라룸푸르와 푸트라자야는 6월에도 덥고 습합니다. 오후 소나기가 잦을 수 있으니
+          우산, 얇은 겉옷, 물을 챙기세요.
+        </div>
+        <div class="weatherCards" id="weatherCards">
+          <article class="weatherCard loading">
+            <span>예보 불러오는 중</span>
+            <strong>인터넷 연결 확인</strong>
+            <p>연결이 안 되면 기본 준비 안내를 보여드립니다.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="places">
+        <div class="sectionTitle">
+          <p>실제 랜드마크 사진</p>
+          <h2>도시별 대표 장소</h2>
+        </div>
+
+        <div class="placeList">
+          <article class="placeCard">
+            <img
+              src="https://commons.wikimedia.org/wiki/Special:FilePath/The%20Twins%20SE%20Asia%202019%20%2849171985716%29%20%28cropped%29%202.jpg?width=900"
+              alt="페트로나스 트윈 타워"
+            />
+            <div>
+              <span>쿠알라룸푸르</span>
+              <h3>페트로나스 트윈 타워</h3>
+              <p>KLCC 중심의 대표 랜드마크입니다. 저녁 조명과 분수 구경이 편하고 부모님 사진 찍기 좋습니다.</p>
+              <a href="https://www.google.com/maps/search/?api=1&query=Petronas+Twin+Towers+Kuala+Lumpur" target="_blank" rel="noreferrer">지도 열기</a>
+            </div>
+          </article>
+
+          <article class="placeCard">
+            <img
+              src="https://commons.wikimedia.org/wiki/Special:FilePath/Murugan%20statue%2C%20Batu%20Caves%20%282%29.jpg?width=900"
+              alt="바투 동굴의 무루간 동상"
+            />
+            <div>
+              <span>쿠알라룸푸르 근교</span>
+              <h3>바투 동굴</h3>
+              <p>계단이 많아 오전 이른 시간 방문이 좋습니다. 부모님 컨디션에 따라 아래 광장 중심으로 천천히 둘러보세요.</p>
+              <a href="https://www.google.com/maps/search/?api=1&query=Batu+Caves+Malaysia" target="_blank" rel="noreferrer">지도 열기</a>
+            </div>
+          </article>
+
+          <article class="placeCard">
+            <img
+              src="https://commons.wikimedia.org/wiki/Special:FilePath/Masjid%20Putra%2C%20Putrajaya%2C%20Malaysia.jpg?width=900"
+              alt="푸트라 모스크"
+            />
+            <div>
+              <span>푸트라자야</span>
+              <h3>푸트라 모스크</h3>
+              <p>분홍빛 돔이 유명한 호숫가 모스크입니다. 햇빛이 강하니 모자와 물을 챙기고 복장 안내를 확인하세요.</p>
+              <a href="https://www.google.com/maps/search/?api=1&query=Putra+Mosque+Putrajaya" target="_blank" rel="noreferrer">지도 열기</a>
+            </div>
+          </article>
+
+          <article class="placeCard">
+            <img
+              src="https://commons.wikimedia.org/wiki/Special:FilePath/Jambatan%20Seri%20Wawasan%204493633704%203cbff54de1.jpg?width=900"
+              alt="세리 와와산 브리지"
+            />
+            <div>
+              <span>푸트라자야</span>
+              <h3>세리 와와산 브리지</h3>
+              <p>호수와 다리가 함께 보이는 산책 코스입니다. 해질 무렵 짧게 들르면 덜 덥고 사진도 예쁩니다.</p>
+              <a href="https://www.google.com/maps/search/?api=1&query=Seri+Wawasan+Bridge+Putrajaya" target="_blank" rel="noreferrer">지도 열기</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section checklist" id="tips">
+        <div class="sectionTitle">
+          <p>부모님 편의</p>
+          <h2>매일 챙길 것</h2>
+        </div>
+        <ul>
+          <li>물, 휴지, 손소독제, 접이식 우산</li>
+          <li>얇은 긴팔, 모자, 선크림</li>
+          <li>여권 사진, 호텔 주소, 기사에게 보여줄 목적지명</li>
+          <li>오후에는 무리하지 말고 카페나 쇼핑몰에서 쉬기</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      <p>사진: Wikimedia Commons 및 공개 이미지 링크. 날씨: Open-Meteo 예보 API.</p>
+    </footer>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

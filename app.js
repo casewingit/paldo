@@ -1,587 +1,312 @@
-const tripDays = [
-  {
-    date: "2026-06-26",
-    city: "쿠알라룸푸르",
-    title: "도착과 가벼운 적응",
-    map: "Kuala Lumpur Malaysia",
-    weatherKey: "kl",
-    steps: [
-      {
-        time: "13:00",
-        text: "쿠알라룸푸르 도착, 호텔 이동",
-        type: "이동",
-        place: "공항 또는 KL Sentral → 호텔",
-        note: "차량 호출 전에 호텔 주소를 기사에게 보여주세요.",
-        map: "Kuala Lumpur Malaysia hotel",
-      },
-      {
-        time: "15:00",
-        text: "체크인 후 90분 휴식",
-        type: "휴식",
-        place: "호텔",
-        note: "첫날은 부모님 컨디션 회복이 가장 중요합니다.",
-        map: "Kuala Lumpur hotel",
-      },
-      {
-        time: "17:30",
-        text: "호텔 주변 산책과 물·간식 준비",
-        type: "준비",
-        place: "호텔 주변 편의점",
-        note: "생수, 휴지, 우산을 바로 꺼낼 수 있게 챙기세요.",
-        map: "Kuala Lumpur convenience store",
-      },
-      {
-        time: "19:00",
-        text: "KLCC 또는 가까운 쇼핑몰에서 가볍게 식사",
-        type: "식사",
-        place: "Suria KLCC 또는 호텔 근처",
-        note: "덥거나 비가 오면 바로 실내 식당으로 들어가세요.",
-        map: "Suria KLCC",
-      },
-    ],
-    advice: "첫날은 이동 피로가 있으니 욕심내지 말고 호텔 근처 중심으로 움직이세요.",
-  },
-  {
-    date: "2026-06-27",
-    city: "쿠알라룸푸르",
-    title: "KLCC와 시내 대표 코스",
-    map: "Petronas Twin Towers Kuala Lumpur",
-    weatherKey: "kl",
-    steps: [
-      {
-        time: "09:30",
-        text: "페트로나스 트윈 타워 사진 촬영",
-        type: "관광",
-        place: "Petronas Twin Towers",
-        note: "오전이 덜 덥고 사진 찍기 편합니다.",
-        map: "Petronas Twin Towers Kuala Lumpur",
-      },
-      {
-        time: "10:30",
-        text: "KLCC 공원 짧은 산책",
-        type: "산책",
-        place: "KLCC Park",
-        note: "그늘 위주로 30분 정도만 걸으세요.",
-        map: "KLCC Park",
-      },
-      {
-        time: "12:00",
-        text: "수리아 KLCC 안에서 점심",
-        type: "식사",
-        place: "Suria KLCC",
-        note: "식사 후 바로 카페 휴식을 붙이면 좋습니다.",
-        map: "Suria KLCC restaurants",
-      },
-      {
-        time: "14:00",
-        text: "아쿠아리아 KLCC 또는 파빌리온 이동",
-        type: "실내",
-        place: "Aquaria KLCC 또는 Pavilion KL",
-        note: "오후 더위와 소나기 시간대는 실내 일정이 편합니다.",
-        map: "Aquaria KLCC",
-      },
-      {
-        time: "19:30",
-        text: "KLCC 분수 쇼 후 호텔 복귀",
-        type: "야경",
-        place: "Lake Symphony KLCC",
-        note: "끝나자마자 택시를 잡으면 붐빌 수 있어 조금 여유를 두세요.",
-        map: "Lake Symphony KLCC",
-      },
-    ],
-    advice: "실내와 실외를 섞으면 부모님 체력 관리가 쉽습니다.",
-  },
-  {
-    date: "2026-06-28",
-    city: "쿠알라룸푸르",
-    title: "바투 동굴과 전통 시장",
-    map: "Batu Caves Malaysia",
-    weatherKey: "kl",
-    steps: [
-      {
-        time: "08:30",
-        text: "덜 더울 때 바투 동굴 출발",
-        type: "이동",
-        place: "호텔 → Batu Caves",
-        note: "계단이 많으니 운동화와 물을 챙기세요.",
-        map: "Batu Caves Malaysia",
-      },
-      {
-        time: "09:30",
-        text: "바투 동굴 광장과 동상 구경",
-        type: "관광",
-        place: "Batu Caves",
-        note: "무릎이 불편하면 계단 전체를 오르지 않아도 충분합니다.",
-        map: "Batu Caves Malaysia",
-      },
-      {
-        time: "12:30",
-        text: "차이나타운 또는 센트럴 마켓 근처 식사",
-        type: "식사",
-        place: "Central Market Kuala Lumpur",
-        note: "식사 장소는 에어컨이 있는 곳으로 고르세요.",
-        map: "Central Market Kuala Lumpur",
-      },
-      {
-        time: "14:30",
-        text: "센트럴 마켓과 메르데카 광장 짧게 둘러보기",
-        type: "관광",
-        place: "Central Market, Merdeka Square",
-        note: "한 번에 오래 걷지 말고 중간에 앉아서 쉬세요.",
-        map: "Merdeka Square Kuala Lumpur",
-      },
-      {
-        time: "18:00",
-        text: "호텔 근처에서 휴식 위주 저녁",
-        type: "휴식",
-        place: "호텔 주변",
-        note: "다음 날을 위해 일찍 쉬는 일정입니다.",
-        map: "Kuala Lumpur hotel restaurants",
-      },
-    ],
-    advice: "바투 동굴은 계단이 많습니다. 무릎이 불편하면 아래 광장 위주로 보셔도 충분합니다.",
-  },
-  {
-    date: "2026-06-29",
-    city: "쿠알라룸푸르",
-    title: "전망과 쉬어가는 하루",
-    map: "KL Tower Kuala Lumpur",
-    weatherKey: "kl",
-    steps: [
-      {
-        time: "10:00",
-        text: "KL 타워 전망대 또는 호텔 수영장",
-        type: "가벼운 관광",
-        place: "KL Tower 또는 호텔",
-        note: "부모님 컨디션에 따라 전망대 대신 호텔 휴식으로 바꿔도 좋습니다.",
-        map: "KL Tower Kuala Lumpur",
-      },
-      {
-        time: "12:30",
-        text: "부킷 빈탕에서 점심",
-        type: "식사",
-        place: "Bukit Bintang",
-        note: "쇼핑몰 안 식당을 고르면 이동이 짧습니다.",
-        map: "Bukit Bintang Kuala Lumpur",
-      },
-      {
-        time: "14:30",
-        text: "카페, 마사지, 쇼핑몰 휴식",
-        type: "휴식",
-        place: "Pavilion KL 또는 Lot 10",
-        note: "이날은 체력 회복일로 생각하세요.",
-        map: "Pavilion KL",
-      },
-      {
-        time: "17:30",
-        text: "기념품 구입",
-        type: "쇼핑",
-        place: "쇼핑몰 또는 마트",
-        note: "무거운 물건은 마지막에 사고 바로 호텔로 돌아가세요.",
-        map: "Kuala Lumpur supermarket souvenirs",
-      },
-      {
-        time: "20:00",
-        text: "다음날 이동을 위해 짐 정리",
-        type: "준비",
-        place: "호텔",
-        note: "여권, 충전기, 상비약을 따로 빼두세요.",
-        map: "Kuala Lumpur hotel",
-      },
-    ],
-    advice: "다음날 푸트라자야 이동이 있으니 무리하지 않는 날로 잡는 것이 좋습니다.",
-  },
-  {
-    date: "2026-06-30",
-    city: "쿠알라룸푸르 → 푸트라자야",
-    title: "푸트라자야 이동",
-    map: "Putra Mosque Putrajaya",
-    weatherKey: "putrajaya",
-    steps: [
-      {
-        time: "09:30",
-        text: "체크아웃 준비",
-        type: "준비",
-        place: "쿠알라룸푸르 호텔",
-        note: "방 안 충전기와 여권을 한 번 더 확인하세요.",
-        map: "Kuala Lumpur hotel",
-      },
-      {
-        time: "10:30",
-        text: "차량으로 푸트라자야 이동",
-        type: "이동",
-        place: "쿠알라룸푸르 → 푸트라자야",
-        note: "차 안에서 쉴 수 있도록 물을 가까이 두세요.",
-        map: "Putrajaya Malaysia",
-      },
-      {
-        time: "12:00",
-        text: "도착 후 식사와 체크인",
-        type: "식사",
-        place: "푸트라자야 호텔 또는 Alamanda",
-        note: "체크인 전 짐 보관이 가능한지 확인하세요.",
-        map: "Alamanda Putrajaya",
-      },
-      {
-        time: "15:30",
-        text: "푸트라 모스크와 푸트라 광장",
-        type: "관광",
-        place: "Putra Mosque, Putra Square",
-        note: "복장 안내를 확인하고 햇빛이 강하면 오래 서 있지 마세요.",
-        map: "Putra Mosque Putrajaya",
-      },
-      {
-        time: "18:00",
-        text: "세리 와와산 브리지 또는 호수 산책",
-        type: "산책",
-        place: "Seri Wawasan Bridge",
-        note: "해질 무렵이 덜 덥고 사진이 예쁩니다.",
-        map: "Seri Wawasan Bridge Putrajaya",
-      },
-    ],
-    advice: "이동일에는 목적지를 2곳 정도로 줄이고, 더운 시간에는 실내에서 쉬세요.",
-  },
-  {
-    date: "2026-07-01",
-    city: "푸트라자야",
-    title: "마무리와 출발 준비",
-    map: "Putrajaya Botanical Garden",
-    weatherKey: "putrajaya",
-    steps: [
-      {
-        time: "09:00",
-        text: "호텔 조식 후 가벼운 산책",
-        type: "휴식",
-        place: "호텔 주변",
-        note: "마지막 날은 서두르지 않는 흐름이 좋습니다.",
-        map: "Putrajaya hotel",
-      },
-      {
-        time: "10:30",
-        text: "보태니컬 가든 또는 가까운 카페",
-        type: "가벼운 관광",
-        place: "Putrajaya Botanical Garden",
-        note: "덥다면 정원 대신 카페 휴식으로 바꾸세요.",
-        map: "Putrajaya Botanical Garden",
-      },
-      {
-        time: "12:30",
-        text: "점심과 짐 최종 확인",
-        type: "준비",
-        place: "호텔 또는 쇼핑몰",
-        note: "여권, 지갑, 휴대폰, 충전기를 먼저 확인하세요.",
-        map: "Alamanda Putrajaya restaurants",
-      },
-      {
-        time: "14:30",
-        text: "공항 또는 다음 목적지로 이동",
-        type: "이동",
-        place: "Putrajaya → KLIA",
-        note: "부모님 이동 시간을 넉넉히 잡으세요.",
-        map: "KLIA Airport",
-      },
-    ],
-    advice: "마지막 날은 여권, 충전기, 약, 짐을 다시 확인하세요.",
-  },
-];
+// 숙소(또는 현재 위치) 기준 장소 추천 + 이동 정보.
+// - 추천: places.json(빌드 시 평점·리뷰·점수 계산) 을 점수순 렌더.
+// - 이동: 출발지→각 장소 거리/시간을 Worker 프록시(Routes)로 받아 Grab 예상비용 계산.
+//   WORKER_URL 이 비어 있으면(Phase 1) 거리·비용 없이 추천 + 길찾기 링크만 동작.
 
-const weatherPlaces = {
-  kl: { name: "쿠알라룸푸르", lat: 3.139, lon: 101.6869 },
-  putrajaya: { name: "푸트라자야", lat: 2.9264, lon: 101.6964 },
-};
+import { estimateGrabFare, GRAB_CONFIG } from "./lib/grab.js";
 
-const params = new URLSearchParams(window.location.search);
-const mockDate = params.get("date");
-const mockHour = params.get("hour");
-const now = mockDate ? new Date(`${mockDate}T${mockHour || "09"}:00:00`) : new Date();
+const WORKER_URL = (window.PALDO_CONFIG && window.PALDO_CONFIG.WORKER_URL) || "";
+const LS_ACCOMMODATION = "paldo.accommodation";
+const LS_ROUTES = "paldo.routes";
+const ROUTE_TTL_MS = 30 * 60 * 1000; // 30분
 
-const formatDate = new Intl.DateTimeFormat("ko-KR", {
-  month: "long",
-  day: "numeric",
-  weekday: "short",
-});
+// ---- 상태 ----
+let accommodation = loadAccommodation(); // {lat,lng,label} | null
+let useCurrentLoc = false;
+let currentLoc = null; // {lat,lng} | null
+let places = []; // 점수순 정렬된 추천 배열
+const routeCache = loadRouteCache(); // Map<cacheKey, {ts,distanceMeters,durationSeconds}>
 
-let selectedDayIndex = getTodayIndex();
+// ---- DOM ----
+const el = (id) => document.getElementById(id);
+const recoList = el("recoList");
 
-function dateOnly(date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
-
-function getTodayIndex() {
-  const today = dateOnly(now);
-  const exact = tripDays.findIndex((day) => day.date === today);
-  if (exact >= 0) return exact;
-
-  const first = new Date(`${tripDays[0].date}T00:00:00`);
-  const last = new Date(`${tripDays[tripDays.length - 1].date}T23:59:59`);
-  if (now < first) return 0;
-  if (now > last) return tripDays.length - 1;
-  return 0;
-}
-
-function getTripState() {
-  const first = new Date(`${tripDays[0].date}T00:00:00`);
-  const last = new Date(`${tripDays[tripDays.length - 1].date}T23:59:59`);
-  const dayMs = 24 * 60 * 60 * 1000;
-
-  if (now < first) {
-    const daysLeft = Math.ceil((first - now) / dayMs);
-    return { label: `출발 ${daysLeft}일 전`, mode: "before" };
-  }
-
-  if (now > last) return { label: "여행이 끝난 뒤", mode: "after" };
-
-  const current = tripDays[getTodayIndex()];
-  return { label: `${formatDate.format(new Date(`${current.date}T09:00:00`))} 여행 중`, mode: "during" };
-}
-
-function getStepForNow(day) {
-  const currentMinutes = Number(mockHour || now.getHours()) * 60 + now.getMinutes();
-  const upcoming = day.steps.find((step) => timeToMinutes(step.time) >= currentMinutes);
-  return upcoming || day.steps.at(-1);
-}
-
-function timeToMinutes(time) {
-  const match = time.match(/^(\d{1,2}):(\d{2})$/);
-  if (!match) return 12 * 60;
-  return Number(match[1]) * 60 + Number(match[2]);
-}
-
-function getStepState(day, step, index, dayIndex) {
-  if (dayIndex !== getTodayIndex() || dateOnly(now) !== day.date) return "";
-
-  const currentMinutes = Number(mockHour || now.getHours()) * 60 + now.getMinutes();
-  const start = timeToMinutes(step.time);
-  const next = day.steps[index + 1] ? timeToMinutes(day.steps[index + 1].time) : 24 * 60;
-
-  if (currentMinutes >= start && currentMinutes < next) return "now";
-  if (start > currentMinutes) return "next";
-  return "done";
-}
-
-function renderAssistant() {
-  const index = getTodayIndex();
-  const day = tripDays[index];
-  const state = getTripState();
-  const step = getStepForNow(day);
-
-  document.querySelector("#heroStatus").textContent = state.label;
-  document.querySelector("#todayBadge").textContent = `${formatDate.format(new Date(day.date))} · ${day.city}`;
-
-  const title = state.mode === "before" ? "출발 전 준비를 하면 좋아요" : `${day.city}에서 오늘의 흐름`;
-  const body =
-    state.mode === "before"
-      ? "여권, 충전기, 상비약, 우산을 먼저 챙기고 도착 첫날은 휴식 중심으로 잡아두세요."
-      : day.advice;
-
-  document.querySelector("#assistantTitle").textContent = title;
-  document.querySelector("#assistantBody").textContent = body;
-
-  document.querySelector("#nextBox").innerHTML = `
-    <span>다음 일정</span>
-    <strong>${step.time} · ${step.text}</strong>
-    <p>${day.title}</p>
-  `;
-}
-
-function renderTimeline() {
-  const todayIndex = getTodayIndex();
-  const timeline = document.querySelector("#timeline");
-  timeline.innerHTML = tripDays
-    .map((day, index) => {
-      const date = new Date(`${day.date}T09:00:00`);
-      const items = day.steps.map((step) => `<li><strong>${step.time}</strong> ${step.text}</li>`).join("");
-      return `
-        <article class="dayCard ${index === todayIndex ? "active" : ""}">
-          <span>${formatDate.format(date)} · ${day.city}</span>
-          <h3>${day.title}</h3>
-          <p>${day.advice}</p>
-          <ol>${items}</ol>
-        </article>
-      `;
-    })
-    .join("");
-}
-
-function renderAgendaApp() {
-  const selector = document.querySelector("#daySelector");
-  const summary = document.querySelector("#agendaSummary");
-  const list = document.querySelector("#agendaList");
-  const todayIndex = getTodayIndex();
-  const day = tripDays[selectedDayIndex];
-  const date = new Date(`${day.date}T09:00:00`);
-
-  selector.innerHTML = tripDays
-    .map((item, index) => {
-      const itemDate = new Date(`${item.date}T09:00:00`);
-      const isSelected = index === selectedDayIndex;
-      const isToday = index === todayIndex;
-      return `
-        <button class="${isSelected ? "selected" : ""}" data-day-index="${index}" aria-pressed="${isSelected}">
-          <span>${formatDate.format(itemDate).replace("요일", "")}</span>
-          <strong>${item.city.includes("푸트라자야") ? "푸트라자야" : "쿠알라룸푸르"}</strong>
-          ${isToday ? "<em>오늘</em>" : ""}
-        </button>
-      `;
-    })
-    .join("");
-
-  summary.innerHTML = `
-    <span>${formatDate.format(date)} · ${day.city}</span>
-    <h3>${day.title}</h3>
-    <p>${day.advice}</p>
-    <div>
-      <strong>${day.steps.length}개 일정</strong>
-      <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(day.map)}" target="_blank" rel="noreferrer">대표 지도 열기</a>
-    </div>
-  `;
-
-  list.innerHTML = day.steps
-    .map((step, index) => {
-      const state = getStepState(day, step, index, selectedDayIndex);
-      const stateLabel = state === "now" ? "지금" : state === "next" ? "다음" : state === "done" ? "완료" : step.type;
-      return `
-        <article class="agendaItem ${state}">
-          <div class="agendaTime">
-            <strong>${step.time}</strong>
-            <span>${stateLabel}</span>
-          </div>
-          <div class="agendaBody">
-            <span>${step.type} · ${step.place}</span>
-            <h4>${step.text}</h4>
-            <p>${step.note}</p>
-            <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(step.map)}" target="_blank" rel="noreferrer">지도 열기</a>
-          </div>
-        </article>
-      `;
-    })
-    .join("");
-
-  selector.querySelectorAll("[data-day-index]").forEach((button) => {
-    button.addEventListener("click", () => {
-      selectedDayIndex = Number(button.dataset.dayIndex);
-      renderAgendaApp();
-    });
-  });
-}
-
-function fallbackWeather() {
-  return tripDays.map((day) => ({
-    date: day.date,
-    city: day.city.includes("푸트라자야") ? "푸트라자야" : "쿠알라룸푸르",
-    min: 24,
-    max: 33,
-    rain: 55,
-    text: "덥고 습함, 오후 소나기 가능",
-  }));
-}
-
-function weatherLabel(code) {
-  if ([0, 1].includes(code)) return "대체로 맑음";
-  if ([2, 3].includes(code)) return "구름 많음";
-  if ([45, 48].includes(code)) return "안개 가능";
-  if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(code)) return "비 또는 소나기";
-  if ([95, 96, 99].includes(code)) return "천둥·번개 가능";
-  return "변덕스러운 날씨";
-}
-
-async function fetchPlaceWeather(place) {
-  const url = new URL("https://api.open-meteo.com/v1/forecast");
-  url.search = new URLSearchParams({
-    latitude: place.lat,
-    longitude: place.lon,
-    daily: "weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max",
-    timezone: "Asia/Kuala_Lumpur",
-    start_date: "2026-06-26",
-    end_date: "2026-07-01",
-  });
-
-  const response = await fetch(url);
-  if (!response.ok) throw new Error("날씨를 불러오지 못했습니다.");
-  const data = await response.json();
-  return data.daily.time.map((date, index) => ({
-    date,
-    min: Math.round(data.daily.temperature_2m_min[index]),
-    max: Math.round(data.daily.temperature_2m_max[index]),
-    rain: data.daily.precipitation_probability_max[index] ?? 50,
-    text: weatherLabel(data.daily.weather_code[index]),
-  }));
-}
-
-async function renderWeather() {
-  const cards = document.querySelector("#weatherCards");
+// ---- 저장소 헬퍼 ----
+function loadAccommodation() {
   try {
-    const [kl, putrajaya] = await Promise.all([
-      fetchPlaceWeather(weatherPlaces.kl),
-      fetchPlaceWeather(weatherPlaces.putrajaya),
-    ]);
-
-    const byKey = { kl, putrajaya };
-    const rows = tripDays.map((day) => {
-      const forecast = byKey[day.weatherKey].find((item) => item.date === day.date);
-      return {
-        date: day.date,
-        city: day.weatherKey === "kl" ? "쿠알라룸푸르" : "푸트라자야",
-        ...forecast,
-      };
-    });
-    cards.innerHTML = weatherMarkup(rows);
+    return JSON.parse(localStorage.getItem(LS_ACCOMMODATION)) || null;
   } catch {
-    cards.innerHTML = weatherMarkup(fallbackWeather());
+    return null;
+  }
+}
+function saveAccommodation(value) {
+  accommodation = value;
+  localStorage.setItem(LS_ACCOMMODATION, JSON.stringify(value));
+}
+function loadRouteCache() {
+  try {
+    const obj = JSON.parse(localStorage.getItem(LS_ROUTES)) || {};
+    return new Map(Object.entries(obj));
+  } catch {
+    return new Map();
+  }
+}
+function saveRouteCache() {
+  localStorage.setItem(LS_ROUTES, JSON.stringify(Object.fromEntries(routeCache)));
+}
+
+// ---- 출발지 ----
+function getOrigin() {
+  if (useCurrentLoc && currentLoc) return currentLoc;
+  return accommodation;
+}
+const originKey = (o) => (o ? `${o.lat.toFixed(4)},${o.lng.toFixed(4)}` : "none");
+const routeKey = (o, place) => `${originKey(o)}|${place.placeId || place.name}`;
+
+// ---- 입력 해석(공유링크/주소) ----
+function isMapLink(v) {
+  return /maps\.app\.goo\.gl|google\.[^/]+\/maps|maps\.google\./i.test(v);
+}
+
+async function resolveStayInput(value) {
+  const v = value.trim();
+  if (!v) return;
+  if (!WORKER_URL) {
+    setStatus("Worker 가 아직 설정되지 않아 주소/링크 해석을 할 수 없어요. (Phase 2 필요)", true);
+    return;
+  }
+  setStatus("위치를 해석하는 중…");
+  try {
+    const endpoint = isMapLink(v) ? "/resolve-link" : "/geocode";
+    const body = isMapLink(v) ? { shareUrl: v } : { address: v };
+    const res = await fetch(WORKER_URL + endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) throw new Error(`해석 실패 (${res.status})`);
+    const data = await res.json();
+    if (data.lat == null || data.lng == null) throw new Error("좌표를 찾지 못했어요.");
+    saveAccommodation({
+      lat: data.lat,
+      lng: data.lng,
+      label: data.label || data.formattedAddress || v,
+    });
+    useCurrentLoc = false;
+    syncToggle();
+    renderOrigin();
+    recomputeAllTravel();
+    setStatus("숙소가 설정되었습니다.");
+  } catch (err) {
+    setStatus(`설정 실패: ${err.message}`, true);
   }
 }
 
-function weatherMarkup(rows) {
-  return rows
-    .map((item) => {
-      const rainTip = item.rain >= 50 ? "우산을 바로 꺼내기 쉬운 곳에 두세요." : "그래도 접이식 우산은 챙기세요.";
-      return `
-        <article class="weatherCard">
-          <span>${formatDate.format(new Date(`${item.date}T09:00:00`))} · ${item.city}</span>
-          <strong>${item.min}°C - ${item.max}°C</strong>
-          <p>${item.text} · 강수 가능성 ${item.rain}%</p>
-          <p>${rainTip}</p>
-        </article>
-      `;
-    })
-    .join("");
+function useCurrentLocation() {
+  if (!navigator.geolocation) {
+    setStatus("이 브라우저는 위치 기능을 지원하지 않아요.", true);
+    return;
+  }
+  setStatus("현재 위치를 확인하는 중…");
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      currentLoc = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+      useCurrentLoc = true;
+      syncToggle();
+      renderOrigin();
+      recomputeAllTravel();
+      setStatus("현재 위치를 출발지로 사용합니다.");
+    },
+    () => {
+      useCurrentLoc = false;
+      syncToggle();
+      setStatus("위치 권한이 거부되어 숙소를 출발지로 사용합니다.", true);
+    },
+    { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 }
+  );
 }
 
-function answerQuestion(type) {
-  const day = tripDays[getTodayIndex()];
-  const step = getStepForNow(day);
-  const answerBox = document.querySelector("#answerBox");
-  const answers = {
-    next: {
-      title: "다음 일정",
-      body: `${step.time}에는 "${step.text}"입니다. 너무 덥거나 피곤하면 바로 실내 카페나 쇼핑몰 휴식으로 바꾸세요.`,
-    },
-    weather: {
-      title: "오늘 날씨 준비",
-      body: `${day.city}는 덥고 습할 가능성이 큽니다. 물, 접이식 우산, 얇은 긴팔을 챙기고 오후 야외 일정은 짧게 잡으세요.`,
-    },
-    rain: {
-      title: "비가 오면 이렇게 바꾸세요",
-      body: "야외 사진 코스는 줄이고 쇼핑몰, 카페, 박물관, 마사지처럼 실내 동선으로 바꾸세요. 택시 승하차 지점을 먼저 정하면 부모님이 덜 힘듭니다.",
-    },
-    rest: {
-      title: "부모님 휴식 우선",
-      body: "오전 1곳, 오후 1곳만 확실히 보고 중간에 60분 이상 쉬는 흐름이 좋습니다. 계단 많은 곳은 사진만 찍고 무리하지 않아도 괜찮습니다.",
-    },
-  };
-
-  const answer = answers[type] || answers.next;
-  answerBox.innerHTML = `<strong>${answer.title}</strong><p>${answer.body}</p>`;
+// ---- 렌더: 출발지 박스/상태 ----
+function setStatus(text, isError = false) {
+  const node = el("stayStatus");
+  node.textContent = text;
+  node.classList.toggle("error", isError);
+}
+function syncToggle() {
+  el("useCurrentLoc").classList.toggle("active", useCurrentLoc);
+}
+function renderOrigin() {
+  const origin = getOrigin();
+  const label = useCurrentLoc && currentLoc ? "현재 위치" : accommodation ? accommodation.label : "미설정";
+  el("originLabel").textContent = label;
+  el("heroStatus").textContent = origin ? `출발지: ${label}` : "숙소를 설정해 주세요";
+  el("originHint").textContent = origin
+    ? "추천 카드에 거리·Grab 예상비용이 표시됩니다."
+    : "설정하면 추천 카드에 이동 정보가 표시됩니다.";
 }
 
-document.querySelectorAll("[data-question]").forEach((button) => {
-  button.addEventListener("click", () => answerQuestion(button.dataset.question));
-});
+// ---- 추천 로드 & 렌더 ----
+async function loadPlaces() {
+  const res = await fetch("./places.json");
+  if (!res.ok) throw new Error("places.json 로드 실패");
+  const obj = await res.json();
+  return Object.values(obj).sort((a, b) => (b.score || 0) - (a.score || 0));
+}
 
-renderAssistant();
-renderAgendaApp();
-renderTimeline();
-renderWeather();
+function ratingRow(place) {
+  if (place.rating == null) return "";
+  const reviews = place.userRatingCount ? ` · 리뷰 ${place.userRatingCount.toLocaleString()}` : "";
+  return `<div class="ratingRow"><span class="stars">★ ${place.rating.toFixed(1)}</span><span class="reviews">${reviews}</span></div>`;
+}
+function tagRow(place) {
+  if (!place.tags || !place.tags.length) return "";
+  return `<div class="tagRow">${place.tags.map((t) => `<span>${t}</span>`).join("")}</div>`;
+}
+
+function directionsLink(place) {
+  const origin = getOrigin();
+  const params = new URLSearchParams({ api: "1", travelmode: "driving" });
+  params.set("destination", `${place.lat},${place.lng}`);
+  if (place.placeId) params.set("destination_place_id", place.placeId);
+  if (origin) params.set("origin", `${origin.lat},${origin.lng}`);
+  return `https://www.google.com/maps/dir/?${params.toString()}`;
+}
+
+function buildCard(place) {
+  const card = document.createElement("article");
+  card.className = "placeCard recoCard";
+  card.innerHTML = `
+    <div>
+      ${tagRow(place)}
+      <h3>${place.name}</h3>
+      ${ratingRow(place)}
+      ${place.note ? `<p>${place.note}</p>` : ""}
+      <div class="placeMap"></div>
+      <div class="travelCard" hidden></div>
+      <a class="dirLink" href="${directionsLink(place)}" target="_blank" rel="noreferrer">길찾기</a>
+    </div>`;
+
+  // 키리스 임베드 지도 (API 키 불필요)
+  const mapBox = card.querySelector(".placeMap");
+  const iframe = document.createElement("iframe");
+  iframe.src = `https://maps.google.com/maps?q=${place.lat},${place.lng}&z=16&hl=ko&output=embed`;
+  iframe.loading = "lazy";
+  iframe.title = `${place.name} 지도`;
+  iframe.allowFullscreen = true;
+  mapBox.replaceChildren(iframe);
+
+  card._place = place;
+  return card;
+}
+
+function renderRecommendations() {
+  recoList.replaceChildren(...places.map(buildCard));
+  recomputeAllTravel();
+}
+
+// ---- 이동 정보 ----
+async function fetchRouteMatrix(origin, list) {
+  // Worker /routes 에 출발지 1 + 목적지 N 을 한 번에 보내 computeRouteMatrix 로 받는다.
+  const res = await fetch(WORKER_URL + "/routes", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      origin: { lat: origin.lat, lng: origin.lng },
+      destinations: list.map((p) => ({ lat: p.lat, lng: p.lng })),
+    }),
+  });
+  if (!res.ok) throw new Error(`routes ${res.status}`);
+  return await res.json(); // [{distanceMeters,durationSeconds}, ...] (목적지 순서)
+}
+
+function renderTravelCard(card, route) {
+  const box = card.querySelector(".travelCard");
+  if (!route || route.distanceMeters == null) {
+    box.hidden = true;
+    return;
+  }
+  const km = route.distanceMeters / 1000;
+  const min = Math.round(route.durationSeconds / 60);
+  const fare = estimateGrabFare(km, min);
+  box.innerHTML = `
+    <div class="travelMetrics">
+      <span><b>${km.toFixed(1)}</b> km</span>
+      <span><b>${min}</b> 분</span>
+    </div>
+    <div class="fareBadge" title="${GRAB_CONFIG.surgeNote}">
+      Grab 예상 ${fare.currency} ~${fare.amount}<sup>예상치</sup>
+    </div>`;
+  box.hidden = false;
+}
+
+async function recomputeAllTravel() {
+  const origin = getOrigin();
+  const cards = [...recoList.querySelectorAll(".recoCard")];
+
+  // 출발지 없음 또는 Worker 미설정 → 이동 카드 숨기고 안내만
+  if (!origin || !WORKER_URL) {
+    cards.forEach((c) => {
+      const box = c.querySelector(".travelCard");
+      if (!origin) {
+        box.innerHTML = `<p class="travelHint">숙소를 설정하면 거리·Grab 예상비용이 표시됩니다.</p>`;
+        box.hidden = false;
+      } else {
+        box.hidden = true; // origin 있으나 Worker 없음 → 길찾기 링크로 충분
+      }
+      // 길찾기 링크 origin 반영 갱신
+      c.querySelector(".dirLink").href = directionsLink(c._place);
+    });
+    return;
+  }
+
+  // 캐시 우선, 미스만 모아 한 번에 매트릭스 호출
+  const now = Date.now();
+  const misses = [];
+  cards.forEach((c) => {
+    c.querySelector(".dirLink").href = directionsLink(c._place);
+    const key = routeKey(origin, c._place);
+    const hit = routeCache.get(key);
+    if (hit && now - hit.ts < ROUTE_TTL_MS) {
+      renderTravelCard(c, hit);
+    } else {
+      const box = c.querySelector(".travelCard");
+      box.innerHTML = `<p class="travelHint">이동 정보 계산 중…</p>`;
+      box.hidden = false;
+      misses.push(c);
+    }
+  });
+  if (!misses.length) return;
+
+  try {
+    const results = await fetchRouteMatrix(origin, misses.map((c) => c._place));
+    misses.forEach((c, i) => {
+      const r = results[i];
+      if (r && r.distanceMeters != null) {
+        routeCache.set(routeKey(origin, c._place), { ts: now, ...r });
+        renderTravelCard(c, r);
+      } else {
+        const box = c.querySelector(".travelCard");
+        box.innerHTML = `<p class="travelHint">이 장소의 경로를 찾지 못했어요.</p>`;
+      }
+    });
+    saveRouteCache();
+  } catch {
+    misses.forEach((c) => {
+      const box = c.querySelector(".travelCard");
+      box.innerHTML = `<p class="travelHint">이동 정보를 불러올 수 없어요. 길찾기 링크를 이용하세요.</p>`;
+    });
+  }
+}
+
+// ---- 부트 ----
+function wireEvents() {
+  el("stayResolve").addEventListener("click", () => resolveStayInput(el("stayInput").value));
+  el("stayInput").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") resolveStayInput(el("stayInput").value);
+  });
+  el("useCurrentLoc").addEventListener("click", useCurrentLocation);
+}
+
+async function boot() {
+  wireEvents();
+  renderOrigin();
+  if (accommodation) setStatus(`저장된 숙소: ${accommodation.label}`);
+  try {
+    places = await loadPlaces();
+    renderRecommendations();
+  } catch (err) {
+    recoList.innerHTML = `<article class="placeCard"><div><h3>추천을 불러오지 못했어요</h3><p>${err.message}</p></div></article>`;
+  }
+}
+
+boot();

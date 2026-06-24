@@ -99,7 +99,7 @@ a {
   top: 0;
   z-index: 5;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 6px;
   padding: 10px;
   background: rgba(251, 250, 245, 0.94);
@@ -555,6 +555,21 @@ a {
   color: var(--muted);
 }
 
+.placeMap {
+  margin: 0 0 16px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  line-height: 0;
+}
+
+.placeMap iframe {
+  width: 100%;
+  height: 200px;
+  border: 0;
+  display: block;
+}
+
 .placeCard a {
   display: inline-flex;
   align-items: center;
@@ -584,6 +599,141 @@ footer {
   color: var(--muted);
   text-align: center;
   font-size: 0.92rem;
+}
+
+/* ---- 숙소 setter ---- */
+.stayForm {
+  display: flex;
+  gap: 8px;
+  margin: 14px 0 10px;
+}
+
+#stayInput {
+  flex: 1;
+  min-height: 48px;
+  padding: 0 14px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: white;
+  font-size: 1rem;
+}
+
+#stayResolve {
+  min-height: 48px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--mint);
+  color: white;
+  font-weight: 900;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.ghostBtn {
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: white;
+  color: var(--ink);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.ghostBtn.active {
+  background: var(--mint);
+  color: white;
+  border-color: var(--mint);
+}
+
+.stayStatus {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.stayStatus.error {
+  color: var(--coral);
+}
+
+/* ---- 추천 카드 ---- */
+.recoCard .tagRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.recoCard .tagRow span {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--soft);
+  color: var(--mint-dark);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.ratingRow {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin: 0 0 10px;
+}
+
+.ratingRow .stars {
+  color: var(--gold);
+  font-weight: 900;
+}
+
+.ratingRow .reviews {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+/* ---- 이동 정보 ---- */
+.travelCard {
+  margin: 0 0 16px;
+  padding: 14px;
+  border-radius: 8px;
+  background: var(--soft);
+  border: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.travelMetrics {
+  display: flex;
+  gap: 18px;
+  color: var(--muted);
+}
+
+.travelMetrics b {
+  color: var(--ink);
+  font-size: 1.25rem;
+}
+
+.fareBadge {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--coral);
+  color: white;
+  font-weight: 900;
+}
+
+.fareBadge sup {
+  font-size: 0.62em;
+  opacity: 0.9;
+  margin-left: 3px;
+}
+
+.travelHint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
 }
 
 @media (min-width: 760px) {

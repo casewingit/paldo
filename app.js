@@ -459,7 +459,7 @@ function scoreDiscovered(r, cat) {
     primaryTypeDisplayName: r.primaryTypeDisplayName ?? null,
     types: r.types ?? [],
     photoName: r.photoName ?? null,
-    category: cat,
+    category: categoryOf(r.primaryType, r.types), // 진짜 카테고리(검색 탭으로 강제 안 함)
     tier: "discovered",
     note: "",
     tags: r.primaryTypeDisplayName ? [r.primaryTypeDisplayName] : [],
@@ -506,7 +506,11 @@ async function loadNearbyTail() {
         }),
       });
       if (!res.ok) throw new Error(`nearby ${res.status}`);
-      list = (await res.json()).map((r) => scoreDiscovered(r, cat));
+      // 검색 탭에 걸렸어도 진짜 카테고리가 다른 곳(매장 안 식당 가진 호텔·명소,
+      // 음식점 검색에 섞인 카페 등)은 제외 → 각 장소는 본질 카테고리 탭에만 표시.
+      list = (await res.json())
+        .map((r) => scoreDiscovered(r, cat))
+        .filter((p) => p.category === cat);
       nearbyCache.set(key, { ts: Date.now(), list });
     } catch {
       list = [];

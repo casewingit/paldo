@@ -65,7 +65,12 @@ eq("null 타입 → 관광명소 폴백", categoryOf(null, []), "관광명소");
 eq("override 우선", categoryOf("restaurant", [], "관광명소"), "관광명소");
 eq("historical_landmark → 관광명소(현대 랜드마크)", categoryOf("historical_landmark", ["tourist_attraction"]), "관광명소");
 eq("primaryType가 types의 restaurant를 이김(KL타워)", categoryOf("historical_landmark", ["restaurant", "tourist_attraction"]), "관광명소");
-eq("primaryType null이면 types 스캔", categoryOf(null, ["restaurant"]), "음식점");
+// primaryType 권위 — types 폴백 제거(매장 안 식당 누수 차단)
+eq("호텔은 음식점 아님(in-house 식당 무시)", categoryOf("hotel", ["restaurant"]), "관광명소");
+eq("cultural_center → 문화·역사(REXKL)", categoryOf("cultural_center", ["restaurant"]), "문화·역사");
+eq("coffee_roastery → 카페(Feeka)", categoryOf("coffee_roastery", ["restaurant"]), "카페");
+eq("*_restaurant 접미사 → 음식점", categoryOf("malaysian_restaurant", []), "음식점");
+eq("night_club → 음식점/카페 아님", categoryOf("night_club", ["restaurant"]) !== "음식점" && categoryOf("night_club", []) !== "카페", true);
 
 console.log("\nproximityNorm 단조성(카페):");
 ok("가까울수록 큼", proximityNorm(2, "카페") > proximityNorm(30, "카페"));

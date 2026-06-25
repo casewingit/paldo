@@ -53,19 +53,120 @@ function getOrigin() {
 const originKey = (o) => (o ? `${o.lat.toFixed(4)},${o.lng.toFixed(4)}` : "none");
 const routeKey = (o, place) => `${originKey(o)}|${place.placeId || place.name}`;
 
-// ---- 입력 해석(공유링크/주소) ----
+// ---- 숙소 검색 (자동완성 타입어헤드) ----
+const suggestBox = el("staySuggest");
+let searchSession = null; // Places 세션 토큰 (검색 1회 묶음 과금)
+let searchTimer = null;
+let suggestions = [];
+
 function isMapLink(v) {
   return /maps\.app\.goo\.gl|google\.[^/]+\/maps|maps\.google\./i.test(v);
 }
 
-async function resolveStayInput(value) {
+// 세션 토큰: 보안용이 아니라 과금 묶음용 식별자 → http(비보안)에서도 만들 수 있게 폴백.
+function ensureSession() {
+  if (!searchSession) {
+    searchSession =
+      (crypto.randomUUID && crypto.randomUUID()) ||
+      "s-" + Date.now() + "-" + Math.random().toString(16).slice(2);
+  }
+  return searchSession;
+}
+
+function hideSuggest() {
+  suggestBox.hidden = true;
+  suggestBox.replaceChildren();
+  el("stayInput").setAttribute("aria-expanded", "false");
+}
+
+function renderSuggest(list) {
+  suggestions = list;
+  if (!list.length) {
+    hideSuggest();
+    return;
+  }
+  suggestBox.replaceChildren(
+    ...list.map((s) => {
+      const li = document.createElement("li");
+      li.className = "suggestItem";
+      li.setAttribute("role", "option");
+      li.innerHTML = `<strong>${s.primary}</strong>${s.secondary ? `<span>${s.secondary}</span>` : ""}`;
+      // mousedown 으로 처리해 input blur 보다 먼저 선택되게 한다.
+      li.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+        selectSuggestion(s);
+      });
+      return li;
+    })
+  );
+  suggestBox.hidden = false;
+  el("stayInput").setAttribute("aria-expanded", "true");
+}
+
+async function fetchSuggestions(input) {
+  if (!WORKER_URL) {
+    setStatus("검색은 Worker 설정 후 사용할 수 있어요. (Phase 2)", true);
+    return;
+  }
+  try {
+    const res = await fetch(WORKER_URL + "/autocomplete", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ input, sessionToken: ensureSession() }),
+    });
+    if (!res.ok) throw new Error(`검색 실패 (${res.status})`);
+    renderSuggest(await res.json());
+  } catch (err) {
+    hideSuggest();
+    setStatus(err.message, true);
+  }
+}
+
+function onSearchInput(value) {
+  const v = value.trim();
+  clearTimeout(searchTimer);
+  if (v.length < 2 || isMapLink(v)) {
+    hideSuggest();
+    return;
+  }
+  searchTimer = setTimeout(() => fetchSuggestions(v), 250);
+}
+
+async function selectSuggestion(s) {
+  hideSuggest();
+  el("stayInput").value = s.primary;
+  setStatus("위치를 확인하는 중…");
+  try {
+    const res = await fetch(WORKER_URL + "/place-details", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ placeId: s.placeId, sessionToken: searchSession }),
+    });
+    if (!res.ok) throw new Error(`상세 조회 실패 (${res.status})`);
+    const d = await res.json();
+    if (d.lat == null) throw new Error("좌표를 찾지 못했어요.");
+    applyAccommodation({ lat: d.lat, lng: d.lng, label: d.label });
+  } catch (err) {
+    setStatus(`설정 실패: ${err.message}`, true);
+  } finally {
+    searchSession = null; // 다음 검색은 새 세션
+  }
+}
+
+// 엔터 폴백: 후보가 있으면 첫 후보, 공유링크면 /resolve-link, 그 외 직접 주소면 /geocode.
+async function submitRaw(value) {
   const v = value.trim();
   if (!v) return;
+  if (!isMapLink(v) && suggestions.length) {
+    selectSuggestion(suggestions[0]);
+    return;
+  }
   if (!WORKER_URL) {
-    setStatus("Worker 가 아직 설정되지 않아 주소/링크 해석을 할 수 없어요. (Phase 2 필요)", true);
+    setStatus("Worker 설정 후 사용할 수 있어요. (Phase 2)", true);
     return;
   }
   setStatus("위치를 해석하는 중…");
+  hideSuggest();
   try {
     const endpoint = isMapLink(v) ? "/resolve-link" : "/geocode";
     const body = isMapLink(v) ? { shareUrl: v } : { address: v };
@@ -75,21 +176,21 @@ async function resolveStayInput(value) {
       body: JSON.stringify(body),
     });
     if (!res.ok) throw new Error(`해석 실패 (${res.status})`);
-    const data = await res.json();
-    if (data.lat == null || data.lng == null) throw new Error("좌표를 찾지 못했어요.");
-    saveAccommodation({
-      lat: data.lat,
-      lng: data.lng,
-      label: data.label || data.formattedAddress || v,
-    });
-    useCurrentLoc = false;
-    syncToggle();
-    renderOrigin();
-    recomputeAllTravel();
-    setStatus("숙소가 설정되었습니다.");
+    const d = await res.json();
+    if (d.lat == null) throw new Error("좌표를 찾지 못했어요.");
+    applyAccommodation({ lat: d.lat, lng: d.lng, label: d.label || d.formattedAddress || v });
   } catch (err) {
     setStatus(`설정 실패: ${err.message}`, true);
   }
+}
+
+function applyAccommodation({ lat, lng, label }) {
+  saveAccommodation({ lat, lng, label });
+  useCurrentLoc = false;
+  syncToggle();
+  renderOrigin();
+  recomputeAllTravel();
+  setStatus(`숙소가 설정되었습니다: ${label}`);
 }
 
 function useCurrentLocation() {
@@ -290,10 +391,18 @@ async function recomputeAllTravel() {
 
 // ---- 부트 ----
 function wireEvents() {
-  el("stayResolve").addEventListener("click", () => resolveStayInput(el("stayInput").value));
-  el("stayInput").addEventListener("keydown", (e) => {
-    if (e.key === "Enter") resolveStayInput(el("stayInput").value);
+  const input = el("stayInput");
+  input.addEventListener("input", (e) => onSearchInput(e.target.value));
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      submitRaw(input.value);
+    } else if (e.key === "Escape") {
+      hideSuggest();
+    }
   });
+  // blur 시 약간 지연 후 닫아 항목 클릭(mousedown)이 먼저 처리되게 한다.
+  input.addEventListener("blur", () => setTimeout(hideSuggest, 150));
   el("useCurrentLoc").addEventListener("click", useCurrentLocation);
 }
 

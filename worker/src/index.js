@@ -51,6 +51,63 @@ async function geocode(address, env) {
   };
 }
 
+// ---- Places Autocomplete (New): 입력 텍스트 → 후보 목록 ----
+// 같은 검색 세션 동안 sessionToken 을 재사용하면 키 입력 단위 과금이 묶인다.
+async function autocomplete(input, sessionToken, env) {
+  const body = {
+    input,
+    languageCode: "ko",
+    includedRegionCodes: ["my"], // 말레이시아로 한정
+  };
+  if (sessionToken) body.sessionToken = sessionToken;
+
+  const res = await fetch("https://places.googleapis.com/v1/places:autocomplete", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Goog-Api-Key": env.GOOGLE_MAPS_API_KEY,
+    },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) throw new Error(`autocomplete http ${res.status} ${await res.text()}`);
+
+  const data = await res.json();
+  return (data.suggestions || [])
+    .map((s) => {
+      const p = s.placePrediction;
+      if (!p) return null;
+      return {
+        placeId: p.placeId,
+        primary: p.structuredFormat?.mainText?.text || p.text?.text || "",
+        secondary: p.structuredFormat?.secondaryText?.text || "",
+      };
+    })
+    .filter(Boolean);
+}
+
+// ---- Place Details (New): placeId → 좌표 + 이름 ----
+// sessionToken 을 함께 보내면 위 autocomplete 세션을 닫아 묶음 과금된다.
+async function placeDetails(placeId, sessionToken, env) {
+  const url = new URL(`https://places.googleapis.com/v1/places/${placeId}`);
+  url.searchParams.set("languageCode", "ko");
+  if (sessionToken) url.searchParams.set("sessionToken", sessionToken);
+
+  const res = await fetch(url, {
+    headers: {
+      "X-Goog-Api-Key": env.GOOGLE_MAPS_API_KEY,
+      "X-Goog-FieldMask": "location,displayName,formattedAddress",
+    },
+  });
+  if (!res.ok) throw new Error(`details http ${res.status} ${await res.text()}`);
+
+  const p = await res.json();
+  return {
+    lat: p.location?.latitude ?? null,
+    lng: p.location?.longitude ?? null,
+    label: p.displayName?.text || p.formattedAddress || "선택한 장소",
+  };
+}
+
 // ---- 공유링크 해석: maps.app.goo.gl/... → 좌표 (+가능하면 이름) ----
 // 비공식 스크랩. 3단계 캐스케이드로 시도하고 실패 시 null.
 async function resolveShareLink(shareUrl) {
@@ -127,6 +184,16 @@ export default {
     }
 
     try {
+      if (path === "/autocomplete") {
+        if (!payload.input) return json({ error: "input required" }, env, 400);
+        return json(await autocomplete(payload.input, payload.sessionToken, env), env);
+      }
+
+      if (path === "/place-details") {
+        if (!payload.placeId) return json({ error: "placeId required" }, env, 400);
+        return json(await placeDetails(payload.placeId, payload.sessionToken, env), env);
+      }
+
       if (path === "/geocode") {
         if (!payload.address) return json({ error: "address required" }, env, 400);
         return json(await geocode(payload.address, env), env);

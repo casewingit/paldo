@@ -1,15 +1,16 @@
 :root {
   color-scheme: light;
-  --ink: #193236;
-  --muted: #5a7175;
-  --line: #d8e5e2;
-  --paper: #fbfaf5;
-  --soft: #eef7f2;
-  --mint: #0f6f72;
-  --mint-dark: #0a4d51;
-  --coral: #c65f4d;
-  --gold: #ba7c20;
-  --sky: #e6f3fb;
+  /* Airbnb 팔레트 (awesome-design-md) — 변수 이름은 유지하고 역할만 재매핑 */
+  --ink: #222222; /* 본문 글자 */
+  --muted: #6a6a6a; /* 보조 글자 */
+  --line: #dddddd; /* 테두리(hairline) */
+  --paper: #ffffff; /* 페이지 캔버스 */
+  --soft: #f7f7f7; /* 옅은 표면(칩·카드 배경) */
+  --mint: #ff385c; /* 브랜드 / CTA (Rausch) */
+  --mint-dark: #e00b41; /* CTA hover/active */
+  --coral: #c13515; /* 강조 텍스트 / 에러 */
+  --gold: #e0a000; /* 별점 ★ */
+  --sky: #f2f2f2; /* 보조 표면 */
   font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
 }
 
@@ -44,7 +45,7 @@ a {
   display: grid;
   align-items: end;
   overflow: hidden;
-  background: #173c42;
+  background: #222222;
 }
 
 .hero img {
@@ -102,7 +103,7 @@ a {
   grid-template-columns: repeat(3, 1fr);
   gap: 6px;
   padding: 10px;
-  background: rgba(251, 250, 245, 0.94);
+  background: rgba(255, 255, 255, 0.92);
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(14px);
 }
@@ -161,7 +162,7 @@ a {
   border-radius: 8px;
   background: var(--mint);
   color: white;
-  box-shadow: 0 18px 40px rgba(11, 70, 74, 0.18);
+  box-shadow: 0 18px 40px rgba(255, 56, 92, 0.22);
 }
 
 .dateBadge {
@@ -601,33 +602,66 @@ footer {
   font-size: 0.92rem;
 }
 
-/* ---- 숙소 setter ---- */
-.stayForm {
-  display: flex;
-  gap: 8px;
+/* ---- 숙소 검색 (자동완성) ---- */
+.searchBox {
+  position: relative;
   margin: 14px 0 10px;
 }
 
 #stayInput {
-  flex: 1;
+  width: 100%;
   min-height: 48px;
   padding: 0 14px;
   border-radius: 8px;
   border: 1px solid var(--line);
   background: white;
+  color: var(--ink);
   font-size: 1rem;
 }
 
-#stayResolve {
-  min-height: 48px;
-  padding: 0 18px;
-  border: 0;
+#stayInput:focus {
+  outline: 2px solid var(--mint);
+  outline-offset: 1px;
+}
+
+.suggestList {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 10;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(25, 50, 54, 0.16);
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.suggestItem {
+  padding: 10px 12px;
   border-radius: 8px;
-  background: var(--mint);
-  color: white;
-  font-weight: 900;
-  font-size: 1rem;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--ink); /* 민트 패널의 흰색 상속을 끊는다 */
+}
+
+.suggestItem:hover {
+  background: var(--soft);
+}
+
+.suggestItem strong {
+  font-weight: 800;
+}
+
+.suggestItem span {
+  color: var(--muted);
+  font-size: 0.88rem;
 }
 
 .ghostBtn {
@@ -669,7 +703,7 @@ footer {
   padding: 3px 10px;
   border-radius: 999px;
   background: var(--soft);
-  color: var(--mint-dark);
+  color: var(--ink); /* 차분한 회색 칩 — 빨강 남용 방지 */
   font-size: 0.82rem;
   font-weight: 800;
 }
@@ -719,7 +753,7 @@ footer {
 .fareBadge {
   padding: 8px 14px;
   border-radius: 999px;
-  background: var(--coral);
+  background: var(--ink); /* 가격표는 중립 다크 칩 — 빨간 CTA와 분리 */
   color: white;
   font-weight: 900;
 }

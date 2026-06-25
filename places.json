@@ -6,14 +6,27 @@
     "lat": 3.2378844,
     "lng": 101.6840385,
     "rating": 4.4,
-    "userRatingCount": 79393,
+    "userRatingCount": 79405,
+    "primaryType": "place_of_worship",
+    "primaryTypeDisplayName": "사원",
+    "types": [
+      "tourist_attraction",
+      "place_of_worship",
+      "association_or_organization",
+      "point_of_interest",
+      "establishment"
+    ],
+    "photoName": "places/ChIJBahJiQxHzDER-Z5vs7Lrv_I/photos/AaVGc3kfsOAV26h22AgDspbZcdhhZg0rC95mj_SaJx6oQ-doyklFQTaW4XXlYAEwm4wV4aNbtK7pFDfDDqeDLn-m0qG-CRqOY1P-3ysN5MutIZdldXGLby2gKbjtV0EbrFzXvPHUBUQc8z6_CxxH_wjmSxzCWNa-5ixkaeIKOtjnS5M8GX_p-m25D6cHphmMXGgOPRy8aqG-W2wOJU_QJ30vGXCl4oykZUUp4oyy3ua4im2IT-SM90T0nRCb9-mkiYFRsw9pLRCRskrKnyOZkdrUtQ1U0-TDsaSv0jCSUEcMAn8gZPwWw6BgYcRg4uP_Z_LbMcgVlyXbeOCuRcS6BGpPj0qSKwXed11y3jfZ5kXofdUd2zQKx_QAVro2T5xWolK7BJC_3KUZU0BN-xamWLLMMp-xJgNf69gs2AfrojfjZp_IW5po",
+    "category": "문화·역사",
+    "tier": "rec",
     "note": "계단이 많아 오전 이른 시간이 좋아요. 컨디션에 따라 아래 광장 중심으로 천천히.",
-    "boost": 1.2,
     "tags": [
       "관광",
       "사원"
     ],
-    "score": 4.5799
+    "qN": 0.3998,
+    "cred": 1,
+    "staticScore": 2.2199
   },
   "Central Market Kuala Lumpur": {
     "placeId": "ChIJVxLq2dFJzDERAmCinEoNs_w",
@@ -22,14 +35,28 @@
     "lat": 3.1452635000000004,
     "lng": 101.69541579999999,
     "rating": 4.3,
-    "userRatingCount": 60435,
+    "userRatingCount": 60448,
+    "primaryType": "shopping_mall",
+    "primaryTypeDisplayName": "쇼핑몰",
+    "types": [
+      "shopping_mall",
+      "tourist_attraction",
+      "historical_landmark",
+      "historical_place",
+      "point_of_interest",
+      "establishment"
+    ],
+    "photoName": "places/ChIJVxLq2dFJzDERAmCinEoNs_w/photos/AaVGc3m2b3-Y1Q3eDhXSAdLu-m2Vlc-0odGNsZXynphpa7ypvt6PulYj4qtopT129h7TjsIrrKb2v90wEHFt6ICidJt_rOvTgGj_QTXZh-UB62BLmxjoRprjRcOPv-T3yrirCRfhhTt6DCJwiBoGJsSbK2xFGDQEJKKVOJFG7VSz94mpCxjeEOl6W-_PTD_iJRCAVeseLV207jWYbWaP9JoJhhLmyO80a3IIVTts-gxydLRG4PZzQxVZPmkMUHexpgRQ0SOgZ9vaNkiZeWIS06NgFcyjSeYrmshu996pnbzCsS8wxGkytQ0GVM8Ag4pnLZXk2Z33vZRRpjv0W0bYFT57ckRzl3l-kb5pac1L08vbGaNUzb6-yOLF1uiOWglFYzfbX_xr3jiGN14qWETJmoayoeJJ2fQeoAUfNbQH4ygB92nLZg",
+    "category": "쇼핑",
+    "tier": "opt",
     "note": "기념품과 수공예 구경. 에어컨이 있어 더운 오후에 천천히 둘러보기 좋아요.",
-    "boost": 1,
     "tags": [
       "쇼핑",
       "기념품"
     ],
-    "score": 4.1688
+    "qN": 0.3,
+    "cred": 1,
+    "staticScore": 1.165
   },
   "KL Tower Kuala Lumpur": {
     "placeId": "ChIJE1jNHStIzDERujrDO85YYBA",
@@ -38,14 +65,31 @@
     "lat": 3.1528761999999997,
     "lng": 101.7038516,
     "rating": 4.5,
-    "userRatingCount": 41741,
+    "userRatingCount": 41752,
+    "primaryType": "historical_landmark",
+    "primaryTypeDisplayName": "역사적 명소",
+    "types": [
+      "historical_landmark",
+      "buffet_restaurant",
+      "tourist_attraction",
+      "observation_deck",
+      "historical_place",
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "photoName": "places/ChIJE1jNHStIzDERujrDO85YYBA/photos/AaVGc3nGGp_e_DtuZNPve4Ezf17w7GCOxjpjeUazuJehxSUUmsfocr6NHzJ3lEWwaoxHobb0cqEgb9ZNGjVlsMeXBvjmy04wBGeF0cKmTNUAZfacLMET19yC7ys_aPIIUl8_BO3vh4EFGvetfrEoMgvyL9fNcS9zwxIm6-KLRPuwXubYj5ZiDNhkmsb1hajuZShBOF-gOhI0LOvu0VqMQJPZIFP1xWbSQQduIpSx199xfc9sTqFAGIiEipnwM1zgvcestbZjTWy3vRDez6b88Bit6k6FgiCFG-9aBGFl3U5HS_2KzOmJybVGW-bcSoEwhIXh9_6E9zRprln3SgOIahL2bEO5UwslFyidrLMDjdhqlYSJTYscD8FOfp-De7V7DgogIBFH4M_8B4HAtjfJIsE10Ttz0jh-SXqzJAMazN5a3mOlAN3W",
+    "category": "관광명소",
+    "tier": "opt",
     "note": "전망 명소. 트윈타워가 한눈에 보이는 사진 포인트예요.",
-    "boost": 1,
     "tags": [
       "전망",
       "관광"
     ],
-    "score": 4.2723
+    "qN": 0.4994,
+    "cred": 1,
+    "staticScore": 1.2747
   },
   "Petronas Twin Towers Kuala Lumpur": {
     "placeId": "ChIJH5xmLdE3zDERVpCKfNH9Op4",
@@ -54,14 +98,28 @@
     "lat": 3.1574693,
     "lng": 101.7115639,
     "rating": 4.7,
-    "userRatingCount": 102745,
+    "userRatingCount": 102780,
+    "primaryType": "historical_landmark",
+    "primaryTypeDisplayName": "역사적 명소",
+    "types": [
+      "historical_landmark",
+      "historical_place",
+      "business_center",
+      "government_office",
+      "point_of_interest",
+      "establishment"
+    ],
+    "photoName": "places/ChIJH5xmLdE3zDERVpCKfNH9Op4/photos/AaVGc3mKisF6rocPZRDNNYciqX8eabR5kirvjssWe8afkLcKU_NSNX6LkO8Mgzm4UL37tRzGjrGzGrtCRx_DbVgT8xz8zcO1NEIhtRgixrKyrTzLL8jC8dqMbSPoUU6uZWAm36OejLxLK_jDN0YRU5TRcXvcbwBHwSV4pHdzITM_1HApGRW9mP5VINgwiy46IGonMMZe6djTWGRiQiDwitzU2W9mEJkk1BtdG3Mt7s8BEqpWvqH7ewxcBCC7QeCV5f31deg-mKUshmKGPHYSZWjiCot_XhDzqvmmlSZ1OeDduhrXDQQ9DK4SAZBpqRPBw4Hw6XIebWftO3NfOftJvWFIGtX-wMyF8dUDGiHkHHYsB4WJsN3Hpr6SsSEQ8XJ1ljVC5bTm79ecLlgG5awdsgkgTO61FdE8n0rRmcDMPMz_tSRwqLRP",
+    "category": "관광명소",
+    "tier": "must",
     "note": "KLCC 중심의 대표 랜드마크. 저녁 조명과 분수쇼가 편하고 부모님 사진 찍기 좋아요.",
-    "boost": 1.3,
     "tags": [
       "랜드마크",
       "야경"
     ],
-    "score": 5.0671
+    "qN": 0.6995,
+    "cred": 1,
+    "staticScore": 3.3847
   },
   "Putra Mosque Putrajaya": {
     "placeId": "ChIJXW0EGBi2zTERiKBASs5S8lM",
@@ -70,14 +128,28 @@
     "lat": 2.9360702,
     "lng": 101.68921300000001,
     "rating": 4.7,
-    "userRatingCount": 24100,
+    "userRatingCount": 24115,
+    "primaryType": "mosque",
+    "primaryTypeDisplayName": "모스크",
+    "types": [
+      "mosque",
+      "tourist_attraction",
+      "place_of_worship",
+      "point_of_interest",
+      "association_or_organization",
+      "establishment"
+    ],
+    "photoName": "places/ChIJXW0EGBi2zTERiKBASs5S8lM/photos/AaVGc3lc5omCnK2b0TGtNTM4ZyLAE6kGWWPXlKGKNXxUPbhq9aec0Liy6YvPVGR_Q5PjpziiJ5Z7i-ENwJqf45VqdAH0a9OZCz0HOrg7g-vnCAjXjmrOxTi0ZUT8qW9P_kcxeniwTSsP_QODaP6ZhhJFcgRQnXy2DR5NnEjKADP2yV-EahVapA3t_BI8esLhzzio4jB1Soo-U6ceyXAs8_3TQkTy8fBDdn0IpLR4QAjJbd5BahvmMtOwt_x3_GpFGMWBWi3D8Y_1E_9TnJS_8D4ZDydkWNBzftEQCNIwJhVAIOBIt68IVQz5A9c7XD-khhThhLq-DACdayA7mrF-rPI7s3J1rKv4OK4l2XS4ULPagXUt5DcH08_KLLyI-YLSnYi1RaWawLC9y-YIbwVb_lPvfWkQdufSLWYS_TDfVU-NlJ01-IK0",
+    "category": "문화·역사",
+    "tier": "rec",
     "note": "분홍빛 돔의 호숫가 모스크. 햇빛이 강하니 모자·물 챙기고 복장 안내 확인.",
-    "boost": 1.2,
     "tags": [
       "관광",
       "푸트라자야"
     ],
-    "score": 4.5692
+    "qN": 0.698,
+    "cred": 1,
+    "staticScore": 2.3839
   },
   "Putrajaya Botanical Garden": {
     "placeId": "ChIJXW0EGBi2zTERcH3wN1NChlY",
@@ -87,13 +159,25 @@
     "lng": 101.6955157,
     "rating": 4.5,
     "userRatingCount": 8811,
+    "primaryType": "botanical_garden",
+    "primaryTypeDisplayName": "식물원",
+    "types": [
+      "botanical_garden",
+      "tourist_attraction",
+      "point_of_interest",
+      "establishment"
+    ],
+    "photoName": "places/ChIJXW0EGBi2zTERcH3wN1NChlY/photos/AaVGc3kokzUsK8P1XzAoml0qKJJVHSV40QPU0--92-22RgdPedNAgrPVUdhNv_Be6MsXj8hcJ-Qr5YDwQYBbussip8-ZkWU8x3zNL8o-wXSd8o9DOv2bCOvlpfESmCi4ShTzt4lYDjNVRKC2YJUJch-bX5N0r6N1vTEXC_d30PNMB-1LYGe2cfUOJJKi5gRWR_OfiLCO0Opu7HK4O6ilKfTobVnyfYePvE9V12a2HGSsmwHTCSCRDCWj6ntFe6moBLtaUcCBEcHnZ8cR98lhdyfkoAsF3V1HrrMPiqoH_KYBVd14u3w3rDek3JZRKN1m3_u10D4D4GhMdq2T4YXtT4CI0kBiZRkZVK7B4X26rSutOr__Mvt969LkjtJwZlFodPBLqU2oVi7ix78zYHFibdy-uAqEkbGlRodX3RajeWDmWLPJ9A",
+    "category": "자연·공원",
+    "tier": "opt",
     "note": "넓은 식물원. 더울 땐 그늘 위주로, 카트 투어도 고려해 보세요.",
-    "boost": 1,
     "tags": [
       "자연",
       "푸트라자야"
     ],
-    "score": 3.867
+    "qN": 0.4973,
+    "cred": 1,
+    "staticScore": 1.2735
   },
   "Seri Wawasan Bridge Putrajaya": {
     "placeId": "ChIJ3-8Ofzi2zTEREFJMGL3FNO0",
@@ -103,13 +187,26 @@
     "lng": 101.6841888,
     "rating": 4.5,
     "userRatingCount": 2939,
+    "primaryType": "bridge",
+    "primaryTypeDisplayName": "다리",
+    "types": [
+      "bridge",
+      "tourist_attraction",
+      "transportation_service",
+      "point_of_interest",
+      "establishment"
+    ],
+    "photoName": "places/ChIJ3-8Ofzi2zTEREFJMGL3FNO0/photos/AaVGc3maCfQy_krNreQXc54o35U4TK3RPb6J03mKREfTYJO0mEMFKT--A0izAlAm4Tg5FkpCT1s2BIgP0JsSukFfONpGq7GuM2kiYT6XLtqqekKprH0cDlELygVhaQRnFrwINrAuzWtVR5gBlNhT0Iq9xTzeM9k2pvME_6QnKmcwi8K3NlmRE9NhzrTklGPtdxSaQtcsLuoPkvnXae8-rGMQEYU2PMiXEJAHYJGUGVo1rFbCo7oUHajHUk6jbhoH1aHR-ZE8YdLjI6gpiZ0ZmbPb-1nCrkEpEnbayFVAWmOEt0TfCUQRR4S-L0ZStmFMdMvup1N7bnqv6tbACymDRkAGdpBC6lpezdsYEzGh-Q4Gcru78uiZN35bqoa92VLRxODh4VcH53DTk8llr-vlnYRP9aI3jKgBrwNBtAOSg77QWHY",
+    "category": "관광명소",
+    "tier": "opt",
     "note": "호수와 다리가 함께 보이는 산책 코스. 해질 무렵 짧게 들르면 덜 덥고 사진도 예뻐요.",
-    "boost": 1.1,
     "tags": [
       "산책",
       "푸트라자야"
     ],
-    "score": 3.701
+    "qN": 0.4922,
+    "cred": 1,
+    "staticScore": 1.2707
   },
   "Suria KLCC": {
     "placeId": "ChIJH5xmLdE3zDERKa4a_IywVck",
@@ -118,13 +215,24 @@
     "lat": 3.1572757,
     "lng": 101.7122335,
     "rating": 4.6,
-    "userRatingCount": 75144,
+    "userRatingCount": 75149,
+    "primaryType": "shopping_mall",
+    "primaryTypeDisplayName": "쇼핑몰",
+    "types": [
+      "shopping_mall",
+      "point_of_interest",
+      "establishment"
+    ],
+    "photoName": "places/ChIJH5xmLdE3zDERKa4a_IywVck/photos/AaVGc3l-uFhq1jpIZxwomN0ifITXUBH9teyXgtPQyUserqCTG4MthjnstA3cswJjOsz6q4tyA5rZRzX3KTbxgL6C4YMKSc28RXprdqQICx975OaxVhRiYT3LWVnCfu3mLvYUwqjrUeL9pkeBgrr8Nj50FMVLK--zzcZl52eAm-V2zlWaBpOHDQdY_RzjVE6VPgf6kqnBR4ajYlLfge_7NuoEJD8BUzTqiL5VwD_NLEpjUk3Iu7zRA0Jy8PNaUGdHCW-GbS-E2R1Q-nC2UkzEGGa1sJzgiTbB0NW6N7sNfo2WBkgI9oC2WQPI_2B6SZedKnkk_FTodkvcfu_EpSmM0WpwGpdJh4PRv87WvTpA3zLQXvbXkN88Lo6IeQWJOVEScq8lz13BEeOFXJcBZyw6MtCizSLKegH8dlelXmnzrBxQpiF3jA",
+    "category": "쇼핑",
+    "tier": "opt",
     "note": "더위·비를 피하기 좋은 실내 쇼핑몰. 식사·휴식 동선으로 무난해요.",
-    "boost": 1,
     "tags": [
       "쇼핑",
       "실내"
     ],
-    "score": 4.5255
+    "qN": 0.5995,
+    "cred": 1,
+    "staticScore": 1.3297
   }
 }

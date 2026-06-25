@@ -4,6 +4,16 @@
 //   WORKER_URL 이 비어 있으면(Phase 1) 거리·비용 없이 추천 + 길찾기 링크만 동작.
 
 import { estimateGrabFare, GRAB_CONFIG } from "./lib/grab.js";
+import {
+  CATEGORIES,
+  DISCOVERY_CONFIG,
+  staticScore,
+  finalScore,
+  categoryOf,
+  haversineKm,
+  estDriveMin,
+  INCLUDED_TYPES,
+} from "./lib/score.mjs";
 
 const WORKER_URL = (window.PALDO_CONFIG && window.PALDO_CONFIG.WORKER_URL) || "";
 const LS_ACCOMMODATION = "paldo.accommodation";
@@ -14,7 +24,11 @@ const ROUTE_TTL_MS = 30 * 60 * 1000; // 30분
 let accommodation = loadAccommodation(); // {lat,lng,label} | null
 let useCurrentLoc = false;
 let currentLoc = null; // {lat,lng} | null
-let places = []; // 점수순 정렬된 추천 배열
+let places = []; // 큐레이션 추천(staticScore 정렬)
+let activeCategory = "추천"; // 활성 카테고리 탭
+let sortMode = "추천순"; // "추천순" | "가까운순"
+const nearbyCache = new Map(); // Map<`${gridKey}|${cat}`, {ts, list}> — 음식점/카페 발견
+let nearbyEpoch = 0; // /nearby 요청 세대 — 최신 요청만 렌더(레이스 방지)
 const routeCache = loadRouteCache(); // Map<cacheKey, {ts,distanceMeters,durationSeconds}>
 
 // ---- DOM ----
@@ -189,7 +203,7 @@ function applyAccommodation({ lat, lng, label }) {
   useCurrentLoc = false;
   syncToggle();
   renderOrigin();
-  recomputeAllTravel();
+  onOriginChanged();
   setStatus(`숙소가 설정되었습니다: ${label}`);
 }
 
@@ -205,7 +219,7 @@ function useCurrentLocation() {
       useCurrentLoc = true;
       syncToggle();
       renderOrigin();
-      recomputeAllTravel();
+      onOriginChanged();
       setStatus("현재 위치를 출발지로 사용합니다.");
     },
     () => {
@@ -238,10 +252,12 @@ function renderOrigin() {
 
 // ---- 추천 로드 & 렌더 ----
 async function loadPlaces() {
-  const res = await fetch("./places.json");
+  // no-store: 정적 서버가 Cache-Control을 안 보내 브라우저가 옛 places.json을
+  // 휴리스틱 캐시로 재사용하면 photoName 등 새 필드가 누락된다 → 항상 최신을 받는다.
+  const res = await fetch("./places.json", { cache: "no-store" });
   if (!res.ok) throw new Error("places.json 로드 실패");
   const obj = await res.json();
-  return Object.values(obj).sort((a, b) => (b.score || 0) - (a.score || 0));
+  return Object.values(obj).sort((a, b) => (b.staticScore || 0) - (a.staticScore || 0));
 }
 
 function ratingRow(place) {
@@ -250,8 +266,11 @@ function ratingRow(place) {
   return `<div class="ratingRow"><span class="stars">★ ${place.rating.toFixed(1)}</span><span class="reviews">${reviews}</span></div>`;
 }
 function tagRow(place) {
-  if (!place.tags || !place.tags.length) return "";
-  return `<div class="tagRow">${place.tags.map((t) => `<span>${t}</span>`).join("")}</div>`;
+  const chips = [];
+  if (place.category) chips.push(`<span class="catChip">${place.category}</span>`);
+  (place.tags || []).forEach((t) => chips.push(`<span>${t}</span>`));
+  if (!chips.length) return "";
+  return `<div class="tagRow">${chips.join("")}</div>`;
 }
 
 function directionsLink(place) {
@@ -263,35 +282,268 @@ function directionsLink(place) {
   return `https://www.google.com/maps/dir/?${params.toString()}`;
 }
 
-function buildCard(place) {
-  const card = document.createElement("article");
-  card.className = "placeCard recoCard";
-  card.innerHTML = `
-    <div>
-      ${tagRow(place)}
-      <h3>${place.name}</h3>
-      ${ratingRow(place)}
-      ${place.note ? `<p>${place.note}</p>` : ""}
-      <div class="placeMap"></div>
-      <div class="travelCard" hidden></div>
-      <a class="dirLink" href="${directionsLink(place)}" target="_blank" rel="noreferrer">길찾기</a>
-    </div>`;
+// Google 장소 페이지 링크(place_id 기반) — 좌표가 아니라 상호·평점·영업시간 카드가 열린다.
+function placeLink(place) {
+  const params = new URLSearchParams({ api: "1", query: place.name });
+  if (place.placeId) params.set("query_place_id", place.placeId);
+  return `https://www.google.com/maps/search/?${params.toString()}`;
+}
 
-  // 키리스 임베드 지도 (API 키 불필요)
-  const mapBox = card.querySelector(".placeMap");
+// 폴백 썸네일: 키리스 임베드 지도 + 위에 투명 링크(탭 → 장소 페이지).
+function makeMapThumb(place) {
+  const box = document.createElement("div");
+  box.className = "placeMap";
   const iframe = document.createElement("iframe");
   iframe.src = `https://maps.google.com/maps?q=${place.lat},${place.lng}&z=16&hl=ko&output=embed`;
   iframe.loading = "lazy";
   iframe.title = `${place.name} 지도`;
-  iframe.allowFullscreen = true;
-  mapBox.replaceChildren(iframe);
+  const link = document.createElement("a");
+  link.className = "mapLink";
+  link.href = placeLink(place);
+  link.target = "_blank";
+  link.rel = "noreferrer";
+  link.setAttribute("aria-label", `${place.name} 정보`);
+  box.append(iframe, link);
+  return box;
+}
 
+// 썸네일: 실제 사진(Worker /photo) 우선, 실패/없음 시 지도 폴백. 모두 탭 → 장소 페이지.
+function makeThumb(place) {
+  if (place.photoName && WORKER_URL) {
+    const a = document.createElement("a");
+    a.className = "thumb";
+    a.href = placeLink(place);
+    a.target = "_blank";
+    a.rel = "noreferrer";
+    const img = document.createElement("img");
+    img.alt = place.name;
+    img.src = `${WORKER_URL}/photo?name=${encodeURIComponent(place.photoName)}&maxw=800`;
+    img.addEventListener("error", () => a.replaceWith(makeMapThumb(place)));
+    a.appendChild(img);
+    return a;
+  }
+  return makeMapThumb(place);
+}
+
+function buildCard(place) {
+  const card = document.createElement("article");
+  card.className = "placeCard recoCard";
+  const body = document.createElement("div");
+  body.className = "cardBody";
+  body.innerHTML = `
+    ${tagRow(place)}
+    <h3>${place.name}</h3>
+    ${ratingRow(place)}
+    ${place.note ? `<p>${place.note}</p>` : ""}
+    <div class="travelCard" hidden></div>
+    <a class="dirLink" href="${directionsLink(place)}" target="_blank" rel="noreferrer">길찾기</a>`;
+  // 이미지(사진/지도)는 카드 최상단 풀블리드, 본문은 패딩.
+  card.append(makeThumb(place), body);
   card._place = place;
   return card;
 }
 
-function renderRecommendations() {
-  recoList.replaceChildren(...places.map(buildCard));
+// ---- 카테고리 탭 / 정렬 ----
+function renderCatTabs() {
+  const box = el("catTabs");
+  box.replaceChildren(
+    ...CATEGORIES.map((cat) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "catTab" + (cat === activeCategory ? " active" : "");
+      b.textContent = cat;
+      b.dataset.cat = cat;
+      b.setAttribute("role", "tab");
+      b.setAttribute("aria-selected", cat === activeCategory ? "true" : "false");
+      b.addEventListener("click", () => {
+        if (activeCategory === cat) return;
+        activeCategory = cat;
+        renderCatTabs();
+        renderForTab();
+      });
+      return b;
+    })
+  );
+}
+
+// 현재 출발지 기준 주행시간(분): 실측 캐시 우선, 없으면 직선거리 추정.
+function getDriveMin(place) {
+  const origin = getOrigin();
+  if (!origin) return null;
+  const hit = routeCache.get(routeKey(origin, place));
+  if (hit && Date.now() - hit.ts < ROUTE_TTL_MS && hit.durationSeconds != null) {
+    return hit.durationSeconds / 60;
+  }
+  return estDriveMin(haversineKm(origin, place));
+}
+
+function sortList(list) {
+  const withDM = list.map((p) => ({ p, dm: getDriveMin(p) }));
+  if (sortMode === "가까운순") {
+    withDM.sort((a, b) => (a.dm == null ? Infinity : a.dm) - (b.dm == null ? Infinity : b.dm));
+  } else {
+    withDM.sort((a, b) => finalScore(b.p, b.dm) - finalScore(a.p, a.dm));
+  }
+  return withDM.map((x) => x.p);
+}
+
+// 활성 카테고리의 큐레이션 장소(추천=전체).
+function curatedForTab() {
+  if (activeCategory === "추천") return places.slice();
+  return places.filter((p) => p.category === activeCategory);
+}
+
+// 탭 전환/초기: 전체 재구성(replaceChildren).
+function renderForTab() {
+  const curated = sortList(curatedForTab());
+  recoList.replaceChildren(...curated.map(buildCard));
+
+  // 음식점/카페는 출발지 주변 자동발견 tail (Phase 3). 이동정보는 renderDiscovered가
+  // 큐레이션+발견 전체를 한 번에 계산하므로 여기서 recomputeAllTravel을 또 부르지 않는다.
+  if (activeCategory === "음식점" || activeCategory === "카페") {
+    loadNearbyTail();
+    return;
+  }
+  if (!curated.length) {
+    recoList.innerHTML = `<article class="placeCard"><div class="cardBody"><h3>이 카테고리엔 아직 장소가 없어요</h3><p>다른 탭을 둘러보세요.</p></div></article>`;
+  }
+  recomputeAllTravel();
+}
+
+// 출발지/실측 변경: 노드 유지한 채 재정렬(iframe·travelCard 보존).
+function reorderList() {
+  const cards = [...recoList.querySelectorAll(".recoCard")];
+  if (!cards.length) return;
+  // 큐레이션/발견 그룹을 각각 정렬하고, 발견 그룹은 divider 아래에 유지.
+  const curated = cards.filter((c) => !c.classList.contains("discovered"));
+  const discovered = cards.filter((c) => c.classList.contains("discovered"));
+  const place = (c) => c._place;
+  sortList(curated.map(place)).forEach((p) => {
+    const c = curated.find((x) => x._place === p);
+    if (c) recoList.appendChild(c);
+  });
+  const divider = recoList.querySelector(".discoverDivider");
+  if (divider) recoList.appendChild(divider);
+  sortList(discovered.map(place)).forEach((p) => {
+    const c = discovered.find((x) => x._place === p);
+    if (c) recoList.appendChild(c);
+  });
+  // 발견 로딩 카드는 항상 맨 끝에 유지(큐레이션 카드가 그 위로 가지 않게).
+  const loading = recoList.querySelector(".discoveredLoading");
+  if (loading) recoList.appendChild(loading);
+}
+
+// 출발지 변경 시 호출.
+function onOriginChanged() {
+  if (activeCategory === "음식점" || activeCategory === "카페") {
+    renderForTab(); // 새 출발지 기준 발견 목록 재요청
+  } else {
+    reorderList(); // 즉시 haversine 재정렬
+    recomputeAllTravel(); // 실측 도착 시 추가 재정렬
+  }
+}
+
+// ---- 음식점/카페 자동발견 (Worker /nearby) ----
+const gridKey = (o) => (o ? `${o.lat.toFixed(2)},${o.lng.toFixed(2)}` : "none");
+
+function scoreDiscovered(r, cat) {
+  const place = {
+    placeId: r.placeId,
+    name: r.name,
+    address: r.address || "",
+    lat: r.lat,
+    lng: r.lng,
+    rating: r.rating ?? null,
+    userRatingCount: r.userRatingCount ?? null,
+    primaryType: r.primaryType ?? null,
+    primaryTypeDisplayName: r.primaryTypeDisplayName ?? null,
+    types: r.types ?? [],
+    photoName: r.photoName ?? null,
+    category: cat,
+    tier: "discovered",
+    note: "",
+    tags: r.primaryTypeDisplayName ? [r.primaryTypeDisplayName] : [],
+  };
+  place.staticScore = staticScore(place);
+  return place;
+}
+
+async function loadNearbyTail() {
+  const origin = getOrigin();
+  const cat = activeCategory;
+  const myEpoch = ++nearbyEpoch; // 이 호출의 세대 — 더 늦은 호출이 시작되면 무효화
+
+  if (!origin || !WORKER_URL) {
+    if (!recoList.querySelector(".recoCard")) {
+      const why = !origin
+        ? `숙소를 설정하면 주변 ${cat}을 찾아드려요.`
+        : `이 기능은 Worker 설정 후 동작합니다.`;
+      recoList.innerHTML = `<article class="placeCard"><div class="cardBody"><h3>${cat} 추천 준비중</h3><p>${why}</p></div></article>`;
+    }
+    return;
+  }
+
+  const key = `${gridKey(origin)}|${cat}`;
+  const hit = nearbyCache.get(key);
+  let list = hit && Date.now() - hit.ts < ROUTE_TTL_MS ? hit.list : null;
+
+  if (!list) {
+    const loading = document.createElement("article");
+    loading.className = "placeCard discoveredLoading";
+    loading.innerHTML = `<div><h3>주변 ${cat} 찾는 중…</h3></div>`;
+    recoList.appendChild(loading);
+    try {
+      const res = await fetch(WORKER_URL + "/nearby", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          center: { lat: origin.lat, lng: origin.lng },
+          category: cat,
+          radii: DISCOVERY_CONFIG.radii,
+          rankPreference: DISCOVERY_CONFIG.rankPreference,
+          minRating: DISCOVERY_CONFIG.minRating,
+          minReviews: DISCOVERY_CONFIG.minReviews[cat] ?? 0,
+        }),
+      });
+      if (!res.ok) throw new Error(`nearby ${res.status}`);
+      list = (await res.json()).map((r) => scoreDiscovered(r, cat));
+      nearbyCache.set(key, { ts: Date.now(), list });
+    } catch {
+      list = [];
+    }
+  }
+
+  // 탭이 바뀌었거나(다른 카테고리) 더 늦은 출발지 변경 요청이 시작됐으면 폐기.
+  if (activeCategory !== cat || myEpoch !== nearbyEpoch) return;
+  renderDiscovered(list);
+}
+
+function renderDiscovered(list) {
+  recoList
+    .querySelectorAll(".recoCard.discovered, .discoverDivider, .discoveredLoading")
+    .forEach((n) => n.remove());
+
+  if (!list.length) {
+    if (!recoList.querySelector(".recoCard")) {
+      recoList.innerHTML = `<article class="placeCard"><div class="cardBody"><h3>주변 ${activeCategory}을 찾지 못했어요</h3><p>출발지를 바꿔보세요.</p></div></article>`;
+    }
+    return;
+  }
+  // 큐레이션 카드가 있을 때만 divider 표시
+  if (recoList.querySelector(".recoCard:not(.discovered)")) {
+    const d = document.createElement("div");
+    d.className = "discoverDivider";
+    d.textContent = "주변에서 더 둘러보기";
+    recoList.appendChild(d);
+  }
+  // 상위 N곳만 표시 (동시 이미지 로드·과금 절제)
+  sortList(list)
+    .slice(0, DISCOVERY_CONFIG.maxResults)
+    .forEach((p) => {
+      const card = buildCard(p);
+      card.classList.add("discovered");
+      recoList.appendChild(card);
+    });
   recomputeAllTravel();
 }
 
@@ -381,6 +633,7 @@ async function recomputeAllTravel() {
       }
     });
     saveRouteCache();
+    reorderList(); // 실측 주행시간으로 순서 보정
   } catch {
     misses.forEach((c) => {
       const box = c.querySelector(".travelCard");
@@ -404,17 +657,26 @@ function wireEvents() {
   // blur 시 약간 지연 후 닫아 항목 클릭(mousedown)이 먼저 처리되게 한다.
   input.addEventListener("blur", () => setTimeout(hideSuggest, 150));
   el("useCurrentLoc").addEventListener("click", useCurrentLocation);
+
+  el("sortToggle").addEventListener("click", () => {
+    sortMode = sortMode === "추천순" ? "가까운순" : "추천순";
+    const btn = el("sortToggle");
+    btn.textContent = sortMode;
+    btn.setAttribute("aria-pressed", sortMode === "가까운순" ? "true" : "false");
+    reorderList();
+  });
 }
 
 async function boot() {
   wireEvents();
   renderOrigin();
   if (accommodation) setStatus(`저장된 숙소: ${accommodation.label}`);
+  renderCatTabs();
   try {
     places = await loadPlaces();
-    renderRecommendations();
+    renderForTab();
   } catch (err) {
-    recoList.innerHTML = `<article class="placeCard"><div><h3>추천을 불러오지 못했어요</h3><p>${err.message}</p></div></article>`;
+    recoList.innerHTML = `<article class="placeCard"><div class="cardBody"><h3>추천을 불러오지 못했어요</h3><p>${err.message}</p></div></article>`;
   }
 }
 

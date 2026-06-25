@@ -13,7 +13,7 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
-import { recommendationScore } from "../lib/score.mjs";
+import { staticScore, categoryOf, bayesRating, qualityNorm, credibility } from "../lib/score.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
@@ -38,7 +38,7 @@ async function loadJson(path, fallback) {
 }
 
 const FIELD_MASK =
-  "places.id,places.displayName,places.formattedAddress,places.location,places.rating,places.userRatingCount";
+  "places.id,places.displayName,places.formattedAddress,places.location,places.rating,places.userRatingCount,places.primaryType,places.primaryTypeDisplayName,places.types,places.photos";
 
 // Places API (New) Text Search — 텍스트 검색어 → 첫 결과의 좌표/평점/리뷰수.
 // locationBias 가 있으면 그 좌표 주변으로 결과를 좁힌다(공유링크 보강용).
@@ -67,6 +67,10 @@ async function searchText(textQuery, locationBias) {
     lng: place.location?.longitude ?? null,
     rating: place.rating ?? null,
     userRatingCount: place.userRatingCount ?? null,
+    primaryType: place.primaryType ?? null,
+    primaryTypeDisplayName: place.primaryTypeDisplayName?.text ?? null,
+    types: place.types ?? [],
+    photoName: place.photos?.[0]?.name ?? null,
   };
 }
 
@@ -124,6 +128,10 @@ async function resolveEntry(entry) {
       lng: link.lng,
       rating: null,
       userRatingCount: null,
+      primaryType: null,
+      primaryTypeDisplayName: null,
+      types: [],
+      photoName: null,
     };
   }
   return null;
@@ -150,10 +158,13 @@ async function main() {
     const key = sourceKey(entry);
     if (!key) continue;
 
-    // API 데이터: 캐시에 좌표가 있으면 재사용, 없으면 새로 해석
+    // API 데이터: 캐시에 좌표 + 신필드(primaryType/types)가 있으면 재사용, 없으면 새로 해석.
+    // (구 캐시엔 primaryType 키가 없어 카테고리가 관광명소로 잘못 떨어지므로 stale로 본다.
+    //  공유링크 좌표-only 핀은 primaryType:null 로 키가 존재하므로 재해석 대상 아님.)
     let api = cache[key];
-    const hasCoords = api && api.lat != null && api.lng != null;
-    if (!hasCoords) {
+    const fresh =
+      api && api.lat != null && api.lng != null && "primaryType" in api && Array.isArray(api.types);
+    if (!fresh) {
       try {
         api = await resolveEntry(entry);
         if (!api) {
@@ -172,8 +183,11 @@ async function main() {
       cached++;
     }
 
-    // note/boost/tags/score 는 매번 소스 기준으로 갱신 (메모 수정 시 API 재호출 불필요)
-    const boost = Number(entry.boost) || 1;
+    // note/tier/category/tags/점수는 매번 소스 기준으로 갱신 (메모·티어 수정 시 API 재호출 불필요)
+    const tier = entry.tier || "opt";
+    const category = categoryOf(api.primaryType, api.types, entry.category);
+    const place = { rating: api.rating, userRatingCount: api.userRatingCount, tier };
+    const round4 = (x) => Number(x.toFixed(4));
     out[key] = {
       placeId: api.placeId ?? null,
       name: api.name,
@@ -182,16 +196,17 @@ async function main() {
       lng: api.lng,
       rating: api.rating ?? null,
       userRatingCount: api.userRatingCount ?? null,
+      primaryType: api.primaryType ?? null,
+      primaryTypeDisplayName: api.primaryTypeDisplayName ?? null,
+      types: api.types ?? [],
+      photoName: api.photoName ?? null,
+      category,
+      tier,
       note: entry.note ?? "",
-      boost,
       tags: entry.tags ?? [],
-      score: Number(
-        recommendationScore({
-          rating: api.rating,
-          userRatingCount: api.userRatingCount,
-          boost,
-        }).toFixed(4)
-      ),
+      qN: round4(qualityNorm(bayesRating(api.rating, api.userRatingCount))),
+      cred: round4(credibility(api.userRatingCount)),
+      staticScore: round4(staticScore(place)),
     };
   }
 

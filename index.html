@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#ff385c" />
     <title>말레이시아 장소 추천 · 이동 안내</title>
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=5" />
   </head>
   <body>
     <header class="hero" id="top">
@@ -69,6 +69,12 @@
         <div class="sectionTitle">
           <p>주관적 경험 + Google 평점·리뷰 종합</p>
           <h2>추천 장소</h2>
+        </div>
+        <div class="recoControls">
+          <div class="catTabs" id="catTabs" role="tablist" aria-label="카테고리"></div>
+          <button class="sortToggle" id="sortToggle" type="button" aria-pressed="false" title="정렬 기준 전환">
+            추천순
+          </button>
         </div>
         <div class="placeList" id="recoList" aria-label="추천 장소 목록">
           <article class="placeCard loading">

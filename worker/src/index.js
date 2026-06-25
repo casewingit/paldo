@@ -2,9 +2,12 @@
 // 프론트(GitHub Pages)는 키를 갖지 않고 이 Worker 만 호출한다.
 //
 // 엔드포인트 (모두 POST, JSON):
-//   /geocode       {address}                       → {lat,lng,formattedAddress}
-//   /resolve-link  {shareUrl}                       → {lat,lng,label}
-//   /routes        {origin,destinations:[{lat,lng}]}→ [{distanceMeters,durationSeconds}]
+//   /autocomplete  {input,sessionToken}             → [{placeId,primary,secondary}]
+//   /place-details {placeId,sessionToken}           → {lat,lng,label}
+//   /geocode       {address}                        → {lat,lng,formattedAddress}
+//   /resolve-link  {shareUrl}                        → {lat,lng,label}
+//   /routes        {origin,destinations:[{lat,lng}]} → [{distanceMeters,durationSeconds}]
+//   /nearby        {center,category,radius?}          → [{placeId,name,...,primaryType,types}]
 //
 // 시크릿:  GOOGLE_MAPS_API_KEY  (wrangler secret put)
 // 변수:    ALLOWED_ORIGIN       (CORS 허용 오리진; 운영 시 Pages 오리진으로 고정)
@@ -166,16 +169,112 @@ async function routeMatrix(origin, destinations, env) {
   return out;
 }
 
+// ---- Nearby Search (New): 좌표 주변 카테고리 자동발견 (음식점/카페) ----
+const NEARBY_INCLUDED_TYPES = {
+  음식점: ["restaurant", "food_court", "meal_takeaway"],
+  카페: ["cafe", "coffee_shop", "bakery"],
+};
+
+const NEARBY_FIELD_MASK =
+  "places.id,places.displayName,places.formattedAddress,places.location,places.rating,places.userRatingCount,places.primaryType,places.primaryTypeDisplayName,places.types,places.photos";
+
+async function searchNearbyRing(center, includedTypes, radius, rankPreference, env) {
+  const res = await fetch("https://places.googleapis.com/v1/places:searchNearby", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Goog-Api-Key": env.GOOGLE_MAPS_API_KEY,
+      "X-Goog-FieldMask": NEARBY_FIELD_MASK,
+    },
+    body: JSON.stringify({
+      includedTypes,
+      maxResultCount: 20,
+      rankPreference, // POPULARITY → 화제성순(저품질 배제)
+      languageCode: "ko",
+      locationRestriction: {
+        circle: { center: { latitude: center.lat, longitude: center.lng }, radius },
+      },
+    }),
+  });
+  if (!res.ok) throw new Error(`nearby http ${res.status} ${await res.text()}`);
+  return (await res.json()).places || [];
+}
+
+// 다중 링(동네+도시)을 합쳐 placeId로 중복 제거하고 품질 필터(평점/리뷰)를 적용한다.
+async function nearby(center, category, env, opts = {}) {
+  const includedTypes = NEARBY_INCLUDED_TYPES[category];
+  if (!includedTypes) throw new Error(`지원하지 않는 카테고리: ${category}`);
+
+  const radii = Array.isArray(opts.radii) && opts.radii.length ? opts.radii : [2000];
+  const rankPreference = opts.rankPreference || "POPULARITY";
+  const minRating = Number(opts.minRating) || 0;
+  const minReviews = Number(opts.minReviews) || 0;
+
+  const byId = new Map();
+  for (const radius of radii) {
+    const ring = await searchNearbyRing(center, includedTypes, radius, rankPreference, env);
+    for (const p of ring) if (p.id && !byId.has(p.id)) byId.set(p.id, p);
+  }
+
+  return [...byId.values()]
+    .filter((p) => (p.rating ?? 0) >= minRating && (p.userRatingCount ?? 0) >= minReviews)
+    .map((p) => ({
+      placeId: p.id,
+      name: p.displayName?.text ?? "",
+      address: p.formattedAddress ?? "",
+      lat: p.location?.latitude ?? null,
+      lng: p.location?.longitude ?? null,
+      rating: p.rating ?? null,
+      userRatingCount: p.userRatingCount ?? null,
+      primaryType: p.primaryType ?? null,
+      primaryTypeDisplayName: p.primaryTypeDisplayName?.text ?? null,
+      types: p.types ?? [],
+      photoName: p.photos?.[0]?.name ?? null,
+    }));
+}
+
 export default {
   async fetch(request, env) {
     if (request.method === "OPTIONS") {
       return new Response(null, { headers: corsHeaders(env) });
     }
+
+    const url = new URL(request.url);
+
+    // GET /photo?name=places/.../photos/...&maxw=800 → 이미지 바이트를 직접 스트리밍.
+    // (302 리다이렉트 대신 단일 200 응답 — 다수 동시 로드 시 더 안정적.)
+    // <img src> 가 GET 으로 부르므로 POST 가드 앞에서 처리한다.
+    if (url.pathname === "/photo" && request.method === "GET") {
+      const name = url.searchParams.get("name");
+      const maxw = url.searchParams.get("maxw") || "800";
+      if (!name) return new Response("name required", { status: 400 });
+      try {
+        const meta = await fetch(
+          `https://places.googleapis.com/v1/${name}/media?maxWidthPx=${maxw}&skipHttpRedirect=true`,
+          { headers: { "X-Goog-Api-Key": env.GOOGLE_MAPS_API_KEY } }
+        );
+        if (!meta.ok) return new Response("photo error", { status: 502 });
+        const { photoUri } = await meta.json();
+        const img = await fetch(photoUri);
+        if (!img.ok) return new Response("image error", { status: 502 });
+        return new Response(img.body, {
+          status: 200,
+          headers: {
+            "Content-Type": img.headers.get("Content-Type") || "image/jpeg",
+            "Cache-Control": "public, max-age=86400",
+            "Access-Control-Allow-Origin": env.ALLOWED_ORIGIN || "*",
+          },
+        });
+      } catch (err) {
+        return new Response(String(err.message || err), { status: 502 });
+      }
+    }
+
     if (request.method !== "POST") {
       return json({ error: "POST only" }, env, 405);
     }
 
-    const path = new URL(request.url).pathname;
+    const path = url.pathname;
     let payload;
     try {
       payload = await request.json();
@@ -212,6 +311,25 @@ export default {
           return json({ error: "origin and destinations[] required" }, env, 400);
         }
         return json(await routeMatrix(origin, destinations, env), env);
+      }
+
+      if (path === "/nearby") {
+        const { center, category, radii, rankPreference, minRating, minReviews } = payload;
+        if (!center || !category) return json({ error: "center and category required" }, env, 400);
+        if (!NEARBY_INCLUDED_TYPES[category]) {
+          return json({ error: `지원하지 않는 카테고리: ${category}` }, env, 400);
+        }
+        if (!Number.isFinite(center.lat) || !Number.isFinite(center.lng)) {
+          return json({ error: "center.lat/lng must be finite numbers" }, env, 400);
+        }
+        const rs = Array.isArray(radii) ? radii : null;
+        if (rs && rs.some((r) => !Number.isFinite(r) || r <= 0 || r > 50000)) {
+          return json({ error: "each radius must be in (0, 50000]" }, env, 400);
+        }
+        return json(
+          await nearby(center, category, env, { radii: rs, rankPreference, minRating, minReviews }),
+          env
+        );
       }
 
       return json({ error: "not found" }, env, 404);

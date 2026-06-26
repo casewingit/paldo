@@ -18,6 +18,12 @@
   box-sizing: border-box;
 }
 
+/* hidden 속성이 항상 우선하도록(.heroWeather/.alertBanner/.travelCard 등 display:flex 가
+   UA 의 [hidden]{display:none} 를 덮어쓰는 문제 방지). */
+[hidden] {
+  display: none !important;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -163,13 +169,12 @@ a {
   font-weight: 700;
 }
 
-/* 보조 줄: 오늘 KL 공식(MET) 예보 */
+/* 보조 줄: 오늘 KL 공식(MET) 예보 — 줄임 없이 최대 두 줄로 줄바꿈 */
 .hwForecast {
-  margin-top: 3px;
-  max-width: 22ch;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  margin-top: 4px;
+  max-width: 18ch;
+  white-space: normal;
+  line-height: 1.32;
   font-size: 0.74rem;
   font-weight: 700;
   opacity: 0.92;

@@ -248,7 +248,9 @@ async function nearby(center, category, env, opts = {}) {
 const DATAGOV = "https://api.data.gov.my/weather";
 const MYT_OFFSET = 8 * 3600 * 1000;
 const RE_MARINE = /waters of|perairan|rough seas|laut bergelora/i; // 해상 경보(도심 여행 무관) 제외용
-const RE_KL = /Kuala Lumpur|Selangor|Putrajaya|Klang|Wilayah Persekutuan|W\.?\s*Persekutuan/i;
+// KL권역만. "Wilayah Persekutuan" 단독은 라부안(동말레이시아)까지 매치하므로 제외 —
+// KL/푸트라자야 경보는 텍스트에 항상 "Kuala Lumpur"/"Putrajaya" 가 명시된다.
+const RE_KL = /Kuala Lumpur|Selangor|Putrajaya|\bKlang\b/i;
 
 function wallClockEpoch(s) {
   if (!s) return null;
@@ -260,18 +262,19 @@ function wallClockEpoch(s) {
 function filterWarnings(list, nowWallEpoch) {
   return list
     .filter((w) => {
-      const title = w.warning_issue?.title_en || "";
-      if (/no advisory/i.test(title) || !w.valid_from) return false; // 사이클론 '없음' 플레이스홀더 제거
+      // heading_en 은 경보별 실제 종류, title_en 은 게시판 공통 헤드라인 → 둘 다로 판정.
+      const head = `${w.heading_en || ""} ${w.warning_issue?.title_en || ""}`;
+      if (/no advisory/i.test(head) || !w.valid_from) return false; // 사이클론 '없음' 플레이스홀더 제거
       const from = wallClockEpoch(w.valid_from);
       const to = wallClockEpoch(w.valid_to);
       if (from == null || to == null) return false;
       if (!(from <= nowWallEpoch && nowWallEpoch <= to)) return false; // 만료/미래 제외
       const text = w.text_en || "";
-      if (RE_MARINE.test(title) || RE_MARINE.test(text)) return false;
+      if (RE_MARINE.test(head) || RE_MARINE.test(text)) return false;
       return RE_KL.test(text);
     })
     .map((w) => ({
-      title: w.warning_issue?.title_en || "",
+      title: w.heading_en || w.warning_issue?.title_en || "", // 경보별 종류 우선
       issued: w.warning_issue?.issued || null,
       text: w.text_en || "",
       instruction: w.instruction_en || null,
@@ -280,8 +283,12 @@ function filterWarnings(list, nowWallEpoch) {
     }));
 }
 
+// data.gov.my 가 멈추면 Worker 가 벽시계 한도까지 매달리지 않도록 8초 타임아웃.
+const govFetch = (url) =>
+  fetch(url, { headers: { "User-Agent": "paldo-proxy" }, signal: AbortSignal.timeout(8000) });
+
 async function weatherWarnings(_env) {
-  const res = await fetch(`${DATAGOV}/warning/`, { headers: { "User-Agent": "paldo-proxy" } });
+  const res = await govFetch(`${DATAGOV}/warning/`);
   if (!res.ok) throw new Error(`warning http ${res.status}`);
   const list = await res.json();
   return filterWarnings(Array.isArray(list) ? list : [], Date.now() + MYT_OFFSET);
@@ -289,13 +296,14 @@ async function weatherWarnings(_env) {
 
 async function weatherForecast(location, _env) {
   const url = `${DATAGOV}/forecast/?contains=${encodeURIComponent(location)}@location__location_name`;
-  const res = await fetch(url, { headers: { "User-Agent": "paldo-proxy" } });
+  const res = await govFetch(url);
   if (!res.ok) throw new Error(`forecast http ${res.status}`);
   const list = await res.json();
   const today = new Date(Date.now() + MYT_OFFSET).toISOString().slice(0, 10);
-  // contains 는 부분일치라 정확한 location_name + 오늘 날짜로 한 건만 고른다.
+  // contains 는 부분일치라 정확한 location_name + 오늘 날짜로 한 건만 고른다(대소문자·공백 관대).
+  const want = location.trim().toLowerCase();
   const r = (Array.isArray(list) ? list : []).find(
-    (x) => x.date === today && x.location?.location_name === location
+    (x) => x.date === today && (x.location?.location_name || "").trim().toLowerCase() === want
   );
   if (!r) return null;
   return {

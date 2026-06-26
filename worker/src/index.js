@@ -1,13 +1,17 @@
 // paldo-proxy — Google 키를 서버측에 숨기는 Cloudflare Worker 프록시.
 // 프론트(GitHub Pages)는 키를 갖지 않고 이 Worker 만 호출한다.
 //
-// 엔드포인트 (모두 POST, JSON):
+// POST 엔드포인트 (JSON):
 //   /autocomplete  {input,sessionToken}             → [{placeId,primary,secondary}]
 //   /place-details {placeId,sessionToken}           → {lat,lng,label}
 //   /geocode       {address}                        → {lat,lng,formattedAddress}
 //   /resolve-link  {shareUrl}                        → {lat,lng,label}
 //   /routes        {origin,destinations:[{lat,lng}]} → [{distanceMeters,durationSeconds}]
 //   /nearby        {center,category,radius?}          → [{placeId,name,...,primaryType,types}]
+// GET 엔드포인트 (키 불필요 정부 공개 데이터 프록시 — data.gov.my 는 CORS 미허용이라 여기서 우회):
+//   /photo?name=&maxw=       → 이미지 바이트 스트리밍
+//   /weather-warning         → [{title,text,validFrom,validTo,...}] (활성·KL권역 육상 경보만)
+//   /weather-forecast?location= → {date,summary,summaryWhen,minTemp,maxTemp,...} (해당 지역 오늘 예보)
 //
 // 시크릿:  GOOGLE_MAPS_API_KEY  (wrangler secret put)
 // 변수:    ALLOWED_ORIGIN       (CORS 허용 오리진; 운영 시 Pages 오리진으로 고정)
@@ -17,7 +21,7 @@
 function corsHeaders(env) {
   return {
     "Access-Control-Allow-Origin": env.ALLOWED_ORIGIN || "*",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
     "Access-Control-Max-Age": "86400",
   };
@@ -238,6 +242,86 @@ async function nearby(center, category, env, opts = {}) {
     }));
 }
 
+// ---- data.gov.my 날씨(MET Malaysia 공식) 프록시 ----
+// data.gov.my 는 CORS 헤더가 없어 브라우저가 직접 못 부른다 → 서버측에서 받아 우리 CORS 로 재포장.
+// 시각 문자열은 타임존 표기 없는 MYT(UTC+8) wall-clock → "UTC 로 파싱"하는 동일 규칙으로 비교(일관성만 유지).
+const DATAGOV = "https://api.data.gov.my/weather";
+const MYT_OFFSET = 8 * 3600 * 1000;
+const RE_MARINE = /waters of|perairan|rough seas|laut bergelora/i; // 해상 경보(도심 여행 무관) 제외용
+const RE_KL = /Kuala Lumpur|Selangor|Putrajaya|Klang|Wilayah Persekutuan|W\.?\s*Persekutuan/i;
+
+function wallClockEpoch(s) {
+  if (!s) return null;
+  const t = Date.parse(s + "Z"); // MYT wall-clock 을 UTC 로 간주(비교 일관성용)
+  return Number.isFinite(t) ? t : null;
+}
+
+// 활성 + No-Advisory 아님 + 해상 아님 + KL/셀랑오르 권역 텍스트 매치만 통과.
+function filterWarnings(list, nowWallEpoch) {
+  return list
+    .filter((w) => {
+      const title = w.warning_issue?.title_en || "";
+      if (/no advisory/i.test(title) || !w.valid_from) return false; // 사이클론 '없음' 플레이스홀더 제거
+      const from = wallClockEpoch(w.valid_from);
+      const to = wallClockEpoch(w.valid_to);
+      if (from == null || to == null) return false;
+      if (!(from <= nowWallEpoch && nowWallEpoch <= to)) return false; // 만료/미래 제외
+      const text = w.text_en || "";
+      if (RE_MARINE.test(title) || RE_MARINE.test(text)) return false;
+      return RE_KL.test(text);
+    })
+    .map((w) => ({
+      title: w.warning_issue?.title_en || "",
+      issued: w.warning_issue?.issued || null,
+      text: w.text_en || "",
+      instruction: w.instruction_en || null,
+      validFrom: w.valid_from,
+      validTo: w.valid_to,
+    }));
+}
+
+async function weatherWarnings(_env) {
+  const res = await fetch(`${DATAGOV}/warning/`, { headers: { "User-Agent": "paldo-proxy" } });
+  if (!res.ok) throw new Error(`warning http ${res.status}`);
+  const list = await res.json();
+  return filterWarnings(Array.isArray(list) ? list : [], Date.now() + MYT_OFFSET);
+}
+
+async function weatherForecast(location, _env) {
+  const url = `${DATAGOV}/forecast/?contains=${encodeURIComponent(location)}@location__location_name`;
+  const res = await fetch(url, { headers: { "User-Agent": "paldo-proxy" } });
+  if (!res.ok) throw new Error(`forecast http ${res.status}`);
+  const list = await res.json();
+  const today = new Date(Date.now() + MYT_OFFSET).toISOString().slice(0, 10);
+  // contains 는 부분일치라 정확한 location_name + 오늘 날짜로 한 건만 고른다.
+  const r = (Array.isArray(list) ? list : []).find(
+    (x) => x.date === today && x.location?.location_name === location
+  );
+  if (!r) return null;
+  return {
+    date: r.date,
+    location: r.location?.location_name ?? location,
+    morning: r.morning_forecast ?? null,
+    afternoon: r.afternoon_forecast ?? null,
+    night: r.night_forecast ?? null,
+    summary: r.summary_forecast ?? null,
+    summaryWhen: r.summary_when ?? null,
+    minTemp: r.min_temp ?? null,
+    maxTemp: r.max_temp ?? null,
+  };
+}
+
+function govJson(data, env, maxAge) {
+  return new Response(JSON.stringify(data), {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json",
+      "Cache-Control": `public, max-age=${maxAge}`,
+      "Access-Control-Allow-Origin": env.ALLOWED_ORIGIN || "*",
+    },
+  });
+}
+
 export default {
   async fetch(request, env) {
     if (request.method === "OPTIONS") {
@@ -272,6 +356,25 @@ export default {
         });
       } catch (err) {
         return new Response(String(err.message || err), { status: 502 });
+      }
+    }
+
+    // GET /weather-warning → 활성·KL권역 육상 경보(없으면 빈 배열). data.gov.my 우회 + 우리 CORS.
+    if (url.pathname === "/weather-warning" && request.method === "GET") {
+      try {
+        return govJson(await weatherWarnings(env), env, 600);
+      } catch (err) {
+        return json({ error: String(err.message || err) }, env, 502);
+      }
+    }
+
+    // GET /weather-forecast?location=Kuala Lumpur → 해당 지역 오늘 예보(없으면 null).
+    if (url.pathname === "/weather-forecast" && request.method === "GET") {
+      const location = url.searchParams.get("location") || "Kuala Lumpur";
+      try {
+        return govJson(await weatherForecast(location, env), env, 1800);
+      } catch (err) {
+        return json({ error: String(err.message || err) }, env, 502);
       }
     }
 

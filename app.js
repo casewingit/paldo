@@ -14,6 +14,10 @@ import {
   estDriveMin,
   INCLUDED_TYPES,
 } from "./lib/score.mjs";
+import { updateWeather, updateForecast, updateWarnings } from "./lib/weather.js";
+import { initCurrency } from "./lib/fx.js";
+
+const KL_CENTER = { lat: 3.139, lng: 101.6869 }; // 쿠알라룸푸르 도심(현재 위치 거리 판단용)
 
 const WORKER_URL = (window.PALDO_CONFIG && window.PALDO_CONFIG.WORKER_URL) || "";
 const LS_ACCOMMODATION = "paldo.accommodation";
@@ -208,26 +212,66 @@ function applyAccommodation({ lat, lng, label }) {
 }
 
 function useCurrentLocation() {
+  // 이미 현재 위치 사용 중이면 토글 오프 → 숙소(있으면)로 복귀.
+  if (useCurrentLoc) {
+    useCurrentLoc = false;
+    syncToggle();
+    renderOrigin();
+    onOriginChanged();
+    setStatus(
+      accommodation
+        ? `숙소를 출발지로 사용합니다: ${accommodation.label}`
+        : "현재 위치 사용을 해제했습니다. 숙소를 설정해 주세요."
+    );
+    return;
+  }
+
   if (!navigator.geolocation) {
     setStatus("이 브라우저는 위치 기능을 지원하지 않아요.", true);
     return;
   }
+  // Geolocation 은 보안(HTTPS·localhost) 컨텍스트에서만 동작 — 아니면 조용히 실패하므로 미리 안내.
+  if (!window.isSecureContext) {
+    setStatus("현재 위치는 보안(HTTPS) 연결에서만 사용할 수 있어요.", true);
+    return;
+  }
+
+  const btn = el("useCurrentLoc");
+  btn.disabled = true;
   setStatus("현재 위치를 확인하는 중…");
   navigator.geolocation.getCurrentPosition(
     (pos) => {
+      btn.disabled = false;
       currentLoc = { lat: pos.coords.latitude, lng: pos.coords.longitude };
       useCurrentLoc = true;
       syncToggle();
       renderOrigin();
       onOriginChanged();
-      setStatus("현재 위치를 출발지로 사용합니다.");
+      // 여행 전(한국 등) KL 에서 멀면 DRIVE 경로가 없어 이동 정보가 비는데, 그 이유를 명확히 안내.
+      const km = haversineKm(currentLoc, KL_CENTER);
+      if (km > 300) {
+        setStatus(
+          `현재 위치가 쿠알라룸푸르에서 약 ${Math.round(km).toLocaleString()}km 떨어져 있어, ` +
+            `이동 정보는 현지 도착 후에 표시됩니다.`,
+          true
+        );
+      } else {
+        setStatus("현재 위치를 출발지로 사용합니다.");
+      }
     },
-    () => {
+    (err) => {
+      btn.disabled = false;
       useCurrentLoc = false;
       syncToggle();
-      setStatus("위치 권한이 거부되어 숙소를 출발지로 사용합니다.", true);
+      const why =
+        err.code === err.PERMISSION_DENIED
+          ? "위치 권한이 거부됐어요. 브라우저 주소창의 위치 권한을 허용해 주세요."
+          : err.code === err.TIMEOUT
+            ? "위치 확인이 시간 초과됐어요. 다시 시도해 주세요."
+            : "현재 위치를 확인할 수 없어요.";
+      setStatus(accommodation ? `${why} (숙소를 출발지로 사용합니다.)` : why, true);
     },
-    { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 }
+    { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
   );
 }
 
@@ -238,7 +282,9 @@ function setStatus(text, isError = false) {
   node.classList.toggle("error", isError);
 }
 function syncToggle() {
-  el("useCurrentLoc").classList.toggle("active", useCurrentLoc);
+  const b = el("useCurrentLoc");
+  b.classList.toggle("active", useCurrentLoc);
+  b.textContent = useCurrentLoc ? "현재 위치 사용 중 · 해제하기" : "현재 위치 사용";
 }
 function renderOrigin() {
   const origin = getOrigin();
@@ -435,6 +481,7 @@ function reorderList() {
 
 // 출발지 변경 시 호출.
 function onOriginChanged() {
+  updateWeather(getOrigin()); // 헤더 날씨를 새 출발지(없으면 KL) 기준으로 갱신
   if (INCLUDED_TYPES[activeCategory]) {
     renderForTab(); // 새 출발지 기준 발견 목록 재요청
   } else {
@@ -664,6 +711,16 @@ function wireEvents() {
   input.addEventListener("blur", () => setTimeout(hideSuggest, 150));
   el("useCurrentLoc").addEventListener("click", useCurrentLocation);
 
+  // 기상 경보 배너 닫기 → 같은 경보는 세션 동안 다시 안 뜨게 기록.
+  const alertClose = el("alertClose");
+  if (alertClose) {
+    alertClose.addEventListener("click", () => {
+      const b = el("alertBanner");
+      if (b.dataset.sig) sessionStorage.setItem("paldo.alertDismissed", b.dataset.sig);
+      b.hidden = true;
+    });
+  }
+
   el("sortToggle").addEventListener("click", () => {
     sortMode = sortMode === "추천순" ? "가까운순" : "추천순";
     const btn = el("sortToggle");
@@ -675,9 +732,14 @@ function wireEvents() {
 
 async function boot() {
   wireEvents();
+  syncToggle();
   renderOrigin();
   if (accommodation) setStatus(`저장된 숙소: ${accommodation.label}`);
   renderCatTabs();
+  updateWeather(getOrigin()); // 헤더 날씨(출발지 없으면 KL 기본)
+  updateForecast(WORKER_URL); // 헤더 보조 줄: 오늘 KL 공식 예보
+  updateWarnings(WORKER_URL); // 기상 경보 배너(활성·KL권역만)
+  initCurrency(); // 팁 환율 계산기
   try {
     places = await loadPlaces();
     renderForTab();

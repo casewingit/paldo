@@ -98,6 +98,137 @@ a {
   backdrop-filter: blur(10px);
 }
 
+/* ---- 헤더 날씨 위젯 (현지/현재 위치) ---- */
+.heroWeather {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  backdrop-filter: blur(12px);
+  color: white;
+}
+
+.hwIcon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.hwInfo {
+  display: grid;
+  gap: 2px;
+}
+
+.hwTop {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
+
+.hwTemp {
+  font-size: 1.3rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.hwDesc {
+  font-size: 0.9rem;
+  font-weight: 700;
+  opacity: 0.95;
+}
+
+.hwSub {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 9px;
+  font-size: 0.74rem;
+  opacity: 0.9;
+}
+
+.hwSub em {
+  font-style: normal;
+}
+
+.hwPlace {
+  max-width: 14ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 700;
+}
+
+/* 보조 줄: 오늘 KL 공식(MET) 예보 */
+.hwForecast {
+  margin-top: 3px;
+  max-width: 22ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.74rem;
+  font-weight: 700;
+  opacity: 0.92;
+}
+
+/* ---- 기상 경보 배너 ---- */
+.alertBanner {
+  width: min(100%, 900px);
+  margin: 16px auto 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #fff6e9;
+  border: 1px solid #f0c879;
+  color: #5a3d12;
+}
+
+.alertIcon {
+  font-size: 1.4rem;
+  line-height: 1.3;
+}
+
+.alertBody {
+  flex: 1;
+  display: grid;
+  gap: 2px;
+}
+
+.alertTitle {
+  font-size: 1.02rem;
+  font-weight: 800;
+}
+
+.alertText {
+  font-size: 0.9rem;
+  font-weight: 600;
+  opacity: 0.92;
+}
+
+.alertClose {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(90, 61, 18, 0.08);
+  color: #5a3d12;
+  font-size: 1.2rem;
+  line-height: 1;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.alertClose:hover {
+  background: rgba(90, 61, 18, 0.16);
+}
+
 .tabs {
   position: sticky;
   top: 0;
@@ -616,6 +747,164 @@ a {
 
 .checklist li {
   margin: 10px 0;
+}
+
+.checklistTitle {
+  width: min(100%, 900px);
+  margin: 26px auto 12px;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+/* ---- 환율 계산기 ---- */
+.fxCard {
+  width: min(100%, 900px);
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: 0 6px 20px rgba(34, 34, 34, 0.06);
+}
+
+.fxHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.fxHead h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.fxRate {
+  color: var(--mint-dark);
+  font-weight: 800;
+  font-size: 0.98rem;
+}
+
+.fxConvert {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: end;
+  gap: 10px;
+}
+
+.fxField {
+  display: grid;
+  gap: 6px;
+}
+
+.fxField span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.fxField input {
+  width: 100%;
+  min-height: 50px;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--soft);
+  color: var(--ink);
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.fxField input:focus {
+  outline: 2px solid var(--mint);
+  outline-offset: 1px;
+  background: #fff;
+}
+
+.fxSwap {
+  padding-bottom: 12px;
+  color: var(--muted);
+  font-size: 1.2rem;
+  font-weight: 900;
+}
+
+.fxChipsHead {
+  margin-top: 18px;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.fxChipsHead span {
+  margin-left: 6px;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.82rem;
+}
+
+.fxChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.fxActions {
+  margin-top: 12px;
+}
+
+.fxReset {
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--muted);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.fxReset:hover {
+  border-color: var(--coral);
+  color: var(--coral);
+}
+
+.fxChip {
+  display: grid;
+  gap: 1px;
+  padding: 8px 13px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.fxChip:hover {
+  border-color: var(--mint);
+}
+
+.fxChip b {
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.fxChip span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.fxNote {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 0.86rem;
 }
 
 footer {

@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#ff385c" />
     <title>말레이시아 장소 추천 · 이동 안내</title>
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="./styles.css?v=5" />
+    <link rel="stylesheet" href="./styles.css?v=8" />
   </head>
   <body>
     <header class="hero" id="top">
@@ -17,6 +17,20 @@
         />
       </picture>
       <div class="heroShade"></div>
+      <div class="heroWeather" id="heroWeather" aria-live="polite" hidden>
+        <span class="hwIcon" id="hwIcon">⛅</span>
+        <div class="hwInfo">
+          <span class="hwTop">
+            <strong class="hwTemp" id="hwTemp">—°</strong>
+            <span class="hwDesc" id="hwDesc">불러오는 중…</span>
+          </span>
+          <span class="hwSub">
+            <em class="hwPlace" id="hwPlace">쿠알라룸푸르</em>
+            <em class="hwFeels" id="hwFeels"></em>
+          </span>
+          <span class="hwForecast" id="hwForecast" hidden></span>
+        </div>
+      </div>
       <div class="heroText">
         <p>숙소 기준 추천 · 이동 정보</p>
         <h1>말레이시아 장소 추천</h1>
@@ -31,6 +45,15 @@
     </nav>
 
     <main>
+      <div class="alertBanner" id="alertBanner" role="alert" hidden>
+        <span class="alertIcon" id="alertIcon">⚠️</span>
+        <div class="alertBody">
+          <strong class="alertTitle" id="alertTitle"></strong>
+          <span class="alertText" id="alertText"></span>
+        </div>
+        <button class="alertClose" id="alertClose" type="button" aria-label="경보 닫기">×</button>
+      </div>
+
       <section class="section" id="stay">
         <div class="sectionTitle">
           <p>출발지 설정</p>
@@ -88,9 +111,35 @@
 
       <section class="section checklist" id="tips">
         <div class="sectionTitle">
-          <p>부모님 편의</p>
-          <h2>매일 챙길 것</h2>
+          <p>여행 팁</p>
+          <h2>환율 &amp; 준비물</h2>
         </div>
+
+        <div class="fxCard" id="fxCard">
+          <div class="fxHead">
+            <h3>환율 계산기</h3>
+            <span class="fxRate" id="fxRate">환율 불러오는 중…</span>
+          </div>
+          <div class="fxConvert">
+            <label class="fxField">
+              <span>링깃 (RM)</span>
+              <input id="fxRM" type="number" inputmode="decimal" min="0" step="any" placeholder="0" />
+            </label>
+            <span class="fxSwap" aria-hidden="true">⇄</span>
+            <label class="fxField">
+              <span>원 (₩)</span>
+              <input id="fxKRW" type="number" inputmode="numeric" min="0" step="any" placeholder="0" />
+            </label>
+          </div>
+          <div class="fxChipsHead">빠른 추가 <span>버튼을 누를 때마다 합산돼요</span></div>
+          <div class="fxChips" id="fxChips" aria-label="빠른 추가"></div>
+          <div class="fxActions">
+            <button id="fxReset" class="fxReset" type="button">초기화</button>
+          </div>
+          <p class="fxNote" id="fxNote"></p>
+        </div>
+
+        <h3 class="checklistTitle">매일 챙길 것</h3>
         <ul>
           <li>물, 휴지, 손소독제, 접이식 우산</li>
           <li>얇은 긴팔, 모자, 선크림</li>

@@ -4,5 +4,5 @@
 //   - 운영: "https://paldo-proxy.<your-subdomain>.workers.dev"
 // 비어 있으면(Phase 1) 거리·Grab 비용 없이 추천 목록과 길찾기 링크만 동작한다.
 window.PALDO_CONFIG = {
-  WORKER_URL: "",
+  WORKER_URL: "https://paldo-proxy.flexxiblethinking.workers.dev",
 };

@@ -4,9 +4,8 @@
   "compatibility_date": "2026-06-24",
   "observability": { "enabled": true },
   "vars": {
-    // 운영 시 GitHub Pages 오리진으로 고정하세요. 예: "https://<user>.github.io"
-    // 로컬 테스트 중에는 "*" 로 두어도 됩니다.
-    "ALLOWED_ORIGIN": "*"
+    // 운영 CORS: GitHub Pages 오리진으로 고정 (casewingit/paldo → casewingit.github.io)
+    "ALLOWED_ORIGIN": "https://casewingit.github.io"
   }
   // 키는 vars 가 아니라 시크릿으로:  wrangler secret put GOOGLE_MAPS_API_KEY
 }

@@ -1,3 +1,4 @@
 .dev.vars
+.cf-token
 .wrangler/
 node_modules/

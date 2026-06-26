@@ -170,9 +170,14 @@ async function routeMatrix(origin, destinations, env) {
 }
 
 // ---- Nearby Search (New): 좌표 주변 카테고리 자동발견 (음식점/카페) ----
+// lib/score.mjs 의 INCLUDED_TYPES 와 동기화. 모든 타입은 Nearby 유효성 검증됨.
 const NEARBY_INCLUDED_TYPES = {
   음식점: ["restaurant", "food_court", "meal_takeaway"],
   카페: ["cafe", "coffee_shop", "bakery"],
+  관광명소: ["tourist_attraction", "observation_deck", "amusement_park", "historical_landmark"],
+  쇼핑: ["shopping_mall", "department_store", "market"],
+  "문화·역사": ["museum", "art_gallery", "mosque", "hindu_temple", "church", "monument", "performing_arts_theater"],
+  "자연·공원": ["park", "botanical_garden", "garden", "zoo", "aquarium", "national_park"],
 };
 
 const NEARBY_FIELD_MASK =

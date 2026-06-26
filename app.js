@@ -398,9 +398,9 @@ function renderForTab() {
   const curated = sortList(curatedForTab());
   recoList.replaceChildren(...curated.map(buildCard));
 
-  // 음식점/카페는 출발지 주변 자동발견 tail (Phase 3). 이동정보는 renderDiscovered가
-  // 큐레이션+발견 전체를 한 번에 계산하므로 여기서 recomputeAllTravel을 또 부르지 않는다.
-  if (activeCategory === "음식점" || activeCategory === "카페") {
+  // 발견 대상 카테고리(INCLUDED_TYPES에 있는 것)는 출발지 주변 자동발견 tail.
+  // 이동정보는 renderDiscovered가 큐레이션+발견 전체를 한 번에 계산하므로 여기선 생략.
+  if (INCLUDED_TYPES[activeCategory]) {
     loadNearbyTail();
     return;
   }
@@ -435,7 +435,7 @@ function reorderList() {
 
 // 출발지 변경 시 호출.
 function onOriginChanged() {
-  if (activeCategory === "음식점" || activeCategory === "카페") {
+  if (INCLUDED_TYPES[activeCategory]) {
     renderForTab(); // 새 출발지 기준 발견 목록 재요청
   } else {
     reorderList(); // 즉시 haversine 재정렬
@@ -508,9 +508,11 @@ async function loadNearbyTail() {
       if (!res.ok) throw new Error(`nearby ${res.status}`);
       // 검색 탭에 걸렸어도 진짜 카테고리가 다른 곳(매장 안 식당 가진 호텔·명소,
       // 음식점 검색에 섞인 카페 등)은 제외 → 각 장소는 본질 카테고리 탭에만 표시.
+      // 진짜 카테고리가 이 탭이고, 큐레이션 핀과 중복되지 않는 것만.
+      const curatedIds = new Set(places.map((p) => p.placeId).filter(Boolean));
       list = (await res.json())
         .map((r) => scoreDiscovered(r, cat))
-        .filter((p) => p.category === cat);
+        .filter((p) => p.category === cat && !curatedIds.has(p.placeId));
       nearbyCache.set(key, { ts: Date.now(), list });
     } catch {
       list = [];

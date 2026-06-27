@@ -504,7 +504,8 @@ function onOriginChanged() {
 }
 
 // ---- 음식점/카페 자동발견 (Worker /nearby) ----
-const gridKey = (o) => (o ? `${o.lat.toFixed(2)},${o.lng.toFixed(2)}` : "none");
+// 캐시 격자 ~110m(소수 3자리): 좁아진 발견 반경에 맞춰, 한 블록만 움직여도 주변을 다시 발견.
+const gridKey = (o) => (o ? `${o.lat.toFixed(3)},${o.lng.toFixed(3)}` : "none");
 
 function scoreDiscovered(r, cat) {
   const place = {
@@ -559,7 +560,7 @@ async function loadNearbyTail() {
         body: JSON.stringify({
           center: { lat: origin.lat, lng: origin.lng },
           category: cat,
-          radii: DISCOVERY_CONFIG.radii,
+          radii: DISCOVERY_CONFIG.radii[cat] || DISCOVERY_CONFIG.radiiDefault,
           rankPreference: DISCOVERY_CONFIG.rankPreference,
           minRating: DISCOVERY_CONFIG.minRating,
           minReviews: DISCOVERY_CONFIG.minReviews[cat] ?? 0,

@@ -239,39 +239,52 @@ function useCurrentLocation() {
   const btn = el("useCurrentLoc");
   btn.disabled = true;
   setStatus("현재 위치를 확인하는 중…");
+
+  const onOk = (pos) => {
+    btn.disabled = false;
+    currentLoc = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+    useCurrentLoc = true;
+    syncToggle();
+    renderOrigin();
+    onOriginChanged();
+    // 여행 전(한국 등) KL 에서 멀면 DRIVE 경로가 없어 이동 정보가 비는데, 그 이유를 명확히 안내.
+    const km = haversineKm(currentLoc, KL_CENTER);
+    if (km > 300) {
+      setStatus(
+        `현재 위치가 쿠알라룸푸르에서 약 ${Math.round(km).toLocaleString()}km 떨어져 있어, ` +
+          `이동 정보는 현지 도착 후에 표시됩니다.`,
+        true
+      );
+    } else {
+      setStatus("현재 위치를 출발지로 사용합니다.");
+    }
+  };
+  const onFail = (err) => {
+    btn.disabled = false;
+    useCurrentLoc = false;
+    syncToggle();
+    const why =
+      err.code === err.PERMISSION_DENIED
+        ? "위치 권한이 거부됐어요. 브라우저(주소창 자물쇠) 위치 권한을 허용 후 다시 눌러 주세요."
+        : err.code === err.TIMEOUT
+          ? "위치 확인이 시간 초과됐어요. 실외에서 다시 시도해 주세요."
+          : "현재 위치를 확인할 수 없어요. (기기 위치 서비스가 켜져 있는지 확인)";
+    setStatus(accommodation ? `${why} (숙소를 출발지로 사용합니다.)` : why, true);
+  };
+
+  // 1차 고정밀 → 실패 시(권한 거부 제외) 저정밀 재시도. 실내·데스크톱·정밀위치 OFF 에서 더 안정적.
   navigator.geolocation.getCurrentPosition(
-    (pos) => {
-      btn.disabled = false;
-      currentLoc = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-      useCurrentLoc = true;
-      syncToggle();
-      renderOrigin();
-      onOriginChanged();
-      // 여행 전(한국 등) KL 에서 멀면 DRIVE 경로가 없어 이동 정보가 비는데, 그 이유를 명확히 안내.
-      const km = haversineKm(currentLoc, KL_CENTER);
-      if (km > 300) {
-        setStatus(
-          `현재 위치가 쿠알라룸푸르에서 약 ${Math.round(km).toLocaleString()}km 떨어져 있어, ` +
-            `이동 정보는 현지 도착 후에 표시됩니다.`,
-          true
-        );
-      } else {
-        setStatus("현재 위치를 출발지로 사용합니다.");
-      }
-    },
+    onOk,
     (err) => {
-      btn.disabled = false;
-      useCurrentLoc = false;
-      syncToggle();
-      const why =
-        err.code === err.PERMISSION_DENIED
-          ? "위치 권한이 거부됐어요. 브라우저 주소창의 위치 권한을 허용해 주세요."
-          : err.code === err.TIMEOUT
-            ? "위치 확인이 시간 초과됐어요. 다시 시도해 주세요."
-            : "현재 위치를 확인할 수 없어요.";
-      setStatus(accommodation ? `${why} (숙소를 출발지로 사용합니다.)` : why, true);
+      if (err.code === err.PERMISSION_DENIED) return onFail(err);
+      setStatus("현재 위치 확인 중… (정밀도를 낮춰 재시도)");
+      navigator.geolocation.getCurrentPosition(onOk, onFail, {
+        enableHighAccuracy: false,
+        timeout: 12000,
+        maximumAge: 300000,
+      });
     },
-    { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+    { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 }
   );
 }
 

@@ -570,9 +570,10 @@ async function loadNearbyTail() {
       // 음식점 검색에 섞인 카페 등)은 제외 → 각 장소는 본질 카테고리 탭에만 표시.
       // 진짜 카테고리가 이 탭이고, 큐레이션 핀과 중복되지 않는 것만.
       const curatedIds = new Set(places.map((p) => p.placeId).filter(Boolean));
+      // "추천"(전체 탭)은 모든 카테고리를 받고, 특정 탭은 본질 카테고리가 일치하는 것만.
       list = (await res.json())
         .map((r) => scoreDiscovered(r, cat))
-        .filter((p) => p.category === cat && !curatedIds.has(p.placeId));
+        .filter((p) => !curatedIds.has(p.placeId) && (cat === "추천" || p.category === cat));
       nearbyCache.set(key, { ts: Date.now(), list });
     } catch {
       list = [];
@@ -599,18 +600,40 @@ function renderDiscovered(list) {
   if (recoList.querySelector(".recoCard:not(.discovered)")) {
     const d = document.createElement("div");
     d.className = "discoverDivider";
-    d.textContent = "주변에서 더 둘러보기";
+    d.textContent = activeCategory === "추천" ? "주변 인기 장소" : "주변에서 더 둘러보기";
     recoList.appendChild(d);
   }
-  // 상위 N곳만 표시 (동시 이미지 로드·과금 절제)
-  sortList(list)
-    .slice(0, DISCOVERY_CONFIG.maxResults)
-    .forEach((p) => {
-      const card = buildCard(p);
-      card.classList.add("discovered");
-      recoList.appendChild(card);
-    });
+  // 상위 N곳만 표시 (동시 이미지 로드·과금 절제). 추천 탭은 카테고리를 섞어 다양하게.
+  let ordered = sortList(list);
+  if (activeCategory === "추천") ordered = diversifyByCategory(ordered);
+  ordered.slice(0, DISCOVERY_CONFIG.maxResults).forEach((p) => {
+    const card = buildCard(p);
+    card.classList.add("discovered");
+    recoList.appendChild(card);
+  });
   recomputeAllTravel();
+}
+
+// 점수순을 유지하되 카테고리를 라운드로빈으로 섞어 한쪽(예: 음식점)이 독점하지 않게 한다.
+function diversifyByCategory(sorted) {
+  const groups = new Map();
+  for (const p of sorted) {
+    const k = p.category || "기타";
+    if (!groups.has(k)) groups.set(k, []);
+    groups.get(k).push(p);
+  }
+  const out = [];
+  let added = true;
+  while (added) {
+    added = false;
+    for (const arr of groups.values()) {
+      if (arr.length) {
+        out.push(arr.shift());
+        added = true;
+      }
+    }
+  }
+  return out;
 }
 
 // ---- 이동 정보 ----

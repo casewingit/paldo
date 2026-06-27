@@ -176,6 +176,7 @@ async function routeMatrix(origin, destinations, env) {
 // ---- Nearby Search (New): 좌표 주변 카테고리 자동발견 (음식점/카페) ----
 // lib/score.mjs 의 INCLUDED_TYPES 와 동기화. 모든 타입은 Nearby 유효성 검증됨.
 const NEARBY_INCLUDED_TYPES = {
+  추천: ["restaurant", "cafe", "tourist_attraction", "shopping_mall"], // 메인 탭 혼합 발견
   음식점: ["restaurant", "food_court", "meal_takeaway"],
   카페: ["cafe", "coffee_shop", "bakery"],
   관광명소: ["tourist_attraction", "observation_deck", "amusement_park", "historical_landmark"],

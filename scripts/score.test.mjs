@@ -69,7 +69,10 @@ eq("primaryType가 types의 restaurant를 이김(KL타워)", categoryOf("histori
 eq("호텔은 음식점 아님(in-house 식당 무시)", categoryOf("hotel", ["restaurant"]), "관광명소");
 eq("cultural_center → 문화·역사(REXKL)", categoryOf("cultural_center", ["restaurant"]), "문화·역사");
 eq("coffee_roastery → 카페(Feeka)", categoryOf("coffee_roastery", ["restaurant"]), "카페");
-eq("*_restaurant 접미사 → 음식점", categoryOf("malaysian_restaurant", []), "음식점");
+eq("*_restaurant 접미사 → 음식점", categoryOf("thai_restaurant", []), "음식점");
+// 치앙마이: 사원이 문화 카테고리의 핵심 — 자동발견/분류 양쪽에서 빠지면 탭이 빈다.
+eq("buddhist_temple → 문화·역사(왓)", categoryOf("buddhist_temple", ["tourist_attraction"]), "문화·역사");
+eq("lake → 자연·공원(후아이 뜽타오)", categoryOf("lake", ["natural_feature"]), "자연·공원");
 eq("night_club → 음식점/카페 아님", categoryOf("night_club", ["restaurant"]) !== "음식점" && categoryOf("night_club", []) !== "카페", true);
 
 console.log("\nproximityNorm 단조성(카페):");

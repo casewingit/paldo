@@ -17,11 +17,13 @@ import {
 import { updateWeather, updateForecast, updateWarnings } from "./lib/weather.js";
 import { initCurrency } from "./lib/fx.js";
 
-const KL_CENTER = { lat: 3.139, lng: 101.6869 }; // 쿠알라룸푸르 도심(현재 위치 거리 판단용)
+const CNX_CENTER = { lat: 18.7883, lng: 98.9853 }; // 치앙마이 구시가(현재 위치 거리 판단용)
 
 const WORKER_URL = (window.PALDO_CONFIG && window.PALDO_CONFIG.WORKER_URL) || "";
-const LS_ACCOMMODATION = "paldo.accommodation";
-const LS_ROUTES = "paldo.routes";
+// 여행지가 바뀌면 이전 여행(KL)의 숙소·경로 캐시가 남아 엉뚱한 출발지가 복원되므로
+// 저장소 키에 도시 코드를 붙여 분리한다.
+const LS_ACCOMMODATION = "paldo.accommodation.cnx";
+const LS_ROUTES = "paldo.routes.cnx";
 const ROUTE_TTL_MS = 30 * 60 * 1000; // 30분
 
 // ---- 상태 ----
@@ -247,11 +249,11 @@ function useCurrentLocation() {
     syncToggle();
     renderOrigin();
     onOriginChanged();
-    // 여행 전(한국 등) KL 에서 멀면 DRIVE 경로가 없어 이동 정보가 비는데, 그 이유를 명확히 안내.
-    const km = haversineKm(currentLoc, KL_CENTER);
+    // 여행 전(한국 등) 치앙마이에서 멀면 DRIVE 경로가 없어 이동 정보가 비는데, 그 이유를 명확히 안내.
+    const km = haversineKm(currentLoc, CNX_CENTER);
     if (km > 300) {
       setStatus(
-        `현재 위치가 쿠알라룸푸르에서 약 ${Math.round(km).toLocaleString()}km 떨어져 있어, ` +
+        `현재 위치가 치앙마이에서 약 ${Math.round(km).toLocaleString()}km 떨어져 있어, ` +
           `이동 정보는 현지 도착 후에 표시됩니다.`,
         true
       );
@@ -494,7 +496,10 @@ function reorderList() {
 
 // 출발지 변경 시 호출.
 function onOriginChanged() {
-  updateWeather(getOrigin()); // 헤더 날씨를 새 출발지(없으면 KL) 기준으로 갱신
+  const origin = getOrigin();
+  updateWeather(origin); // 헤더 날씨를 새 출발지(없으면 치앙마이) 기준으로 갱신
+  updateForecast(origin); // 오늘 예보 줄도 같은 좌표 기준으로
+  updateWarnings(origin); // 대기질(PM2.5) 배너도 같은 좌표 기준으로
   if (INCLUDED_TYPES[activeCategory]) {
     renderForTab(); // 새 출발지 기준 발견 목록 재요청
   } else {
@@ -667,7 +672,7 @@ function renderTravelCard(card, route) {
       <span><b>${min}</b> 분</span>
     </div>
     <div class="fareBadge" title="${GRAB_CONFIG.surgeNote}">
-      Grab 예상 ${fare.currency} ~${fare.amount}<sup>예상치</sup>
+      Grab 예상 ~${fare.currency}${fare.amount.toLocaleString()}<sup>예상치</sup>
     </div>`;
   box.hidden = false;
 }
@@ -773,9 +778,9 @@ async function boot() {
   renderOrigin();
   if (accommodation) setStatus(`저장된 숙소: ${accommodation.label}`);
   renderCatTabs();
-  updateWeather(getOrigin()); // 헤더 날씨(출발지 없으면 KL 기본)
-  updateForecast(WORKER_URL); // 헤더 보조 줄: 오늘 KL 공식 예보
-  updateWarnings(WORKER_URL); // 기상 경보 배너(활성·KL권역만)
+  updateWeather(getOrigin()); // 헤더 날씨(출발지 없으면 치앙마이 기본)
+  updateForecast(getOrigin()); // 헤더 보조 줄: 오늘 최저–최고·강수확률
+  updateWarnings(getOrigin()); // 대기질(PM2.5) 배너 — 연무기 대비
   initCurrency(); // 팁 환율 계산기
   try {
     places = await loadPlaces();

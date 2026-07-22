@@ -1,238 +1,477 @@
 {
-  "Batu Caves Malaysia": {
-    "placeId": "ChIJBahJiQxHzDER-Z5vs7Lrv_I",
-    "name": "Batu Caves",
-    "address": "Gombak, 68100 Batu Caves, Selangor",
-    "lat": 3.2378844,
-    "lng": 101.6840385,
-    "rating": 4.4,
-    "userRatingCount": 79405,
-    "primaryType": "place_of_worship",
-    "primaryTypeDisplayName": "사원",
+  "Baan Kang Wat Chiang Mai": {
+    "placeId": "ChIJdxPPqzUx2jARn86GcuRsD1s",
+    "name": "반캉왓 예술가 마을",
+    "address": "191-197 ซอย วัดอุโมงค์ Tambon Su Thep, Amphoe Mueang Chiang Mai, Chang Wat Chiang Mai 50200",
+    "lat": 18.7763256,
+    "lng": 98.9487285,
+    "rating": 4.5,
+    "userRatingCount": 6569,
+    "primaryType": null,
+    "primaryTypeDisplayName": null,
     "types": [
       "tourist_attraction",
-      "place_of_worship",
-      "association_or_organization",
+      "store",
       "point_of_interest",
       "establishment"
     ],
-    "photoName": "places/ChIJBahJiQxHzDER-Z5vs7Lrv_I/photos/AaVGc3kfsOAV26h22AgDspbZcdhhZg0rC95mj_SaJx6oQ-doyklFQTaW4XXlYAEwm4wV4aNbtK7pFDfDDqeDLn-m0qG-CRqOY1P-3ysN5MutIZdldXGLby2gKbjtV0EbrFzXvPHUBUQc8z6_CxxH_wjmSxzCWNa-5ixkaeIKOtjnS5M8GX_p-m25D6cHphmMXGgOPRy8aqG-W2wOJU_QJ30vGXCl4oykZUUp4oyy3ua4im2IT-SM90T0nRCb9-mkiYFRsw9pLRCRskrKnyOZkdrUtQ1U0-TDsaSv0jCSUEcMAn8gZPwWw6BgYcRg4uP_Z_LbMcgVlyXbeOCuRcS6BGpPj0qSKwXed11y3jfZ5kXofdUd2zQKx_QAVro2T5xWolK7BJC_3KUZU0BN-xamWLLMMp-xJgNf69gs2AfrojfjZp_IW5po",
-    "category": "문화·역사",
-    "tier": "rec",
-    "note": "계단이 많아 오전 이른 시간이 좋아요. 컨디션에 따라 아래 광장 중심으로 천천히.",
+    "photoName": "places/ChIJdxPPqzUx2jARn86GcuRsD1s/photos/AWCwydjEYhWgw5sy-Y7-3-O1Kvu4MOBhdwT0mQhAaQF0K4M-FSiLO1lILT4BZB_Lvkv6f0kE6nuQhyyDal7o8CvtCoJaEC6OAhQexZAPodS6rTMA_j2NO5wBgbfOUDip2nKO-QCLEQ1XTwxSS1Q9cbgw_967KUA6NQVRzgHUODJ5UD7B-6gkkdz5dybxzu8lQyeD_Yf1hoA4iu_UtXQvBwM-fQnHtho3SQ9ldrB0Nz9x4LO-5TlklKQjuW08vp1mpqfYtEZY1n--wyXVxh8uOK0_8V6MtI4KG1Lmlivn2GDysb_gjPW5uo28gXsB7W14mB7JxlzsOz-WaPFDk6T-Ai6ke4HJ54VjoY9lA7V5nU17vkRA1fCrisCfJQ0ACtEhbSxumm7arjjGLaVAG_g_6BmzP4LVz4zXOMoIVcYOqABzkx9WzqQwO31mgXG_QxIY7Q",
+    "category": "관광명소",
+    "tier": "opt",
+    "note": "공방과 작은 카페가 모인 아기자기한 예술 마을. 규모는 작아서 1~2시간이면 충분해요. 월요일 휴무.",
     "tags": [
-      "관광",
-      "사원"
+      "예술마을",
+      "카페",
+      "월요일휴무"
     ],
-    "qN": 0.3998,
+    "qN": 0.4964,
     "cred": 1,
-    "staticScore": 2.2199
+    "staticScore": 1.273
   },
-  "Central Market Kuala Lumpur": {
-    "placeId": "ChIJVxLq2dFJzDERAmCinEoNs_w",
-    "name": "Central Market",
-    "address": "50050 쿠알라룸푸르 연방 준주 쿠알라룸푸르 Kuala Lumpur City Centre",
-    "lat": 3.1452635000000004,
-    "lng": 101.69541579999999,
+  "Chiang Mai Night Bazaar": {
+    "placeId": "ChIJW0qnDKY62jARHbAmfwD1Lgs",
+    "name": "치앙마이 나이트 바자",
+    "address": "Changklan Rd, Tambon Chang Moi, Amphoe Mueang Chiang Mai, Chang Wat Chiang Mai 50100",
+    "lat": 18.7852244,
+    "lng": 99.0002986,
     "rating": 4.3,
-    "userRatingCount": 60448,
-    "primaryType": "shopping_mall",
-    "primaryTypeDisplayName": "쇼핑몰",
+    "userRatingCount": 27033,
+    "primaryType": "market",
+    "primaryTypeDisplayName": "시장",
     "types": [
-      "shopping_mall",
       "tourist_attraction",
-      "historical_landmark",
-      "historical_place",
+      "market",
       "point_of_interest",
       "establishment"
     ],
-    "photoName": "places/ChIJVxLq2dFJzDERAmCinEoNs_w/photos/AaVGc3m2b3-Y1Q3eDhXSAdLu-m2Vlc-0odGNsZXynphpa7ypvt6PulYj4qtopT129h7TjsIrrKb2v90wEHFt6ICidJt_rOvTgGj_QTXZh-UB62BLmxjoRprjRcOPv-T3yrirCRfhhTt6DCJwiBoGJsSbK2xFGDQEJKKVOJFG7VSz94mpCxjeEOl6W-_PTD_iJRCAVeseLV207jWYbWaP9JoJhhLmyO80a3IIVTts-gxydLRG4PZzQxVZPmkMUHexpgRQ0SOgZ9vaNkiZeWIS06NgFcyjSeYrmshu996pnbzCsS8wxGkytQ0GVM8Ag4pnLZXk2Z33vZRRpjv0W0bYFT57ckRzl3l-kb5pac1L08vbGaNUzb6-yOLF1uiOWglFYzfbX_xr3jiGN14qWETJmoayoeJJ2fQeoAUfNbQH4ygB92nLZg",
+    "photoName": "places/ChIJW0qnDKY62jARHbAmfwD1Lgs/photos/AWCwydit0cXJVlmOzgnjmYNRC01lxUjlyzS3oahsZRCWadhHyjPVUjdrb5L8jAPCyQWfM-0Vv2gtpbq6EtceLl8m92YP3pIEpcf3v-HjFQ5F1_76Nq_G9UtvpkIQ5dmtw-d8CXpD43oHsJaJZgIBtgeCkinc0S7424sOclZiOxBv8nIJkjFVLFe9dLdunjoGWFeNxmkkVPh458_x_1Cq-3MIyF_CpCSCNpf2qrT1vO75YcsF_zyNTm20vfmNS3_pET4L-YgXrCBxFUaxcd_qoBlRHAPdAo5cWPvEBaIgb2CV5BxTsx3ZSkhvmvny0fYfRaVxP7TNmgI77pahsty73StMDFE6My9Lk7ZV7RXKlih_M4J4D4TsNCH8EljZktIPGYM5eEQJ1KzguSdULmX7V_Rq6Qpi3jOHU2mSyhGgecPx7xn_8Vk2",
     "category": "쇼핑",
     "tier": "opt",
-    "note": "기념품과 수공예 구경. 에어컨이 있어 더운 오후에 천천히 둘러보기 좋아요.",
+    "note": "매일 밤 열리는 상설 야시장. 일요일 워킹스트리트만큼 특별하진 않지만, 평일 저녁에 가볍게 둘러보기 무난해요.",
     "tags": [
-      "쇼핑",
-      "기념품"
+      "야시장",
+      "매일",
+      "쇼핑"
     ],
     "qN": 0.3,
     "cred": 1,
     "staticScore": 1.165
   },
-  "KL Tower Kuala Lumpur": {
-    "placeId": "ChIJE1jNHStIzDERujrDO85YYBA",
-    "name": "쿠알라룸푸르 타워",
-    "address": "2 Jalan Punchak, Off, Jalan P. Ramlee, Kuala Lumpur, 50250 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur",
-    "lat": 3.1528761999999997,
-    "lng": 101.7038516,
-    "rating": 4.5,
-    "userRatingCount": 41752,
-    "primaryType": "historical_landmark",
-    "primaryTypeDisplayName": "역사적 명소",
-    "types": [
-      "historical_landmark",
-      "buffet_restaurant",
-      "tourist_attraction",
-      "observation_deck",
-      "historical_place",
-      "restaurant",
-      "food",
-      "point_of_interest",
-      "establishment"
-    ],
-    "photoName": "places/ChIJE1jNHStIzDERujrDO85YYBA/photos/AaVGc3nGGp_e_DtuZNPve4Ezf17w7GCOxjpjeUazuJehxSUUmsfocr6NHzJ3lEWwaoxHobb0cqEgb9ZNGjVlsMeXBvjmy04wBGeF0cKmTNUAZfacLMET19yC7ys_aPIIUl8_BO3vh4EFGvetfrEoMgvyL9fNcS9zwxIm6-KLRPuwXubYj5ZiDNhkmsb1hajuZShBOF-gOhI0LOvu0VqMQJPZIFP1xWbSQQduIpSx199xfc9sTqFAGIiEipnwM1zgvcestbZjTWy3vRDez6b88Bit6k6FgiCFG-9aBGFl3U5HS_2KzOmJybVGW-bcSoEwhIXh9_6E9zRprln3SgOIahL2bEO5UwslFyidrLMDjdhqlYSJTYscD8FOfp-De7V7DgogIBFH4M_8B4HAtjfJIsE10Ttz0jh-SXqzJAMazN5a3mOlAN3W",
-    "category": "관광명소",
-    "tier": "opt",
-    "note": "전망 명소. 트윈타워가 한눈에 보이는 사진 포인트예요.",
-    "tags": [
-      "전망",
-      "관광"
-    ],
-    "qN": 0.4994,
-    "cred": 1,
-    "staticScore": 1.2747
-  },
-  "Petronas Twin Towers Kuala Lumpur": {
-    "placeId": "ChIJH5xmLdE3zDERVpCKfNH9Op4",
-    "name": "페트로나스 트윈 타워",
-    "address": "Lower Ground (Concourse) Level, Menara Berkembar Petronas, Kuala Lumpur City Centre, 50088 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur",
-    "lat": 3.1574693,
-    "lng": 101.7115639,
+  "Doi Inthanon National Park": {
+    "placeId": "ChIJ_2FUVZWr2zARW5cz-sRD41Q",
+    "name": "도이 인타논 국립공원",
+    "address": "119, Tambon Ban Luang, Amphoe Chom Thong, Chang Wat Chiang Mai 50160",
+    "lat": 18.535626200000003,
+    "lng": 98.5221239,
     "rating": 4.7,
-    "userRatingCount": 102780,
-    "primaryType": "historical_landmark",
-    "primaryTypeDisplayName": "역사적 명소",
+    "userRatingCount": 3639,
+    "primaryType": "national_park",
+    "primaryTypeDisplayName": "국립공원",
     "types": [
-      "historical_landmark",
-      "historical_place",
-      "business_center",
-      "government_office",
+      "national_park",
+      "park",
       "point_of_interest",
       "establishment"
     ],
-    "photoName": "places/ChIJH5xmLdE3zDERVpCKfNH9Op4/photos/AaVGc3mKisF6rocPZRDNNYciqX8eabR5kirvjssWe8afkLcKU_NSNX6LkO8Mgzm4UL37tRzGjrGzGrtCRx_DbVgT8xz8zcO1NEIhtRgixrKyrTzLL8jC8dqMbSPoUU6uZWAm36OejLxLK_jDN0YRU5TRcXvcbwBHwSV4pHdzITM_1HApGRW9mP5VINgwiy46IGonMMZe6djTWGRiQiDwitzU2W9mEJkk1BtdG3Mt7s8BEqpWvqH7ewxcBCC7QeCV5f31deg-mKUshmKGPHYSZWjiCot_XhDzqvmmlSZ1OeDduhrXDQQ9DK4SAZBpqRPBw4Hw6XIebWftO3NfOftJvWFIGtX-wMyF8dUDGiHkHHYsB4WJsN3Hpr6SsSEQ8XJ1ljVC5bTm79ecLlgG5awdsgkgTO61FdE8n0rRmcDMPMz_tSRwqLRP",
-    "category": "관광명소",
-    "tier": "must",
-    "note": "KLCC 중심의 대표 랜드마크. 저녁 조명과 분수쇼가 편하고 부모님 사진 찍기 좋아요.",
-    "tags": [
-      "랜드마크",
-      "야경"
-    ],
-    "qN": 0.6995,
-    "cred": 1,
-    "staticScore": 3.3847
-  },
-  "Putra Mosque Putrajaya": {
-    "placeId": "ChIJXW0EGBi2zTERiKBASs5S8lM",
-    "name": "푸트라 모스크",
-    "address": "Persiaran Persekutuan, Presint 1, 62502 Putrajaya, Wilayah Persekutuan Putrajaya",
-    "lat": 2.9360702,
-    "lng": 101.68921300000001,
-    "rating": 4.7,
-    "userRatingCount": 24115,
-    "primaryType": "mosque",
-    "primaryTypeDisplayName": "모스크",
-    "types": [
-      "mosque",
-      "tourist_attraction",
-      "place_of_worship",
-      "point_of_interest",
-      "association_or_organization",
-      "establishment"
-    ],
-    "photoName": "places/ChIJXW0EGBi2zTERiKBASs5S8lM/photos/AaVGc3lc5omCnK2b0TGtNTM4ZyLAE6kGWWPXlKGKNXxUPbhq9aec0Liy6YvPVGR_Q5PjpziiJ5Z7i-ENwJqf45VqdAH0a9OZCz0HOrg7g-vnCAjXjmrOxTi0ZUT8qW9P_kcxeniwTSsP_QODaP6ZhhJFcgRQnXy2DR5NnEjKADP2yV-EahVapA3t_BI8esLhzzio4jB1Soo-U6ceyXAs8_3TQkTy8fBDdn0IpLR4QAjJbd5BahvmMtOwt_x3_GpFGMWBWi3D8Y_1E_9TnJS_8D4ZDydkWNBzftEQCNIwJhVAIOBIt68IVQz5A9c7XD-khhThhLq-DACdayA7mrF-rPI7s3J1rKv4OK4l2XS4ULPagXUt5DcH08_KLLyI-YLSnYi1RaWawLC9y-YIbwVb_lPvfWkQdufSLWYS_TDfVU-NlJ01-IK0",
-    "category": "문화·역사",
-    "tier": "rec",
-    "note": "분홍빛 돔의 호숫가 모스크. 햇빛이 강하니 모자·물 챙기고 복장 안내 확인.",
-    "tags": [
-      "관광",
-      "푸트라자야"
-    ],
-    "qN": 0.698,
-    "cred": 1,
-    "staticScore": 2.3839
-  },
-  "Putrajaya Botanical Garden": {
-    "placeId": "ChIJXW0EGBi2zTERcH3wN1NChlY",
-    "name": "Taman Botani Putrajaya",
-    "address": "Lebuh Perdana Barat, Presint 1, 62000 Putrajaya, Wilayah Persekutuan Putrajaya",
-    "lat": 2.9448068999999997,
-    "lng": 101.6955157,
-    "rating": 4.5,
-    "userRatingCount": 8811,
-    "primaryType": "botanical_garden",
-    "primaryTypeDisplayName": "식물원",
-    "types": [
-      "botanical_garden",
-      "tourist_attraction",
-      "point_of_interest",
-      "establishment"
-    ],
-    "photoName": "places/ChIJXW0EGBi2zTERcH3wN1NChlY/photos/AaVGc3kokzUsK8P1XzAoml0qKJJVHSV40QPU0--92-22RgdPedNAgrPVUdhNv_Be6MsXj8hcJ-Qr5YDwQYBbussip8-ZkWU8x3zNL8o-wXSd8o9DOv2bCOvlpfESmCi4ShTzt4lYDjNVRKC2YJUJch-bX5N0r6N1vTEXC_d30PNMB-1LYGe2cfUOJJKi5gRWR_OfiLCO0Opu7HK4O6ilKfTobVnyfYePvE9V12a2HGSsmwHTCSCRDCWj6ntFe6moBLtaUcCBEcHnZ8cR98lhdyfkoAsF3V1HrrMPiqoH_KYBVd14u3w3rDek3JZRKN1m3_u10D4D4GhMdq2T4YXtT4CI0kBiZRkZVK7B4X26rSutOr__Mvt969LkjtJwZlFodPBLqU2oVi7ix78zYHFibdy-uAqEkbGlRodX3RajeWDmWLPJ9A",
+    "photoName": "places/ChIJ_2FUVZWr2zARW5cz-sRD41Q/photos/AWCwydjsvZfWBzLHxIoy88c3z2_QFm3lTZG9dWw1VyEk224HEMdvARGx4XQqwnivtHOoK_W4wtoM7Hp_Yl5t8Zu1dsyfWCWHr-rvo_AoNMrbBPohqgb_ioRwyvRUrojBa1WO6yXCpkmgb3T8IToBUcHVpHQb9z-qp7Rx1vaSnSebrGJraJPmAeFF4LHFvfsuDd1COALk4Yfhxkw6tYeBWHZ1IanWfz9bp17OITP9So5ZYr--JdLJkzQc1fwTzKIaq7JsCj-_USYfP-2yx5QCjfA_tr05mTB_U5R_K9Aau4VmjL9BRmWc-4hVDMXrpt0MTfycKuZvJcezDHTxu20HHg0rJMJTazbglPDOxICky-tBpuyPkH3WEbFojBJIzVVMvdm44BPkQYNZJLL9Iq0HP2uf00wQC8K1t-Qc9FCgqIfc4F8l0Q",
     "category": "자연·공원",
-    "tier": "opt",
-    "note": "넓은 식물원. 더울 땐 그늘 위주로, 카트 투어도 고려해 보세요.",
+    "tier": "rec",
+    "note": "태국 최고봉. 1~2월 정상 아침은 5~10℃까지 떨어지니 겉옷을 꼭 챙기세요. 왕복 이동만 4시간이라 하루를 통으로 비워야 해요.",
     "tags": [
       "자연",
-      "푸트라자야"
+      "하루코스",
+      "방한필요"
     ],
-    "qN": 0.4973,
+    "qN": 0.6872,
     "cred": 1,
-    "staticScore": 1.2735
+    "staticScore": 2.378
   },
-  "Seri Wawasan Bridge Putrajaya": {
-    "placeId": "ChIJ3-8Ofzi2zTEREFJMGL3FNO0",
-    "name": "Seri Wawasan Bridge",
-    "address": "Lebuh Wawasan, Presint 8, 62100 Putrajaya, Wilayah Persekutuan Putrajaya",
-    "lat": 2.9280217,
-    "lng": 101.6841888,
-    "rating": 4.5,
-    "userRatingCount": 2939,
-    "primaryType": "bridge",
-    "primaryTypeDisplayName": "다리",
+  "Elephant Nature Park Chiang Mai": {
+    "placeId": "ChIJj21Ja6g62jARFSuw0w8gLNs",
+    "name": "Elephant Nature Park",
+    "address": "ชม.3052 Tambon Kuet Chang, Amphoe Mae Taeng, Chang Wat Chiang Mai 50150",
+    "lat": 19.217172899999998,
+    "lng": 98.86003799999999,
+    "rating": 4.8,
+    "userRatingCount": 5067,
+    "primaryType": "pet_care",
+    "primaryTypeDisplayName": "애완동물 관리용품점",
     "types": [
-      "bridge",
+      "pet_care",
+      "park",
+      "point_of_interest",
+      "service",
+      "establishment"
+    ],
+    "photoName": "places/ChIJj21Ja6g62jARFSuw0w8gLNs/photos/AWCwydivaJWPSSxu2AvjbkPHmRETOygc5UlllWh6xnIXu8xHzuvqeM9g4tB8fvE-FAKvVt4mQOT8X7OMwh5GboQc6HByYVRbr3REnyBAW-8VQmFThhL1AK_5fVulHX0jDI0vwRF2E5xYN_eKcfOsh1l3OSK1bfhLG4ltv3F6yBeBRR5IRT51qzvKkdm77LcqPHyIHc32HS2A0RplmL33WHwSkcXNgt0uu8DLrl0gMukCuCrvLo3EDNp_SS8YrQNXsrIGYqqHBUJsYaYVioQ9IA1UvoOW1k19YMYe0eNVaFWnW6K04OH3o4rd1hvI33AtjJpSPvNoAoLJvSsnMy8gSCQWVCVZlmJb8j6nHEj9tQdCpwDWb3nIXPJrj2ypOknqP1KZz6Mka8W-oF6YWbQ8Ir4QbSNjIbvCG3eFqZwvh3NQMp4",
+    "category": "관광명소",
+    "tier": "rec",
+    "note": "타지 않고 돌보기만 하는 코끼리 보호소. 하루 일정이고 몇 주 전 예약이 필수라, 날짜 정해지면 제일 먼저 잡아두세요.",
+    "tags": [
+      "예약필수",
+      "자연",
+      "하루코스"
+    ],
+    "qN": 0.7884,
+    "cred": 1,
+    "staticScore": 2.4336
+  },
+  "Huay Tung Tao Lake Chiang Mai": {
+    "placeId": "ChIJCVqAJvI72jARjRv4kk8BNDA",
+    "name": "Huai Tueng Thao",
+    "address": "Huai Tueng Thao, Don Kaeo, Mae Rim District, Chiang Mai 50180",
+    "lat": 18.8678564,
+    "lng": 98.9404039,
+    "rating": 4.5,
+    "userRatingCount": 1223,
+    "primaryType": "lake",
+    "primaryTypeDisplayName": "호수",
+    "types": [
+      "lake",
+      "natural_feature",
+      "establishment"
+    ],
+    "photoName": "places/ChIJCVqAJvI72jARjRv4kk8BNDA/photos/AWCwydh3xrjX1U2IsDay8swwFvVgfmjTA_BWk0vP9vpU915YrjxnxGc7AhK1YdmbJa8_osXXgS29BgqoX36ksS6dOhOiHCh0hk_i7M3LIktpeANlyCzPHhr7mq_11TjOcssou98mNuiMky7r1cmSecgTTtavcezOdS-3-cuI5aM8YdvMusb9t2S0pZtdWXoHqRtrMPr7TD8qmlTKh0Huya9X79Mi2GM_0e3Be1Gzf0NVgItPw4G1lMYFx5C8gitxMHrxznjzcIewrqGTKQ69K-qbYSVuwkatG0orgh2LR-E5Zckhr0qfXek_exuduDg1f4f-SBIDdG-nj7a3WpLqyaej2bJ7VOfG0yk6d0vpQnr4sQ-pZgbkpExKNssaMCeM3L8KRYBojUhbyEauE6lS4R5OeK9OGXdzG_Rj9tkNwI4pde1v1A",
+    "category": "자연·공원",
+    "tier": "opt",
+    "note": "호숫가 원두막에 앉아 먹고 쉬는 로컬 피크닉 명소. 건기라 물가가 낮지만 도이수텝 산자락 풍경이 좋아요.",
+    "tags": [
+      "호수",
+      "피크닉",
+      "자연"
+    ],
+    "qN": 0.4821,
+    "cred": 1,
+    "staticScore": 1.2652
+  },
+  "Khao Soi Khun Yai Chiang Mai": {
+    "placeId": "ChIJX4UC5ZA62jARc0S5-3rUIok",
+    "name": "카우써이 쿤야이",
+    "address": "QXWM+47J, Soi Sri Poom 8 Old City Tambon Si Phum, Amphoe Mueang Chiang Mai, Chang Wat Chiang Mai 50200",
+    "lat": 18.7953284,
+    "lng": 98.9831449,
+    "rating": 4.6,
+    "userRatingCount": 2910,
+    "primaryType": "thai_restaurant",
+    "primaryTypeDisplayName": "태국 음식점",
+    "types": [
+      "thai_restaurant",
+      "restaurant",
+      "point_of_interest",
+      "food",
+      "establishment"
+    ],
+    "photoName": "places/ChIJX4UC5ZA62jARc0S5-3rUIok/photos/AWCwydgvaOJ6DnD6BD5hKilnsrtohhVUhNrRYbagZzlgwj77NWzKnVLeucYLT8Jdy0QIqgBpXd6Hvy1aScYZIgdcpM_SbwPHilcPCO1PakMV9b8k6wXZWbsXgGP0cRJDsV9yvOSNRsqlcCcGNAAsQSnMe-FHRoShDFjM_nIWNH7LGaEvx1a5VO9OBJcYbTF9YibvGWJhdK5nH2GBieptPLfXktx19dtynIPplOK0mj0wr2eNS-Zn0uLD6rrCI4mmsbVnX0XJQbU4eVGibot6y437pw6pG8DksEl3OS2XSIKtDH-8retloxpLM86M-WRPy6t4NKyb8mgT_Ze9tuCvlltZOubI4kVzqlEC-5GAEdxyoNqbF57vuxascfaYeHKrMxNTPp7bJNF08DJWYs_n1_kPvni7K45wNrNdjLGnQALOCWyXgnbdNDHkuQcxfrZ7wwFN",
+    "category": "음식점",
+    "tier": "rec",
+    "note": "치앙마이에 왔으면 한 번은 먹어야 할 카오소이. 점심 무렵 재료가 떨어지면 닫으니 11시~13시 사이에 가세요.",
+    "tags": [
+      "카오소이",
+      "현지음식",
+      "점심"
+    ],
+    "qN": 0.5881,
+    "cred": 1,
+    "staticScore": 2.3235
+  },
+  "Mae Kampong Village Chiang Mai": {
+    "placeId": "ChIJq-_U4KqN2TARbXvToyNYsf0",
+    "name": "Mae Kampong Village",
+    "address": "V982+695, Huai Kaeo, Mae On District, Chiang Mai 50130",
+    "lat": 18.8655073,
+    "lng": 99.35098459999999,
+    "rating": 4.5,
+    "userRatingCount": 5909,
+    "primaryType": "tourist_attraction",
+    "primaryTypeDisplayName": "관광 명소",
+    "types": [
       "tourist_attraction",
-      "transportation_service",
       "point_of_interest",
       "establishment"
     ],
-    "photoName": "places/ChIJ3-8Ofzi2zTEREFJMGL3FNO0/photos/AaVGc3maCfQy_krNreQXc54o35U4TK3RPb6J03mKREfTYJO0mEMFKT--A0izAlAm4Tg5FkpCT1s2BIgP0JsSukFfONpGq7GuM2kiYT6XLtqqekKprH0cDlELygVhaQRnFrwINrAuzWtVR5gBlNhT0Iq9xTzeM9k2pvME_6QnKmcwi8K3NlmRE9NhzrTklGPtdxSaQtcsLuoPkvnXae8-rGMQEYU2PMiXEJAHYJGUGVo1rFbCo7oUHajHUk6jbhoH1aHR-ZE8YdLjI6gpiZ0ZmbPb-1nCrkEpEnbayFVAWmOEt0TfCUQRR4S-L0ZStmFMdMvup1N7bnqv6tbACymDRkAGdpBC6lpezdsYEzGh-Q4Gcru78uiZN35bqoa92VLRxODh4VcH53DTk8llr-vlnYRP9aI3jKgBrwNBtAOSg77QWHY",
+    "photoName": "places/ChIJq-_U4KqN2TARbXvToyNYsf0/photos/AWCwydhwTAUXfOjT1UniPSOLWu3pzPcTk_O9y_xMEopt33NKCMm6ZTChPSTWMdMhvUp6bmiNKWhlY2TawCdNnNv4cpRa_R_l6AB54pMSkwKpjkEYzRIclyGS9oNTfCVptStfZE5edxE0aYkQXpEeAOI5BDMvjV5zy_s2m3d5rneNLznyr_wCMTrTgEiqwyitD8DSWhY3IR0m4gAtP3c2W1dE0xTkD9FWd3uvjgN85ECZfjKhsorwCEbZX5dwoTmnz0EiP_JWuQrv58nH1y4cJCVcIf7kO-qdJucx90QEvhCGJK4Kun_tYaqp-6qNYoQNf5sfnxD2P3BRrrZ_J_35xlKJGksUICuvsdh5m0NWdV3_NduygKvEtQeOcyiS5wYe5uIY2SVVGwICovd_FSOjm2P-sTsOsIu9wdRHxFK8DYXANzXR5w",
     "category": "관광명소",
-    "tier": "opt",
-    "note": "호수와 다리가 함께 보이는 산책 코스. 해질 무렵 짧게 들르면 덜 덥고 사진도 예뻐요.",
+    "tier": "rec",
+    "note": "차로 1시간 남짓 올라가는 산속 마을. 계곡 위에 걸친 카페들이 있고 1월 말이면 서늘해서, 반나절 드라이브 코스로 좋아요.",
     "tags": [
-      "산책",
-      "푸트라자야"
+      "산촌",
+      "카페",
+      "반나절"
     ],
-    "qN": 0.4922,
+    "qN": 0.496,
     "cred": 1,
-    "staticScore": 1.2707
+    "staticScore": 2.2728
   },
-  "Suria KLCC": {
-    "placeId": "ChIJH5xmLdE3zDERKa4a_IywVck",
-    "name": "수리아 KLCC",
-    "address": "Lot No. 241, Level 2Menara, Menara Berkembar Petronas, Kuala Lumpur City Centre, 50088 Kuala Lumpur, Wilayah Persekutuan Kuala Lumpur",
-    "lat": 3.1572757,
-    "lng": 101.7122335,
-    "rating": 4.6,
-    "userRatingCount": 75149,
+  "One Nimman Chiang Mai": {
+    "placeId": "ChIJ8QdNKPU72jARtz_iHmA6_zk",
+    "name": "원님만",
+    "address": "1/1-1/12, 1/5 Nimmanahaeminda Road Nimmanhaemin Tambon Su Thep, Amphoe Mueang Chiang Mai, Chang Wat Chiang Mai 50200",
+    "lat": 18.8000644,
+    "lng": 98.96762989999999,
+    "rating": 4.5,
+    "userRatingCount": 13125,
     "primaryType": "shopping_mall",
     "primaryTypeDisplayName": "쇼핑몰",
     "types": [
       "shopping_mall",
+      "tourist_attraction",
       "point_of_interest",
       "establishment"
     ],
-    "photoName": "places/ChIJH5xmLdE3zDERKa4a_IywVck/photos/AaVGc3l-uFhq1jpIZxwomN0ifITXUBH9teyXgtPQyUserqCTG4MthjnstA3cswJjOsz6q4tyA5rZRzX3KTbxgL6C4YMKSc28RXprdqQICx975OaxVhRiYT3LWVnCfu3mLvYUwqjrUeL9pkeBgrr8Nj50FMVLK--zzcZl52eAm-V2zlWaBpOHDQdY_RzjVE6VPgf6kqnBR4ajYlLfge_7NuoEJD8BUzTqiL5VwD_NLEpjUk3Iu7zRA0Jy8PNaUGdHCW-GbS-E2R1Q-nC2UkzEGGa1sJzgiTbB0NW6N7sNfo2WBkgI9oC2WQPI_2B6SZedKnkk_FTodkvcfu_EpSmM0WpwGpdJh4PRv87WvTpA3zLQXvbXkN88Lo6IeQWJOVEScq8lz13BEeOFXJcBZyw6MtCizSLKegH8dlelXmnzrBxQpiF3jA",
+    "photoName": "places/ChIJ8QdNKPU72jARtz_iHmA6_zk/photos/AWCwydjXB3IemQ44EBn20KgGA1L-O7nYePG4nRtRIxXPP2OSx0fLaaKu1FRtHdctDsSskccWhiuCJmO7V1FjaMdD1MS5Qrzt38gwnQv85Dnl78R_lyMWSawDYhS0dE4Th4oOTvapdyQuLNDCaaMxSDkFiOESgTLu-gbGmKiKASu61Imp6bArUUjJC_SREm7rUfoxvjUB6ymjonBbVXPUYpV72-lNpY20f8dT_ayGtddnBobLGBCGJHgCGV2kXS_xA9rrOtvBIsLEVngyux0E1DFAkboT6EPJiNynBEHruUfi8BQAx5sJcWcJfwsJEXUR_aezmV1Z1gYobzEv2aeIi2V2uxfgbUleXvoUtSpzFPnCmbpZ3jCm8QywV46jq1-IvWUNmlVwK5yfetgy4LFUe1t5qNvrvcA3MpQB3SA6hu0z1u0",
     "category": "쇼핑",
-    "tier": "opt",
-    "note": "더위·비를 피하기 좋은 실내 쇼핑몰. 식사·휴식 동선으로 무난해요.",
+    "tier": "must",
+    "note": "님만해민의 중심 광장. 카페·편집숍·주말 마켓이 모여 있어 둘이 반나절 어슬렁대기 딱 좋아요.",
     "tags": [
+      "님만해민",
       "쇼핑",
-      "실내"
+      "카페"
     ],
-    "qN": 0.5995,
+    "qN": 0.4982,
     "cred": 1,
-    "staticScore": 1.3297
+    "staticScore": 3.274
+  },
+  "Ristr8to Coffee Chiang Mai": {
+    "placeId": "ChIJIdQIQbc72jARb7Z3AF_aLSg",
+    "name": "Ristr8to Original",
+    "address": "15/3 Nimmanahaeminda Road Nimmanhaemin Tambon Su Thep, Amphoe Mueang Chiang Mai, Chang Wat Chiang Mai 50200",
+    "lat": 18.7990977,
+    "lng": 98.9672264,
+    "rating": 4.6,
+    "userRatingCount": 1251,
+    "primaryType": "coffee_shop",
+    "primaryTypeDisplayName": "커피숍/커피 전문점",
+    "types": [
+      "coffee_shop",
+      "cafe",
+      "food_store",
+      "store",
+      "point_of_interest",
+      "food",
+      "establishment"
+    ],
+    "photoName": "places/ChIJIdQIQbc72jARb7Z3AF_aLSg/photos/AWCwydiJwHj7lxGzoPrA5MRQ3PP3PsyGAI4GFODI4Nvcg33Sgkyu5s4vpTJgQZXh3hQ-7a52WQrWoBLFunp2cByYHFgm5p-kVscNM_bCkGtLWF49fE2gHTOlpq9SwCtpaEhavYdm0RNBMqTaH7lgk5tqIxQaNkmGVhgAyA1vYyGvzt3_JKOoo7VWyELYukOkJ1U7RFzwaxFytsHVhwcXLm39IMb-LYFrqZZt6GDRlOaqeWc9A9n3VMMpAfBGeZWo0qDsaPJdJjrhumkeSwY5av7zPvsJRabWQ_iqEhmNaEt1YsBU5DdWegYF3A8zvppVL2_BQMGwcTQJZAvbc337T9TiKnU5wlaR6HyHctKl1_AfCAwqUMrxuCU1uAu_-RWI4cD_ffjVzxhUgxFyTvG6yOQ5jlI1qNofvvFMXXlKThC2KNWjivPN4d9jMCVwTq7mxVBV",
+    "category": "카페",
+    "tier": "opt",
+    "note": "라떼아트 세계대회 입상자의 카페. 치앙마이 커피 신을 대표하는 곳이라 커피를 좋아한다면 한 잔.",
+    "tags": [
+      "카페",
+      "님만해민"
+    ],
+    "qN": 0.5737,
+    "cred": 1,
+    "staticScore": 1.3156
+  },
+  "Sunday Walking Street Tha Phae Chiang Mai": {
+    "placeId": "ChIJs_Isopg62jARSxmmZpK66tw",
+    "name": "Tha Phae Walking Street",
+    "address": "Rachadamnoen Rd Old City Tambon Si Phum, Amphoe Mueang Chiang Mai, Chang Wat Chiang Mai 50200",
+    "lat": 18.787808899999998,
+    "lng": 98.9927387,
+    "rating": 4.5,
+    "userRatingCount": 6808,
+    "primaryType": "market",
+    "primaryTypeDisplayName": "시장",
+    "types": [
+      "tourist_attraction",
+      "grocery_store",
+      "market",
+      "food_store",
+      "store",
+      "point_of_interest",
+      "food",
+      "establishment"
+    ],
+    "photoName": "places/ChIJs_Isopg62jARSxmmZpK66tw/photos/AWCwydh7iX4uIdejOt2C7uKnxFxK9VLFZ_KmQ-2NfeqdLdR3gI82mU-wuR_pXbL0O1kFHiHFrMwjs3cGWR3BUI7nDy5zv2Ee7cMh2fckSyGfLXD5D6KkVVigIVKhAtUhPu_NSHsxeBj4GFCc1lx_1JNk3oz3kyXW2V03gCPi7P2OvJvr6AQUFrwu2pwOtTqVAd62i7sqT1sgDG7Rq8VXtAuzjSKqp0i1hBMIDna9frNPy07u6Hkg6br70yWNFpj9x__SSzLaaIGySQxygvjZDIrUrT8JooSELlJLMNorlzg3Q5bNBTnf2vVXWNKDv2iR0Yj0fdefiC4ei93mUKuMPXohvwyP9VIqLzGR-Hc_mAouogzopNsopPKIC-u2oMzhOTFFsTX5UMBP1Vdy9mUQoAn1eEaNr7pYbDj360i54rXS2JuCxPYl",
+    "category": "쇼핑",
+    "tier": "rec",
+    "note": "일요일 저녁에만 열리는 구시가 보행자 마켓. 4시쯤 시작해 6~8시가 절정이라 이른 저녁에 가면 덜 밀려요. 소매치기만 주의.",
+    "tags": [
+      "야시장",
+      "일요일한정",
+      "쇼핑"
+    ],
+    "qN": 0.4965,
+    "cred": 1,
+    "staticScore": 2.2731
+  },
+  "Warorot Market Chiang Mai": {
+    "placeId": "ChIJUXF8Lzo72jARQGy1_Bh_wCQ",
+    "name": "와로롯 시장",
+    "address": "10,12 14 Wichayanon Rd, Tambon Chang Moi, Amphoe Mueang Chiang Mai, Chang Wat Chiang Mai 50300",
+    "lat": 18.789849399999998,
+    "lng": 99.00099639999999,
+    "rating": 4.4,
+    "userRatingCount": 6919,
+    "primaryType": "market",
+    "primaryTypeDisplayName": "시장",
+    "types": [
+      "market",
+      "point_of_interest",
+      "establishment"
+    ],
+    "photoName": "places/ChIJUXF8Lzo72jARQGy1_Bh_wCQ/photos/AWCwydhMsytBq-RmucNLal3U25ZRgNzKqrrjksbJQprJfpBr-QQlbkpDE7VxvA2Dm_kJ2aTJ2YQ-k5tLvT4sVBHa4XNutaMpTCP_Z_Y90o1M5ddoqUbjiwa5Z67oXQXjCLimQzQ1LL6rc7-FhX1QKR9wN0rYrIVEUzR8yraYcC3PcrWWbG5zaVqPltaZVOIBNQznrtJj7vCrNZ8_ipbV37GPIxP3gkz0eT9d9SI1HCEyvxuv3xdVzWQbfYk9Lgp5xeaXQWQbaHdI2vR5h8li_Hkv7sX-PtTDld2ng_vQ_QlNwf5K8HqotVy3L9XeAO5S9EiVtDmblT9PKMYc1PeyUSoB-uspAYLkJtQK1sdK0H94knAtCZEMVVuvrzDeEyXyIuLhb5HiN1LcpB66SeZZduCxIcJqxFphkE0bR0Et39xIu6xqqg",
+    "category": "쇼핑",
+    "tier": "rec",
+    "note": "관광 시장이 아닌 현지인 재래시장. 건과일·향신료·간식 사기 좋고 오전이 가장 활기차요.",
+    "tags": [
+      "시장",
+      "로컬",
+      "기념품"
+    ],
+    "qN": 0.3983,
+    "cred": 1,
+    "staticScore": 2.2191
+  },
+  "Wat Chedi Luang Chiang Mai": {
+    "placeId": "ChIJFRQRM5k62jARuqhLBJpw91w",
+    "name": "왓 쩨디 루앙",
+    "address": "QXPP+QCQ, 103 Prapokklao Road Old City Tambon Si Phum, Amphoe Mueang Chiang Mai, Chang Wat Chiang Mai 50200",
+    "lat": 18.7869693,
+    "lng": 98.9865804,
+    "rating": 4.7,
+    "userRatingCount": 18583,
+    "primaryType": "buddhist_temple",
+    "primaryTypeDisplayName": "불교사찰",
+    "types": [
+      "buddhist_temple",
+      "tourist_attraction",
+      "place_of_worship",
+      "association_or_organization",
+      "point_of_interest",
+      "establishment"
+    ],
+    "photoName": "places/ChIJFRQRM5k62jARuqhLBJpw91w/photos/AWCwydhv4stcBjetmU6tNPnBqIjW6KE9XoCmV-1jYPYyXGvp2HfDmynIZfQj2X7M0WUUB28NXKKcVJbTXNX4c-bAlXm2EuH_4jADyK35DkzEb7cEA1zv5Qqtc4tpeZUKI_uCMN_A4XritOKfKuqJaL7N-OruWhTUD8oQQ_JiwMPQXoo8k89qCFvictFsVB_B8kU0sJQML2trCi7C36k8_dlMN5Rfde6wMpnCDJ2eQcgypK5wL4XJbMSEEKJ7WyTuCoBTJVh3-uEq5ep2yz-aGPYoKiePCMmb8ER1EvKL1DNo8cOf0uqbSm9av2DWEgFE3gHNjMglNnsXCD0yeZQcxmSllqykHyJ6e31qhdzLGdJqA1r5vzFgHyiLWZitf7QBHEnk2FffutMBKNqH7YUAq0UpAeAAXOqx-7nTlYk-imAU7o7hgA",
+    "category": "문화·역사",
+    "tier": "must",
+    "note": "구시가 한복판의 무너진 대탑. 해 진 뒤 조명이 켜지면 분위기가 완전히 달라져 저녁 산책 코스로 좋아요.",
+    "tags": [
+      "사원",
+      "구시가",
+      "야경"
+    ],
+    "qN": 0.6974,
+    "cred": 1,
+    "staticScore": 3.3836
+  },
+  "Wat Phra Singh Chiang Mai": {
+    "placeId": "ChIJbyRKbps62jAR6VTNF-fZVpY",
+    "name": "왓 프라싱",
+    "address": "2 Samlarn Rd Old City Tambon Si Phum, Amphoe Mueang Chiang Mai, Chang Wat Chiang Mai 50200",
+    "lat": 18.7885265,
+    "lng": 98.9819946,
+    "rating": 4.7,
+    "userRatingCount": 17475,
+    "primaryType": "buddhist_temple",
+    "primaryTypeDisplayName": "불교사찰",
+    "types": [
+      "buddhist_temple",
+      "place_of_worship",
+      "association_or_organization",
+      "point_of_interest",
+      "establishment"
+    ],
+    "photoName": "places/ChIJbyRKbps62jAR6VTNF-fZVpY/photos/AWCwydicKmH-04el_K3KECkbZmQ3AVW_tERSrng57s80Yjd63D3rkB3BpWdMykxEHDf1xw6XM5Dgda2e3_pxQ56uX-OjGcLO37SP4sMxvhjkk5TMMLK6LzHdJcgYD0FUG7ZveTPFermQ-BvHlZuz24MtMC8_8RFfHknfryjkbjlaAb8yGQRt8rTgwdjBKSZ5kiJIH0mCYXyMJOd-b3OaA_pEWmezzKRltB7vDASthspRpc8L0OO4t2WVYpUmgsSVlS_P3dlHoznCJmgbt34QQT9VrYITyvUoEfbtW65qeVf4KboiIBQzRhr29v9OxXtLVC9KiNv7RI2TtrPYjQjHjoPg1HzMH7oXlhZJKpVNUUjj_MgObs9EB5Gg5ItxOIrpWxyIMk_r_zLjPcjbLtLsueDK2Wkvc8LAuG2-DzlvALzb0m27ffY",
+    "category": "문화·역사",
+    "tier": "opt",
+    "note": "구시가에서 가장 격이 높은 사원. 왓 쩨디루앙과 걸어서 이어지니 한 번에 묶어 도세요.",
+    "tags": [
+      "사원",
+      "구시가"
+    ],
+    "qN": 0.6973,
+    "cred": 1,
+    "staticScore": 1.3835
+  },
+  "Wat Phra That Doi Suthep Chiang Mai": {
+    "placeId": "ChIJtd3x37U52jARIX7FrlxMhp0",
+    "name": "프라탓 도이수텝 사원",
+    "address": "Suthep, Mueang Chiang Mai District, Chiang Mai 50200",
+    "lat": 18.804988899999998,
+    "lng": 98.92163370000002,
+    "rating": 4.7,
+    "userRatingCount": 11905,
+    "primaryType": "buddhist_temple",
+    "primaryTypeDisplayName": "불교사찰",
+    "types": [
+      "buddhist_temple",
+      "place_of_worship",
+      "association_or_organization",
+      "point_of_interest",
+      "establishment"
+    ],
+    "photoName": "places/ChIJtd3x37U52jARIX7FrlxMhp0/photos/AWCwydjuFGCu82xNr7R7Y4Krv53Jg6l9-n1WEdgXrcaejeoBoPlshFy41ZrOHk-TSCek_tQnFwylsh441BHIn8ivFrkes96TIljFmo1-e4oF2nvN9pKMwih0Zm3E9SLCuS9hEV9c0gr8LwGKOX3bQ0G68WWhUA846pbumRVOk69knzTJjE1FaXedKQQhuksR2a2BCsAwwAz4Eol5Xr09JtjYIScXnHEsf6W0ZIbKNsTIz3B_QYkUkoqhulhBBX4wAmhH_PMHltkdu7bQ02S1NIWPiNVUZHYyhj15Y87h2SqpKE1Hr8wzoBzqHdPtKPGnOQBGXhpp08Ssnpettloan0aAEMf6huwq4iAR_d7rgjsrY8s772xxnE-Qip4u9hRS3_T-PR_cVqr8eTXlDEkbjzIe4SpQyDMof5PY_8onGe38yhFjNYb4",
+    "category": "문화·역사",
+    "tier": "must",
+    "note": "치앙마이를 내려다보는 산 위 황금 사원. 오후 늦게 올라가 일몰까지 보면 가장 좋아요. 산길이 굽이지니 멀미가 있으면 앞좌석을 부탁하세요.",
+    "tags": [
+      "랜드마크",
+      "사원",
+      "전망"
+    ],
+    "qN": 0.696,
+    "cred": 1,
+    "staticScore": 3.3828
+  },
+  "Wat Sri Suphan Silver Temple Chiang Mai": {
+    "placeId": "ChIJ81yeUHYw2jARY_cUFjY3Yxk",
+    "name": "왓 씨쑤판",
+    "address": "100 Wua Lai Rd, Tambon Hai Ya, Amphoe Mueang Chiang Mai, Chang Wat Chiang Mai 50100",
+    "lat": 18.7787227,
+    "lng": 98.9836524,
+    "rating": 4.5,
+    "userRatingCount": 4551,
+    "primaryType": "buddhist_temple",
+    "primaryTypeDisplayName": "불교사찰",
+    "types": [
+      "buddhist_temple",
+      "place_of_worship",
+      "association_or_organization",
+      "point_of_interest",
+      "establishment"
+    ],
+    "photoName": "places/ChIJ81yeUHYw2jARY_cUFjY3Yxk/photos/AWCwydiSmCEk2kdtfudZbzkpAmCNXYS883j6NIDF_ZhlO_6C23PieGEwFFAKsJRV06eGRZexwJspNRwvmaG3zvkECCZ35gsSHrtTDRoMjIbOSinLriICxF9kPEQd1dTiR0IABazMvJOs2M0s6oK0p0UOBxFeDQ80b89MxxNEbQvlcmkAhIiSxIakSi1noIMzrxhQj54hiVmeCyY7b63ZEhv8-7SBijgyj_so3sqoh_Iowoaip9X3kVsvlTVAD_DIQfuCocpqlhAcxQIsFSVLUg8nv12hV30omWFN0ZdYZrOoUwvVwdFbCuma4fCVumTQdQvfe3bG1xfDQByV-oNBQ9gXZV0Uzo4Np_Ye2FyIao31wFVN2i8r4e5PeGe8mw8I4J8QYqWWQF4_Ptu0DEeDoB6FG_Quk8Z2BYKdv2jR28s4lsY",
+    "category": "문화·역사",
+    "tier": "opt",
+    "note": "은으로 뒤덮인 독특한 사원. 본당은 여성 출입이 제한되니 바깥 정원 위주로 보시면 돼요. 야간 조명이 예뻐요.",
+    "tags": [
+      "사원",
+      "야경",
+      "출입제한"
+    ],
+    "qN": 0.4949,
+    "cred": 1,
+    "staticScore": 1.2722
+  },
+  "Wat Umong Chiang Mai": {
+    "placeId": "ChIJnWhAb3A62jARWVBZnaOa7-0",
+    "name": "왓 우몽(동굴 사원)",
+    "address": "135, Tambon Su Thep, Amphoe Mueang Chiang Mai, Chang Wat Chiang Mai 50200",
+    "lat": 18.7827263,
+    "lng": 98.9521099,
+    "rating": 4.6,
+    "userRatingCount": 11449,
+    "primaryType": "buddhist_temple",
+    "primaryTypeDisplayName": "불교사찰",
+    "types": [
+      "buddhist_temple",
+      "tourist_attraction",
+      "place_of_worship",
+      "association_or_organization",
+      "point_of_interest",
+      "establishment"
+    ],
+    "photoName": "places/ChIJnWhAb3A62jARWVBZnaOa7-0/photos/AWCwydgR3i2aauK2XLsrKZ-TkgClkjX32stVaMVDo-o1DzHi6vIC1eBT75JUt8KkmY4TxqYhY7TGbCGH3JowzRGVLe89eNQE8z_Ycfa6_zPtDUqciQhAXgEIugXwbfKkPIg11nuWN32cPWgk4gcZVUYq0srWWe042-fErQetU6b_glnKAr_khyTcYRvghQfmED881BATCKoS2D-QeATyMZIiL0Uc3cqP-TOXqBZv3ZfPgxlRnoP1WET9ZrB3Gmzf9g0t-7VyGgjF5zzI2LZh4oimLIe_MY9EE9mPjnFnYmYbkvdu-oFKWIdXx2Z3ICHJFD-AAcQflgfYG5SFIZOVpAPtPI5Xqk-rDXvt12c-iuS5xukXRpckjMmM_aLvia-vqwt2qZjlV0SQiWkUSg1LNo0NxhL9Zp5m8y7PROedTgSbgdsmsQs",
+    "category": "문화·역사",
+    "tier": "rec",
+    "note": "숲과 터널이 있는 조용한 사원. 관광객이 몰리는 구시가 사원과 결이 완전히 달라, 오전에 둘이 천천히 걷기 좋아요.",
+    "tags": [
+      "사원",
+      "숲",
+      "한적함"
+    ],
+    "qN": 0.5969,
+    "cred": 1,
+    "staticScore": 2.3283
   }
 }

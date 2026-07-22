@@ -8,10 +8,9 @@
 //   /resolve-link  {shareUrl}                        → {lat,lng,label}
 //   /routes        {origin,destinations:[{lat,lng}]} → [{distanceMeters,durationSeconds}]
 //   /nearby        {center,category,radius?}          → [{placeId,name,...,primaryType,types}]
-// GET 엔드포인트 (키 불필요 정부 공개 데이터 프록시 — data.gov.my 는 CORS 미허용이라 여기서 우회):
+// GET 엔드포인트:
 //   /photo?name=&maxw=       → 이미지 바이트 스트리밍
-//   /weather-warning         → [{title,text,validFrom,validTo,...}] (활성·KL권역 육상 경보만)
-//   /weather-forecast?location= → {date,summary,summaryWhen,minTemp,maxTemp,...} (해당 지역 오늘 예보)
+// (날씨·대기질은 Open-Meteo 가 CORS 를 허용하므로 프론트에서 직접 호출한다 — 프록시 불필요.)
 //
 // 시크릿:  GOOGLE_MAPS_API_KEY  (wrangler secret put)
 // 변수:    ALLOWED_ORIGIN       (CORS 허용 오리진; 운영 시 Pages 오리진으로 고정)
@@ -39,7 +38,7 @@ async function geocode(address, env) {
   const url = new URL("https://maps.googleapis.com/maps/api/geocode/json");
   url.searchParams.set("address", address);
   url.searchParams.set("language", "ko");
-  url.searchParams.set("region", "my");
+  url.searchParams.set("region", "th");
   url.searchParams.set("key", env.GOOGLE_MAPS_API_KEY);
 
   const res = await fetch(url);
@@ -64,7 +63,7 @@ async function autocomplete(input, sessionToken, env) {
   const body = {
     input,
     languageCode: "ko",
-    includedRegionCodes: ["my"], // 말레이시아로 한정
+    includedRegionCodes: ["th"], // 태국으로 한정
   };
   if (sessionToken) body.sessionToken = sessionToken;
 
@@ -181,7 +180,7 @@ const NEARBY_INCLUDED_TYPES = {
   카페: ["cafe", "coffee_shop", "bakery"],
   관광명소: ["tourist_attraction", "observation_deck", "amusement_park", "historical_landmark"],
   쇼핑: ["shopping_mall", "department_store", "market"],
-  "문화·역사": ["museum", "art_gallery", "mosque", "hindu_temple", "church", "monument", "performing_arts_theater"],
+  "문화·역사": ["buddhist_temple", "museum", "art_gallery", "hindu_temple", "church", "monument", "performing_arts_theater"],
   "자연·공원": ["park", "botanical_garden", "garden", "zoo", "aquarium", "national_park"],
 };
 
@@ -243,94 +242,6 @@ async function nearby(center, category, env, opts = {}) {
     }));
 }
 
-// ---- data.gov.my 날씨(MET Malaysia 공식) 프록시 ----
-// data.gov.my 는 CORS 헤더가 없어 브라우저가 직접 못 부른다 → 서버측에서 받아 우리 CORS 로 재포장.
-// 시각 문자열은 타임존 표기 없는 MYT(UTC+8) wall-clock → "UTC 로 파싱"하는 동일 규칙으로 비교(일관성만 유지).
-const DATAGOV = "https://api.data.gov.my/weather";
-const MYT_OFFSET = 8 * 3600 * 1000;
-const RE_MARINE = /waters of|perairan|rough seas|laut bergelora/i; // 해상 경보(도심 여행 무관) 제외용
-// KL권역만. "Wilayah Persekutuan" 단독은 라부안(동말레이시아)까지 매치하므로 제외 —
-// KL/푸트라자야 경보는 텍스트에 항상 "Kuala Lumpur"/"Putrajaya" 가 명시된다.
-const RE_KL = /Kuala Lumpur|Selangor|Putrajaya|\bKlang\b/i;
-
-function wallClockEpoch(s) {
-  if (!s) return null;
-  const t = Date.parse(s + "Z"); // MYT wall-clock 을 UTC 로 간주(비교 일관성용)
-  return Number.isFinite(t) ? t : null;
-}
-
-// 활성 + No-Advisory 아님 + 해상 아님 + KL/셀랑오르 권역 텍스트 매치만 통과.
-function filterWarnings(list, nowWallEpoch) {
-  return list
-    .filter((w) => {
-      // heading_en 은 경보별 실제 종류, title_en 은 게시판 공통 헤드라인 → 둘 다로 판정.
-      const head = `${w.heading_en || ""} ${w.warning_issue?.title_en || ""}`;
-      if (/no advisory/i.test(head) || !w.valid_from) return false; // 사이클론 '없음' 플레이스홀더 제거
-      const from = wallClockEpoch(w.valid_from);
-      const to = wallClockEpoch(w.valid_to);
-      if (from == null || to == null) return false;
-      if (!(from <= nowWallEpoch && nowWallEpoch <= to)) return false; // 만료/미래 제외
-      const text = w.text_en || "";
-      if (RE_MARINE.test(head) || RE_MARINE.test(text)) return false;
-      return RE_KL.test(text);
-    })
-    .map((w) => ({
-      title: w.heading_en || w.warning_issue?.title_en || "", // 경보별 종류 우선
-      issued: w.warning_issue?.issued || null,
-      text: w.text_en || "",
-      instruction: w.instruction_en || null,
-      validFrom: w.valid_from,
-      validTo: w.valid_to,
-    }));
-}
-
-// data.gov.my 가 멈추면 Worker 가 벽시계 한도까지 매달리지 않도록 8초 타임아웃.
-const govFetch = (url) =>
-  fetch(url, { headers: { "User-Agent": "paldo-proxy" }, signal: AbortSignal.timeout(8000) });
-
-async function weatherWarnings(_env) {
-  const res = await govFetch(`${DATAGOV}/warning/`);
-  if (!res.ok) throw new Error(`warning http ${res.status}`);
-  const list = await res.json();
-  return filterWarnings(Array.isArray(list) ? list : [], Date.now() + MYT_OFFSET);
-}
-
-async function weatherForecast(location, _env) {
-  const url = `${DATAGOV}/forecast/?contains=${encodeURIComponent(location)}@location__location_name`;
-  const res = await govFetch(url);
-  if (!res.ok) throw new Error(`forecast http ${res.status}`);
-  const list = await res.json();
-  const today = new Date(Date.now() + MYT_OFFSET).toISOString().slice(0, 10);
-  // contains 는 부분일치라 정확한 location_name + 오늘 날짜로 한 건만 고른다(대소문자·공백 관대).
-  const want = location.trim().toLowerCase();
-  const r = (Array.isArray(list) ? list : []).find(
-    (x) => x.date === today && (x.location?.location_name || "").trim().toLowerCase() === want
-  );
-  if (!r) return null;
-  return {
-    date: r.date,
-    location: r.location?.location_name ?? location,
-    morning: r.morning_forecast ?? null,
-    afternoon: r.afternoon_forecast ?? null,
-    night: r.night_forecast ?? null,
-    summary: r.summary_forecast ?? null,
-    summaryWhen: r.summary_when ?? null,
-    minTemp: r.min_temp ?? null,
-    maxTemp: r.max_temp ?? null,
-  };
-}
-
-function govJson(data, env, maxAge) {
-  return new Response(JSON.stringify(data), {
-    status: 200,
-    headers: {
-      "Content-Type": "application/json",
-      "Cache-Control": `public, max-age=${maxAge}`,
-      "Access-Control-Allow-Origin": env.ALLOWED_ORIGIN || "*",
-    },
-  });
-}
-
 export default {
   async fetch(request, env) {
     if (request.method === "OPTIONS") {
@@ -365,25 +276,6 @@ export default {
         });
       } catch (err) {
         return new Response(String(err.message || err), { status: 502 });
-      }
-    }
-
-    // GET /weather-warning → 활성·KL권역 육상 경보(없으면 빈 배열). data.gov.my 우회 + 우리 CORS.
-    if (url.pathname === "/weather-warning" && request.method === "GET") {
-      try {
-        return govJson(await weatherWarnings(env), env, 600);
-      } catch (err) {
-        return json({ error: String(err.message || err) }, env, 502);
-      }
-    }
-
-    // GET /weather-forecast?location=Kuala Lumpur → 해당 지역 오늘 예보(없으면 null).
-    if (url.pathname === "/weather-forecast" && request.method === "GET") {
-      const location = url.searchParams.get("location") || "Kuala Lumpur";
-      try {
-        return govJson(await weatherForecast(location, env), env, 1800);
-      } catch (err) {
-        return json({ error: String(err.message || err) }, env, 502);
       }
     }
 

@@ -1,50 +1,98 @@
 [
   {
-    "query": "Petronas Twin Towers Kuala Lumpur",
+    "query": "Wat Phra That Doi Suthep Chiang Mai",
     "tier": "must",
-    "note": "KLCC 중심의 대표 랜드마크. 저녁 조명과 분수쇼가 편하고 부모님 사진 찍기 좋아요.",
-    "tags": ["랜드마크", "야경"]
+    "note": "치앙마이를 내려다보는 산 위 황금 사원. 오후 늦게 올라가 일몰까지 보면 가장 좋아요. 산길이 굽이지니 멀미가 있으면 앞좌석을 부탁하세요.",
+    "tags": ["랜드마크", "사원", "전망"]
   },
   {
-    "query": "Batu Caves Malaysia",
+    "query": "Wat Chedi Luang Chiang Mai",
+    "tier": "must",
+    "note": "구시가 한복판의 무너진 대탑. 해 진 뒤 조명이 켜지면 분위기가 완전히 달라져 저녁 산책 코스로 좋아요.",
+    "tags": ["사원", "구시가", "야경"]
+  },
+  {
+    "query": "One Nimman Chiang Mai",
+    "tier": "must",
+    "note": "님만해민의 중심 광장. 카페·편집숍·주말 마켓이 모여 있어 둘이 반나절 어슬렁대기 딱 좋아요.",
+    "tags": ["님만해민", "쇼핑", "카페"]
+  },
+  {
+    "query": "Sunday Walking Street Tha Phae Chiang Mai",
     "tier": "rec",
-    "note": "계단이 많아 오전 이른 시간이 좋아요. 컨디션에 따라 아래 광장 중심으로 천천히.",
-    "tags": ["관광", "사원"]
+    "note": "일요일 저녁에만 열리는 구시가 보행자 마켓. 4시쯤 시작해 6~8시가 절정이라 이른 저녁에 가면 덜 밀려요. 소매치기만 주의.",
+    "tags": ["야시장", "일요일한정", "쇼핑"]
   },
   {
-    "query": "Putra Mosque Putrajaya",
+    "query": "Elephant Nature Park Chiang Mai",
     "tier": "rec",
-    "note": "분홍빛 돔의 호숫가 모스크. 햇빛이 강하니 모자·물 챙기고 복장 안내 확인.",
-    "tags": ["관광", "푸트라자야"]
+    "note": "타지 않고 돌보기만 하는 코끼리 보호소. 하루 일정이고 몇 주 전 예약이 필수라, 날짜 정해지면 제일 먼저 잡아두세요.",
+    "tags": ["예약필수", "자연", "하루코스"]
   },
   {
-    "query": "Seri Wawasan Bridge Putrajaya",
-    "tier": "opt",
-    "note": "호수와 다리가 함께 보이는 산책 코스. 해질 무렵 짧게 들르면 덜 덥고 사진도 예뻐요.",
-    "tags": ["산책", "푸트라자야"]
+    "query": "Doi Inthanon National Park",
+    "tier": "rec",
+    "note": "태국 최고봉. 1~2월 정상 아침은 5~10℃까지 떨어지니 겉옷을 꼭 챙기세요. 왕복 이동만 4시간이라 하루를 통으로 비워야 해요.",
+    "tags": ["자연", "하루코스", "방한필요"]
   },
   {
-    "query": "Suria KLCC",
-    "tier": "opt",
-    "note": "더위·비를 피하기 좋은 실내 쇼핑몰. 식사·휴식 동선으로 무난해요.",
-    "tags": ["쇼핑", "실내"]
+    "query": "Wat Umong Chiang Mai",
+    "tier": "rec",
+    "note": "숲과 터널이 있는 조용한 사원. 관광객이 몰리는 구시가 사원과 결이 완전히 달라, 오전에 둘이 천천히 걷기 좋아요.",
+    "tags": ["사원", "숲", "한적함"]
   },
   {
-    "query": "Central Market Kuala Lumpur",
-    "tier": "opt",
-    "note": "기념품과 수공예 구경. 에어컨이 있어 더운 오후에 천천히 둘러보기 좋아요.",
-    "tags": ["쇼핑", "기념품"]
+    "query": "Mae Kampong Village Chiang Mai",
+    "tier": "rec",
+    "note": "차로 1시간 남짓 올라가는 산속 마을. 계곡 위에 걸친 카페들이 있고 1월 말이면 서늘해서, 반나절 드라이브 코스로 좋아요.",
+    "tags": ["산촌", "카페", "반나절"]
   },
   {
-    "query": "KL Tower Kuala Lumpur",
-    "tier": "opt",
-    "note": "전망 명소. 트윈타워가 한눈에 보이는 사진 포인트예요.",
-    "tags": ["전망", "관광"]
+    "query": "Warorot Market Chiang Mai",
+    "tier": "rec",
+    "note": "관광 시장이 아닌 현지인 재래시장. 건과일·향신료·간식 사기 좋고 오전이 가장 활기차요.",
+    "tags": ["시장", "로컬", "기념품"]
   },
   {
-    "query": "Putrajaya Botanical Garden",
+    "query": "Khao Soi Khun Yai Chiang Mai",
+    "tier": "rec",
+    "note": "치앙마이에 왔으면 한 번은 먹어야 할 카오소이. 점심 무렵 재료가 떨어지면 닫으니 11시~13시 사이에 가세요.",
+    "tags": ["카오소이", "현지음식", "점심"]
+  },
+  {
+    "query": "Wat Phra Singh Chiang Mai",
     "tier": "opt",
-    "note": "넓은 식물원. 더울 땐 그늘 위주로, 카트 투어도 고려해 보세요.",
-    "tags": ["자연", "푸트라자야"]
+    "note": "구시가에서 가장 격이 높은 사원. 왓 쩨디루앙과 걸어서 이어지니 한 번에 묶어 도세요.",
+    "tags": ["사원", "구시가"]
+  },
+  {
+    "query": "Ristr8to Coffee Chiang Mai",
+    "tier": "opt",
+    "note": "라떼아트 세계대회 입상자의 카페. 치앙마이 커피 신을 대표하는 곳이라 커피를 좋아한다면 한 잔.",
+    "tags": ["카페", "님만해민"]
+  },
+  {
+    "query": "Baan Kang Wat Chiang Mai",
+    "tier": "opt",
+    "note": "공방과 작은 카페가 모인 아기자기한 예술 마을. 규모는 작아서 1~2시간이면 충분해요. 월요일 휴무.",
+    "tags": ["예술마을", "카페", "월요일휴무"]
+  },
+  {
+    "query": "Huay Tung Tao Lake Chiang Mai",
+    "tier": "opt",
+    "note": "호숫가 원두막에 앉아 먹고 쉬는 로컬 피크닉 명소. 건기라 물가가 낮지만 도이수텝 산자락 풍경이 좋아요.",
+    "tags": ["호수", "피크닉", "자연"]
+  },
+  {
+    "query": "Chiang Mai Night Bazaar",
+    "tier": "opt",
+    "note": "매일 밤 열리는 상설 야시장. 일요일 워킹스트리트만큼 특별하진 않지만, 평일 저녁에 가볍게 둘러보기 무난해요.",
+    "tags": ["야시장", "매일", "쇼핑"]
+  },
+  {
+    "query": "Wat Sri Suphan Silver Temple Chiang Mai",
+    "tier": "opt",
+    "note": "은으로 뒤덮인 독특한 사원. 본당은 여성 출입이 제한되니 바깥 정원 위주로 보시면 돼요. 야간 조명이 예뻐요.",
+    "tags": ["사원", "야경", "출입제한"]
   }
 ]

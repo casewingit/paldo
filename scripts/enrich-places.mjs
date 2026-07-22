@@ -43,7 +43,7 @@ const FIELD_MASK =
 // Places API (New) Text Search — 텍스트 검색어 → 첫 결과의 좌표/평점/리뷰수.
 // locationBias 가 있으면 그 좌표 주변으로 결과를 좁힌다(공유링크 보강용).
 async function searchText(textQuery, locationBias) {
-  const body = { textQuery, languageCode: "ko", regionCode: "MY" };
+  const body = { textQuery, languageCode: "ko", regionCode: "TH" };
   if (locationBias) {
     body.locationBias = { circle: { center: locationBias, radius: 200.0 } };
   }
